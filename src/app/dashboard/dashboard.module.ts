@@ -2,12 +2,12 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { dashboardRoutes } from './dashboard.routes';
-import { AuthGuard } from '../guards/auth-guard.service';
-import { RoleGuard } from '../guards/role-guard.service';
-import { SidebarComponent } from './sidebar/sidebar.component';
-import { TopNavComponent } from './topnav/topnav.component';
+import { AuthGuard } from '../core/guards/auth-guard.service';
+import { RoleGuard } from '../core/guards/role-guard.service';
+import { SidebarComponent } from './components/sidebar/sidebar.component';
+import { TopNavComponent } from './components/topnav/topnav.component';
 import { DashboardComponent } from './dashboard.component';
-import { MainComponent } from './main/main.component';
+import { MainComponent } from './components/main/main.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({

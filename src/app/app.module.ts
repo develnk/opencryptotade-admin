@@ -4,8 +4,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { RouterModule } from '@angular/router';
 
 import { AppComponent } from './app.component';
-import { LoginComponent } from './login/login.component';
-import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { LoginComponent } from './dashboard/pages/login/login.component';
+import { PageNotFoundComponent } from './dashboard/pages/page-not-found/page-not-found.component';
 import { APP_ROUTES } from './app.routes';
 import { DashboardModule } from './dashboard/dashboard.module';
 
