@@ -18,8 +18,8 @@ import { DashboardModule } from './dashboard/dashboard.module';
   imports: [
     NgbModule,
     BrowserModule,
-    RouterModule.forRoot(APP_ROUTES),
-    DashboardModule
+    DashboardModule,
+    RouterModule.forRoot(APP_ROUTES)
   ],
   providers: [],
   bootstrap: [AppComponent]
