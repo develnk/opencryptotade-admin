@@ -6,7 +6,7 @@ import { SmtpComponent } from './pages/smtp/smtp.component';
 import { RegionalComponent } from './pages/regional/regional.component';
 import { DaemonsComponent } from './pages/daemons/daemons.component';
 import { AuthGuard } from '../core/auth/auth-guard.service';
-import {PageNotFoundComponent} from './pages/page-not-found/page-not-found.component';
+import {PageNotFoundComponent} from '../core/page-not-found/page-not-found.component';
 
 export const dashboardRoutes: Routes = [
   {

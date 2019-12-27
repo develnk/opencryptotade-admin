@@ -6,7 +6,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AppComponent } from './app.component';
 import { AppRouting } from './app-routing.module';
 import { DashboardModule } from './dashboard/dashboard.module';
-import { PageNotFoundComponent } from './dashboard/pages/page-not-found/page-not-found.component';
+import { PageNotFoundComponent } from './core/page-not-found/page-not-found.component';
 import { NgxAuthModule } from './core/auth/auth.module';
 
 @NgModule({
