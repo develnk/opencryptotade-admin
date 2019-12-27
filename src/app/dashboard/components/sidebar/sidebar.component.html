@@ -1,7 +1,7 @@
 <nav id="sidebar" class="sidebar sidebar-offcanvas">
   <ul class="nav">
-    <li class="nav-item active">
-      <a class="nav-link" data-toggle="collapse" href="/dashboard/users" aria-expanded="false" aria-controls="dashboard-dropdown">
+    <li class="nav-item">
+      <a class="nav-link" data-toggle="collapse" routerLink="/dashboard" routerLinkActive="active" aria-expanded="false" aria-controls="dashboard-dropdown">
         <i class="mdi mdi-clipboard-text-outline menu-icon"></i>
         <span class="menu-title">Dashboard</span>
         <i class="menu-title"></i>
@@ -27,31 +27,18 @@
       </div>
     </li>
     <li class="nav-item">
-      <a class="nav-link" data-toggle="collapse" href="#general-pages" aria-expanded="false" aria-controls="general-pages">
+      <a class="nav-link" data-toggle="collapse" href="#general-settings" aria-expanded="false" aria-controls="general-pages">
         <i class="mdi mdi-file-outline menu-icon"></i>
-        <span class="menu-title">General Pages</span>
+        <span class="menu-title">General Settings</span>
         <i class="menu-arrow"></i>
       </a>
-      <div class="collapse" id="general-pages">
+      <div class="collapse" id="general-settings">
         <ul class="nav flex-column sub-menu">
-          <li class="nav-item"> <a class="nav-link" href="pages/samples/blank-page.html"> Blank Page </a></li>
-          <li class="nav-item"> <a class="nav-link" href="pages/samples/profile.html"> Profile </a></li>
-          <li class="nav-item"> <a class="nav-link" href="pages/samples/faq.html"> FAQ </a></li>
-          <li class="nav-item"> <a class="nav-link" href="pages/samples/faq-2.html"> FAQ 2 </a></li>
-          <li class="nav-item"> <a class="nav-link" href="pages/samples/news-grid.html"> News grid </a></li>
-          <li class="nav-item"> <a class="nav-link" href="pages/samples/timeline.html"> Timeline </a></li>
-          <li class="nav-item"> <a class="nav-link" href="pages/samples/search-results.html"> Search Results </a></li>
-          <li class="nav-item"> <a class="nav-link" href="pages/samples/portfolio.html"> Portfolio </a></li>
-          <li class="nav-item"> <a class="nav-link" href="pages/samples/invoice.html"> Invoice </a></li>
-          <li class="nav-item"> <a class="nav-link" href="pages/samples/pricing-table.html"> Pricing Table </a></li>
-          <li class="nav-item"> <a class="nav-link" href="pages/samples/orders.html"> Orders </a></li>
-          <li class="nav-item"> <a class="nav-link" href="pages/samples/login.html"> Login </a></li>
-          <li class="nav-item"> <a class="nav-link" href="pages/samples/login-2.html"> Login 2 </a></li>
-          <li class="nav-item"> <a class="nav-link" href="pages/samples/register.html"> Register </a></li>
-          <li class="nav-item"> <a class="nav-link" href="pages/samples/register-2.html"> Register 2 </a></li>
-          <li class="nav-item"> <a class="nav-link" href="pages/samples/lock-screen.html"> Lockscreen </a></li>
-          <li class="nav-item"> <a class="nav-link" href="pages/samples/error-404.html"> Error 404 </a></li>
-          <li class="nav-item"> <a class="nav-link" href="pages/samples/error-500.html"> Error 500 </a></li>
+          <li class="nav-item"> <a class="nav-link" routerLink="./basic" routerLinkActive="active"> Basic </a></li>
+          <li class="nav-item"> <a class="nav-link" routerLink="./department" routerLinkActive="active"> Department </a></li>
+          <li class="nav-item"> <a class="nav-link" routerLink="./smtp" routerLinkActive="active"> Website SMTP </a></li>
+          <li class="nav-item"> <a class="nav-link" routerLink="./regional" routerLinkActive="active"> Regional settings </a></li>
+          <li class="nav-item"> <a class="nav-link" routerLink="./daemons" routerLinkActive="active"> Coin Daemons </a></li>
         </ul>
       </div>
     </li>

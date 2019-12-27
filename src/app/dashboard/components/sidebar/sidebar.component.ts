@@ -15,7 +15,6 @@ export class SidebarComponent implements OnInit {
   ngOnInit() {
   }
 
-
   eventCalled() {
     this.isActive = !this.isActive;
   }

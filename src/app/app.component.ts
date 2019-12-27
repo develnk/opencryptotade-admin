@@ -5,5 +5,5 @@ import { Component } from '@angular/core';
   template: '<router-outlet></router-outlet>'
 })
 export class AppComponent {
-  title = 'opencrypto-trade';
+  title = 'Open Crypto Trade';
 }

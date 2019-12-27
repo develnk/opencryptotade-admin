@@ -1,25 +1,26 @@
 import { BrowserModule } from '@angular/platform-browser';
+import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { RouterModule } from '@angular/router';
 
 import { AppComponent } from './app.component';
-import { LoginComponent } from './dashboard/pages/login/login.component';
-import { PageNotFoundComponent } from './dashboard/pages/page-not-found/page-not-found.component';
-import { APP_ROUTES } from './app.routes';
+import { AppRouting } from './app-routing.module';
 import { DashboardModule } from './dashboard/dashboard.module';
+import { PageNotFoundComponent } from './dashboard/pages/page-not-found/page-not-found.component';
+import { NgxAuthModule } from './core/auth/auth.module';
 
 @NgModule({
   declarations: [
     AppComponent,
-    LoginComponent,
     PageNotFoundComponent
   ],
   imports: [
+    HttpClientModule,
     NgbModule,
     BrowserModule,
+    AppRouting,
     DashboardModule,
-    RouterModule.forRoot(APP_ROUTES)
+    NgxAuthModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

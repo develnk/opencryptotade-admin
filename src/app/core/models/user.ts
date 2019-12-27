@@ -1,6 +1,6 @@
 export interface User {
   status: number;
   name: string;
-  mail: string;
+  email: string;
   role: Array<string>;
 }
