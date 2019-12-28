@@ -41,9 +41,9 @@ export function filterInterceptorRequest(req: HttpRequest<any>) {
         }),
         NbOAuth2AuthStrategy.setup({
           name: 'password',
-          clientId: 'test',
-          clientSecret: 'secret',
-          baseEndpoint: 'http://localhost:4400/api/auth/',
+          clientId: 'browser',
+          clientSecret: 'xxx',
+          baseEndpoint: 'http://localhost:4000/uaa/oauth/',
           clientAuthMethod: NbOAuth2ClientAuthMethod.BASIC,
           redirect: {
             success: '/dashboard',
@@ -53,7 +53,7 @@ export function filterInterceptorRequest(req: HttpRequest<any>) {
           defaultErrors: ['Something went wrong, please try again.'],
           defaultMessages: ['You have been successfully authenticated.'],
           authorize: {
-            endpoint: 'http://localhost:4400/api/auth/login',
+            endpoint: 'http://localhost:4000/uaa/oauth/token',
             redirectUri: '/dashboard',
             responseType: NbOAuth2ResponseType.TOKEN,
             requireValidToken: true,
@@ -77,7 +77,7 @@ export function filterInterceptorRequest(req: HttpRequest<any>) {
       forms: {
         login: {
           redirectDelay: 0,
-          strategy: 'dummy',
+          strategy: 'password',
           rememberMe: false,
           showMessages: {
             success: true,
