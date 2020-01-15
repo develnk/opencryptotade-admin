@@ -5,7 +5,7 @@
  */
 import { Inject, Injectable } from '@angular/core';
 
-import { Observable, of as observableOf } from 'rxjs';
+import {BehaviorSubject, Observable, of as observableOf} from 'rxjs';
 import { switchMap, map } from 'rxjs/operators';
 
 import { NbAuthStrategy } from '../strategies/auth-strategy';
@@ -13,6 +13,7 @@ import { NB_AUTH_STRATEGIES } from '../auth.options';
 import { NbAuthResult } from './auth-result';
 import { NbTokenService } from './token/token.service';
 import { NbAuthToken } from './token/token';
+import { User } from '../../models/user';
 
 /**
  * Common authentication service.
@@ -21,8 +22,32 @@ import { NbAuthToken } from './token/token';
 @Injectable()
 export class NbAuthService {
 
-  constructor(protected tokenService: NbTokenService,
-              @Inject(NB_AUTH_STRATEGIES) protected strategies) {
+  private currentUserSubject: BehaviorSubject<User>;
+  public currentUser: Observable<User>;
+
+  constructor(protected tokenService: NbTokenService, @Inject(NB_AUTH_STRATEGIES) protected strategies) {
+    this.currentUserSubject = new BehaviorSubject(JSON.parse(localStorage.getItem('currentUser')));
+    this.currentUser = this.currentUserSubject.asObservable();
+  }
+
+  public get currentUserValue(): User {
+    return this.currentUserSubject.value;
+  }
+
+  saveToStorage(object: User): void {
+    const user: User = {
+      email: object.email,
+      role: object.role,
+      firstName: object.firstName,
+      lastName: object.lastName,
+    };
+    localStorage.setItem('currentUser', JSON.stringify(user));
+    this.currentUserSubject.next(user);
+  }
+
+  removeFromStorage(): void {
+    localStorage.removeItem('currentUser');
+    this.currentUserSubject.next(null);
   }
 
   /**
@@ -58,7 +83,7 @@ export class NbAuthService {
                   return observableOf(false);
                 }
               }),
-            )
+            );
         } else {
           return observableOf(token.isValid());
         }
@@ -124,6 +149,7 @@ export class NbAuthService {
       .pipe(
         switchMap((result: NbAuthResult) => {
           if (result.isSuccess()) {
+            this.removeFromStorage();
             this.tokenService.clear()
               .pipe(map(() => result));
           }
@@ -186,6 +212,7 @@ export class NbAuthService {
 
   private processResultToken(result: NbAuthResult) {
     if (result.isSuccess() && result.getToken()) {
+      this.saveToStorage(result.getToken().getPayload());
       return this.tokenService.set(result.getToken())
         .pipe(
           map((token: NbAuthToken) => {

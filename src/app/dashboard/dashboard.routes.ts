@@ -5,8 +5,9 @@ import { DepartmentComponent } from './pages/department/department.component';
 import { SmtpComponent } from './pages/smtp/smtp.component';
 import { RegionalComponent } from './pages/regional/regional.component';
 import { DaemonsComponent } from './pages/daemons/daemons.component';
-import { AuthGuard } from '../core/auth/auth-guard.service';
+import { AuthGuard } from '../core/guards/auth-guard.service';
 import {PageNotFoundComponent} from '../core/page-not-found/page-not-found.component';
+import { RoleGuard } from '../core/guards/role-guard.service';
 
 export const dashboardRoutes: Routes = [
   {
@@ -17,27 +18,24 @@ export const dashboardRoutes: Routes = [
       {
         path: 'basic',
         component: BasicComponent,
-        canActivate: [AuthGuard],
       },
       {
         path: 'department',
         component: DepartmentComponent,
-        canActivate: [AuthGuard],
+        data: { role: 'ADMIN' },
+        canActivate: [ RoleGuard ],
       },
       {
         path: 'smtp',
         component: SmtpComponent,
-        canActivate: [AuthGuard],
       },
       {
         path: 'regional',
         component: RegionalComponent,
-        canActivate: [AuthGuard],
       },
       {
         path: 'daemons',
         component: DaemonsComponent,
-        canActivate: [AuthGuard],
       }
     ]
   },

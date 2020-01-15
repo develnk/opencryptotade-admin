@@ -348,7 +348,7 @@ export class NbOAuth2AuthStrategy extends NbAuthStrategy {
           client_secret: this.getOption('clientSecret'),
         };
       } else {
-        throw Error('For request body client authentication method, please provide both clientId & clientSecret.')
+        throw Error('For request body client authentication method, please provide both clientId & clientSecret.');
       }
     }
     return params;

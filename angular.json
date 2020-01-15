@@ -24,7 +24,7 @@
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.app.json",
-            "aot": false,
+            "aot": true,
             "assets": [
               "src/favicon.ico",
               "src/assets"
@@ -34,7 +34,7 @@
               "src/css/style.scss",
               "node_modules/@mdi/font/css/materialdesignicons.css",
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
-              "node_modules/bootstrap/dist/css/bootstrap-grid.min.css",
+              "node_modules/bootstrap/dist/css/bootstrap-grid.min.css"
             ],
             "scripts": [
               "node_modules/jquery/dist/jquery.min.js",

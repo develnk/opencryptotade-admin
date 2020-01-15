@@ -1,9 +1,37 @@
-@import "node_modules/bootstrap/scss/bootstrap.scss";
-@import "node_modules/bootstrap/scss/utilities/_flex.scss";
-@import "node_modules/bootstrap/scss/utilities/_display.scss";
-@import "_variables.scss";
+@import "~bootstrap/scss/bootstrap";
+@import "~bootstrap/scss/bootstrap-grid";
+@import "_variables";
 
 $topnav-background-color: #222;
+
+body {
+  color: $text-basic-color;
+  font-family: $text-paragraph-font-family;
+  font-size: $text-paragraph-font-size;
+  font-weight: $text-paragraph-font-weight;
+  line-height: $text-paragraph-line-height;
+}
+
+h1, h2, h3, h4, h5, h6,
+.h1, .h2, .h3, .h4, .h5, .h6 {
+  color: $text-basic-color;
+}
+
+p, .paragraph {
+  color: $text-basic-color;
+  font-family: $text-paragraph-font-family;
+  font-size: $text-paragraph-font-size;
+  font-weight: $text-paragraph-font-weight;
+  line-height: $text-paragraph-line-height;
+}
+
+.paragraph-2 {
+  color: $text-basic-color;
+  font-family: $text-paragraph-2-font-family;
+  font-size: $text-paragraph-2-font-size;
+  font-weight: $text-paragraph-2-font-weight;
+  line-height: $text-paragraph-2-line-height;
+}
 
 .user-avatar {
   border: 3px solid #FFF;
@@ -57,6 +85,7 @@ $topnav-background-color: #222;
   }
 
 }
+
 a:hover{
   text-decoration: none;
 }
@@ -64,6 +93,7 @@ a:hover{
 .bg-white {
   background: #fff;
 }
+
 .main-container{
   margin: 50px 0 0 225px;
   padding: 10px;
@@ -83,9 +113,11 @@ a:hover{
   text-align: center;
   color: #fff;
   padding: 3em;
+
   .col-lg-4{
     padding :0;
   }
+
   .input-lg {
     height: 46px;
     padding: 10px 16px;
@@ -93,6 +125,7 @@ a:hover{
     line-height: 1.3333333;
     border-radius: 0;
   }
+
   .input-underline {
     background: 0 0;
     border: none;
@@ -101,10 +134,12 @@ a:hover{
     color: #FFF;
     border-radius: 0;
   }
+
   .input-underline:focus {
     border-bottom: 2px solid #fff;
     box-shadow: none;
   }
+
   .rounded-btn{
     -webkit-border-radius: 50px;
     border-radius: 50px;
@@ -115,6 +150,7 @@ a:hover{
     line-height: 40px;
     padding: 0 25px;
   }
+
   .rounded-btn:hover,.rounded-btn:focus,.rounded-btn:active,.rounded-btn:visited{
     color: rgba(255,255,255,1);
     border: 2px solid rgba(255,255,255,1);
@@ -131,7 +167,7 @@ a:hover{
     }
   }
 
-  .form-group {
+  .form-control-group {
     padding: 8px 0;
     input::-webkit-input-placeholder {
       color: rgba(255,255,255,0.6) !important;
@@ -151,5 +187,97 @@ a:hover{
   }
   .form-content {
     padding: 40px 0;
+  }
+}
+
+.nb-card {
+  flex-direction: row;
+  align-items: center;
+  overflow: visible;
+
+  background-color: $card-background-color;
+  border: $card-border-width $card-border-style $card-border-color;
+  border-radius: $card-border-radius;
+  box-shadow: $card-shadow;
+
+  color: $card-text-color;
+  font-family: $card-text-font-family;
+  font-size: $card-text-font-size;
+  font-weight: $card-text-font-weight;
+  line-height: $card-text-line-height;
+  margin-bottom: $card-margin-bottom;
+
+  .icon-container {
+    height: 100%;
+    padding: 0.625rem;
+  }
+
+  .icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 5.75rem;
+    height: 4.75rem;
+    font-size: 3.75rem;
+    border-radius: 0.25rem;
+    transition: width 0.4s ease;
+    transform: translate3d(0, 0, 0);
+    -webkit-transform-style: preserve-3d;
+    -webkit-backface-visibility: hidden;
+    color: #192038;
+  }
+
+  &.off {
+    color: $text-hint-color;
+
+    .status,
+    .title,
+    .icon {
+      color: $text-hint-color;
+    }
+  }
+
+  .details {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100%;
+    border-left: 1px solid transparent;
+  }
+
+  .title {
+    margin: 0;
+  }
+
+  .status {
+    text-transform: uppercase;
+  }
+
+  .nb-card-header {
+    padding: $card-padding;
+    border-bottom: $card-divider-width $card-divider-style $card-divider-color;
+    border-top-left-radius: $card-border-radius;
+    border-top-right-radius: $card-border-radius;
+
+    color: $card-header-text-color;
+    font-family: $card-header-text-font-family;
+    font-size: $card-header-text-font-size;
+    font-weight: $card-header-text-font-weight;
+    line-height: $card-header-text-line-height;
+  }
+
+  .nb-card-body {
+    flex: 1;
+    -ms-flex: 1 1 auto;
+    overflow: auto;
+    padding: $card-padding;
+    position: relative;
+  }
+
+  .nb-card-footer {
+    padding: $card-padding;
+    border-top: $card-divider-width $card-divider-style $card-divider-color;
+    border-bottom-left-radius: $card-border-radius;
+    border-bottom-right-radius: $card-border-radius;
   }
 }

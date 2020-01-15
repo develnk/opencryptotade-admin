@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
-import { environment } from '../../../environments/environment';
-import {NbAuthService} from '../nebular-auth/services/auth.service';
-import {NbAuthOAuth2Token} from '../nebular-auth/services/token/token';
+import {ENDPOINTS} from './services-endpoints';
 
 @Injectable({
   providedIn: 'root'
@@ -12,6 +10,7 @@ export class DataService {
   constructor(private http: HttpClient) {}
 
   getUser() {
-    return this.http.get(environment.server_accounts + 'current');
+    return this.http.get(ENDPOINTS.base_url + ENDPOINTS.current_account);
   }
+
 }

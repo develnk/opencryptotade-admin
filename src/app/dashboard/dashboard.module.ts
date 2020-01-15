@@ -13,7 +13,8 @@ import { DepartmentComponent } from './pages/department/department.component';
 import { SmtpComponent } from './pages/smtp/smtp.component';
 import { RegionalComponent } from './pages/regional/regional.component';
 import { DaemonsComponent } from './pages/daemons/daemons.component';
-import { AuthGuard } from '../core/auth/auth-guard.service';
+import { AuthGuard } from '../core/guards/auth-guard.service';
+import { RoleGuard } from '../core/guards/role-guard.service';
 
 @NgModule({
   declarations: [
@@ -39,7 +40,7 @@ import { AuthGuard } from '../core/auth/auth-guard.service';
   ],
   providers: [
     AuthGuard,
-    // RoleGuard
+    RoleGuard
   ]
 })
 export class DashboardModule { }

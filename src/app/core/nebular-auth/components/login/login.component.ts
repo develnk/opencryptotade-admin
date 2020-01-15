@@ -5,12 +5,12 @@
  */
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { NB_AUTH_OPTIONS, NbAuthSocialLink } from '../../auth.options';
+import { NB_AUTH_OPTIONS } from '../../auth.options';
 import { getDeepFromObject } from '../../helpers';
 
 import { NbAuthService } from '../../services/auth.service';
 import { NbAuthResult } from '../../services/auth-result';
-import {NbUser} from '../../models/user';
+import { NbUser } from '../../models/user';
 
 @Component({
   selector: 'app-login',
@@ -19,16 +19,14 @@ import {NbUser} from '../../models/user';
 })
 export class NbLoginComponent {
 
-  redirectDelay = 0;
-  showMessages: any = {};
-  strategy = '';
+  private readonly redirectDelay = 0;
+  private showMessages: any = {};
+  private strategy = '';
 
-  errors: string[] = [];
-  messages: string[] = [];
-  user: NbUser = {};
-  submitted = false;
-  socialLinks: NbAuthSocialLink[] = [];
-  rememberMe = false;
+  public errors: string[] = [];
+  public messages: string[] = [];
+  public user: NbUser = {};
+  public submitted = false;
 
   constructor(protected service: NbAuthService,
               @Inject(NB_AUTH_OPTIONS) protected options = {},
@@ -38,8 +36,6 @@ export class NbLoginComponent {
     this.redirectDelay = this.getConfigValue('forms.login.redirectDelay');
     this.showMessages = this.getConfigValue('forms.login.showMessages');
     this.strategy = this.getConfigValue('forms.login.strategy');
-    this.socialLinks = this.getConfigValue('forms.login.socialLinks');
-    this.rememberMe = this.getConfigValue('forms.login.rememberMe');
   }
 
   login(): void {

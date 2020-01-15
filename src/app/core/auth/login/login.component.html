@@ -3,19 +3,56 @@
     <div class="row align-items-center">
       <div class="col-md-5 offset-md-3">
         <img src="assets/img/SB-admin.png" width="150px" class="user-avatar" />
-        <h1>OpenCryptoTrade</h1>
-        <form role="form">
+        <h1>Open Crypto Trade</h1>
+        <form (ngSubmit)="login()" #form="ngForm" aria-labelledby="title" role="form">
           <div class="form-content">
-            <div class="form-group">
-              <input type="text" id="name"  [(ngModel)]="user.email" name="name" class="form-control input-underline input-lg" placeholder="Email">
+            <div class="form-control-group">
+              <input [(ngModel)]="user.email"
+                     #email="ngModel"
+                     name="email"
+                     id="input-email"
+                     placeholder="Email address"
+                     class="form-control input-underline input-lg"
+                     autofocus
+                     [required]="getConfigValue('forms.validation.email.required')">
+              <ng-container *ngIf="email.invalid && email.touched">
+                <p class="caption status-danger" *ngIf="email.errors?.required">
+                  Email is required!
+                </p>
+                <p class="caption status-danger" *ngIf="email.errors?.pattern">
+                  Email should be the real one!
+                </p>
+              </ng-container>
             </div>
 
-            <div class="form-group">
-              <input type="password" id="password"  [(ngModel)]="user.password" name="password" class="form-control input-underline input-lg" placeholder="Password">
+            <div class="form-control-group">
+              <input [(ngModel)]="user.password"
+                     #password="ngModel"
+                     name="password"
+                     type="password"
+                     id="input-password"
+                     placeholder="Password"
+                     class="form-control input-underline input-lg"
+                     [required]="getConfigValue('forms.validation.password.required')"
+                     [minlength]="getConfigValue('forms.validation.password.minLength')"
+                     [maxlength]="getConfigValue('forms.validation.password.maxLength')"
+                     [attr.aria-invalid]="password.invalid && password.touched ? true : null">
+              <ng-container *ngIf="password.invalid && password.touched ">
+                <p class="caption status-danger" *ngIf="password.errors?.required">
+                  Password is required!
+                </p>
+                <p class="caption status-danger" *ngIf="password.errors?.minlength || password.errors?.maxlength">
+                  Password should contain
+                  from {{ getConfigValue('forms.validation.password.minLength') }}
+                  to {{ getConfigValue('forms.validation.password.maxLength') }}
+                  characters
+                </p>
+              </ng-container>
             </div>
           </div>
-          <!--        <a class="btn rounded-btn"> Log in </a>-->
-          <button (click)="login()">Admin User Log in </button>
+          <button class="rounded-btn" [disabled]="submitted || !form.valid" [class.btn-pulse]="submitted">
+            Log In
+          </button>
         </form>
       </div>
     </div>

@@ -2,15 +2,15 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { HTTP_INTERCEPTORS, HttpRequest } from '@angular/common/http';
 
+import { NgxLoginComponent } from './login/login.component';
 import { NgxAuthRoutingModule } from './auth-routing.module';
 import { NbAuthModule } from '../nebular-auth/auth.module';
-import { NgxLoginComponent } from './login/login.component';
 import { NbDummyAuthStrategy } from '../nebular-auth/strategies/dummy/dummy-strategy';
 import { NbTokenLocalStorage, NbTokenStorage } from '../nebular-auth/services/token/token-storage';
-import { HTTP_INTERCEPTORS, HttpRequest } from '@angular/common/http';
-import { NbAuthJWTInterceptor } from '../nebular-auth/services/interceptors/jwt-interceptor';
 import { NB_AUTH_TOKEN_INTERCEPTOR_FILTER } from '../nebular-auth/auth.options';
+import { NbAuthJWTInterceptor } from '../nebular-auth/services/interceptors/jwt-interceptor';
 import { NbOAuth2AuthStrategy } from '../nebular-auth/strategies/oauth2/oauth2-strategy';
 import {
   NbOAuth2ClientAuthMethod,
@@ -18,9 +18,12 @@ import {
   NbOAuth2ResponseType
 } from '../nebular-auth/strategies/oauth2/oauth2-strategy.options';
 import { NbAuthOAuth2Token } from '../nebular-auth/services/token/token';
+import { HttpErrorInterceptor } from '../interceptors/httpError.interceptor';
+import { ENDPOINTS } from '../services/services-endpoints';
 
 export function filterInterceptorRequest(req: HttpRequest<any>) {
-  return ['http://localhost:4400/api/auth/',
+  return [
+    'http://localhost:4400/api/auth/',
     'http://other.url/with/no/token/injected/',
   ]
     .some(url => req.url.includes(url));
@@ -43,7 +46,7 @@ export function filterInterceptorRequest(req: HttpRequest<any>) {
           name: 'password',
           clientId: 'browser',
           clientSecret: 'xxx',
-          baseEndpoint: 'http://localhost:4000/uaa/oauth/',
+          baseEndpoint: ENDPOINTS.base_url + ENDPOINTS.base_auth,
           clientAuthMethod: NbOAuth2ClientAuthMethod.BASIC,
           redirect: {
             success: '/dashboard',
@@ -53,7 +56,7 @@ export function filterInterceptorRequest(req: HttpRequest<any>) {
           defaultErrors: ['Something went wrong, please try again.'],
           defaultMessages: ['You have been successfully authenticated.'],
           authorize: {
-            endpoint: 'http://localhost:4000/uaa/oauth/token',
+            endpoint: ENDPOINTS.base_url + ENDPOINTS.auth,
             redirectUri: '/dashboard',
             responseType: NbOAuth2ResponseType.TOKEN,
             requireValidToken: true,
@@ -97,6 +100,7 @@ export function filterInterceptorRequest(req: HttpRequest<any>) {
   providers: [
     { provide: NbTokenStorage, useClass: NbTokenLocalStorage },
     { provide: HTTP_INTERCEPTORS, useClass: NbAuthJWTInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: HttpErrorInterceptor, multi: true },
     { provide: NB_AUTH_TOKEN_INTERCEPTOR_FILTER, useValue: filterInterceptorRequest },
   ],
 })

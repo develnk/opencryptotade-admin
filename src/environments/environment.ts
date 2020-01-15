@@ -4,8 +4,6 @@
 
 export const environment = {
   production: false,
-  server_auth: '',
-  server_accounts: 'http://localhost:4000/accounts/'
 };
 
 /*

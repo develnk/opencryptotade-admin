@@ -4,7 +4,6 @@
  * Licensed under the MIT License. See License.txt in the project root for license information.
  */
 import { Component, OnDestroy } from '@angular/core';
-import { Location } from '@angular/common';
 
 import { NbAuthService } from '../services/auth.service';
 import { takeUntil } from 'rxjs/operators';
@@ -28,18 +27,13 @@ export class NbAuthComponent implements OnDestroy {
   token = '';
 
   // showcase of how to use the onAuthenticationChange method
-  constructor(protected auth: NbAuthService, protected location: Location) {
+  constructor(protected auth: NbAuthService) {
 
     this.subscription = auth.onAuthenticationChange()
       .pipe(takeUntil(this.destroy$))
       .subscribe((authenticated: boolean) => {
         this.authenticated = authenticated;
       });
-  }
-
-  back() {
-    this.location.back();
-    return false;
   }
 
   ngOnDestroy(): void {
