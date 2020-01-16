@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { tap } from 'rxjs/operators';
 import { CanActivate, Router } from '@angular/router';
 import { NbAuthService } from '../nebular-auth/services/auth.service';
+import { NbAuthResult } from '../nebular-auth/services/auth-result';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
@@ -13,8 +14,9 @@ export class AuthGuard implements CanActivate {
       .pipe(
         tap(authenticated => {
           if (!authenticated) {
-            this.authService.logout('password');
-            this.router.navigate(['/auth/login']);
+            this.authService.logout('password').subscribe((result: NbAuthResult) => {
+              this.router.navigate(['/auth/login']);
+            });
           }
         }),
       );
