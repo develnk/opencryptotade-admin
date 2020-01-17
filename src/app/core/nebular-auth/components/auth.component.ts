@@ -12,9 +12,9 @@ import { Subject } from 'rxjs';
 @Component({
   selector: 'app-auth',
   template: `
-    <nb-auth-block>
+    <app-auth-block>
         <router-outlet></router-outlet>
-    </nb-auth-block>
+    </app-auth-block>
   `,
 })
 export class NbAuthComponent implements OnDestroy {
