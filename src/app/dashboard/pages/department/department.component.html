@@ -1,22 +1,22 @@
-<div class="nb-card">
-  <div class="nb-card-header">
-    Department
-  </div>
+<nb-card>
+  <nb-card-header>Department</nb-card-header>
+  <nb-card-body>
+    <ng2-smart-table [settings]="settings" [source]="source"></ng2-smart-table>
+  </nb-card-body>
+  <nb-card-footer>
+    <p>Total users: {{source.count()}}</p>
+  </nb-card-footer>
+</nb-card>
+<!--<div class="nb-card">-->
+<!--  <div class="nb-card-header">-->
+<!--    Department-->
+<!--  </div>-->
 
-  <div class="nb-card-body">
-    <div class="container-fluid">
-      <div class="row">
-        <div class="col-3">
-          <p>Block</p>
-        </div>
-        <div class="col-9">
-          <p>Table</p>
-        </div>
-      </div>
-    </div>
-  </div>
+<!--  <div class="nb-card-body">-->
+<!--    <ng2-smart-table [settings]="settings" [source]="source"></ng2-smart-table>-->
+<!--  </div>-->
 
-  <div class="nb-card-footer">
-    <p>Footer block</p>
-  </div>
-</div>
+<!--  <div class="nb-card-footer">-->
+<!--    <p>Total users: {{source.count()}}</p>-->
+<!--  </div>-->
+<!--</div>-->

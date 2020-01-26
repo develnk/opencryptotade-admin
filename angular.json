@@ -31,7 +31,6 @@
             ],
             "styles": [
               "src/css/styles.scss",
-              "src/css/style.scss",
               "node_modules/@mdi/font/css/materialdesignicons.css",
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "node_modules/bootstrap/dist/css/bootstrap-grid.min.css"

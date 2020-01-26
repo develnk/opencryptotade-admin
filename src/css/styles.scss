@@ -1,36 +1,39 @@
+@import 'themes';
+@import '../app/@core/nebular-theme/styles/globals';
+@import '../app/@theme/styles/styles';
+
 @import "~bootstrap/scss/bootstrap";
 @import "~bootstrap/scss/bootstrap-grid";
-@import "_variables";
 
 $topnav-background-color: #222;
 
 body {
-  color: $text-basic-color;
-  font-family: $text-paragraph-font-family;
-  font-size: $text-paragraph-font-size;
-  font-weight: $text-paragraph-font-weight;
-  line-height: $text-paragraph-line-height;
+  color: nb-theme(text-basic-color);
+  font-family: nb-theme(text-paragraph-font-family);
+  font-size: nb-theme(text-paragraph-font-size);
+  font-weight: nb-theme(text-paragraph-font-weight);
+  line-height: nb-theme(text-paragraph-line-height);
 }
 
 h1, h2, h3, h4, h5, h6,
 .h1, .h2, .h3, .h4, .h5, .h6 {
-  color: $text-basic-color;
+  color: nb-theme(text-basic-color);
 }
 
 p, .paragraph {
-  color: $text-basic-color;
-  font-family: $text-paragraph-font-family;
-  font-size: $text-paragraph-font-size;
-  font-weight: $text-paragraph-font-weight;
-  line-height: $text-paragraph-line-height;
+  color: nb-theme(text-basic-color);
+  font-family: nb-theme(text-paragraph-font-family);
+  font-size: nb-theme(text-paragraph-font-size);
+  font-weight: nb-theme(text-paragraph-font-weight);
+  line-height: nb-theme(text-paragraph-line-height);
 }
 
 .paragraph-2 {
-  color: $text-basic-color;
-  font-family: $text-paragraph-2-font-family;
-  font-size: $text-paragraph-2-font-size;
-  font-weight: $text-paragraph-2-font-weight;
-  line-height: $text-paragraph-2-line-height;
+  color: nb-theme(text-basic-color);
+  font-family: nb-theme(text-paragraph-2-font-family);
+  font-size: nb-theme(text-paragraph-2-font-size);
+  font-weight: nb-theme(text-paragraph-2-font-weight);
+  line-height: nb-theme(text-paragraph-2-line-height);
 }
 
 .user-avatar {
@@ -92,14 +95,6 @@ a:hover{
 
 .bg-white {
   background: #fff;
-}
-
-.main-container{
-  margin: 50px 0 0 225px;
-  padding: 10px;
-  -ms-overflow-x: hidden;
-  overflow-x: hidden;
-  position: relative;
 }
 
 .login-page {
@@ -190,94 +185,275 @@ a:hover{
   }
 }
 
-.nb-card {
-  flex-direction: row;
-  align-items: center;
-  overflow: visible;
+.nb-sidebar {
 
-  background-color: $card-background-color;
-  border: $card-border-width $card-border-style $card-border-color;
-  border-radius: $card-border-radius;
-  box-shadow: $card-shadow;
+  background-color: nb-theme(sidebar-background-color);
+  box-shadow: nb-theme(sidebar-shadow);
+  color: nb-theme(sidebar-text-color);
+  font-family: nb-theme(sidebar-text-font-family);
+  font-size: nb-theme(sidebar-text-font-size);
+  font-weight: nb-theme(sidebar-text-font-weight);
+  line-height: nb-theme(sidebar-text-line-height);
+  width: nb-theme(sidebar-width);
 
-  color: $card-text-color;
-  font-family: $card-text-font-family;
-  font-size: $card-text-font-size;
-  font-weight: $card-text-font-weight;
-  line-height: $card-text-line-height;
-  margin-bottom: $card-margin-bottom;
-
-  .icon-container {
-    height: 100%;
-    padding: 0.625rem;
+  .main-container {
+    height: nb-theme(sidebar-height);
+    width: nb-theme(sidebar-width);
   }
 
-  .icon {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 5.75rem;
-    height: 4.75rem;
-    font-size: 3.75rem;
-    border-radius: 0.25rem;
-    transition: width 0.4s ease;
-    transform: translate3d(0, 0, 0);
-    -webkit-transform-style: preserve-3d;
-    -webkit-backface-visibility: hidden;
-    color: #192038;
+  .scrollable {
+    padding: nb-theme(sidebar-padding);
+    position: relative;
+
+    -webkit-transform: translate3d(0, 0, 0); // ios optimisation
+    @include media-breakpoint-down(sm) {
+      overflow-y: scroll;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    @include nb-scrollbars(
+        nb-theme(sidebar-scrollbar-color),
+        nb-theme(sidebar-scrollbar-background-color),
+        nb-theme(sidebar-scrollbar-width));
   }
 
-  &.off {
-    color: $text-hint-color;
+  // TODO: width used to use transition on width
+  &.collapsed {
+    width: 0;
+    padding: 0;
+    .main-container {
+      width: 0;
+      padding: 0;
+    }
+    .scrollable {
+      width: 0;
+      padding: 0;
+      overflow: hidden;
+    }
 
-    .status,
-    .title,
-    .icon {
-      color: $text-hint-color;
+    nb-sidebar-header,  nb-sidebar-footer {
+      width: 0;
+      padding: 0;
+      overflow: hidden;
     }
   }
 
-  .details {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    height: 100%;
-    border-left: 1px solid transparent;
+  &.compacted {
+    width: nb-theme(sidebar-width-compact);
+    .main-container {
+      width: nb-theme(sidebar-width-compact);
+    }
+
+    nb-menu {
+      width: nb-theme(sidebar-width-compact);
+
+      .menu-item a.active {
+        position: relative;
+
+        &::before {
+          position: absolute;
+          content: '';
+          @include nb-ltr(left, 0);
+          @include nb-rtl(right, 0);
+          top: 0;
+          height: 100%;
+          width: 4px;
+          background: nb-theme(sidebar-menu-item-highlight-color);
+        }
+      }
+
+      > .menu-items > .menu-item > a {
+        span, .expand-state {
+          display: none;
+        }
+      }
+
+      .menu-items > .menu-item {
+        transition: border-color 1s ease;
+
+        &.menu-group {
+          display: block;
+          color: transparent;
+          width: 0;
+          padding: 0;
+          overflow: hidden;
+        }
+
+        i {
+          margin-right: 0;
+        }
+
+        a {
+          justify-content: center;
+        }
+
+        & > .expanded {
+          display: none;
+        }
+      }
+
+    }
+    // we need to pull the content
+    &.left.fixed ~ .content {
+      margin-left: nb-theme(sidebar-width-compact);
+    }
+
+    &.fixed.right ~ .content {
+      margin-left: 0;
+      margin-right: nb-theme(sidebar-width-compact);
+    }
+
+    &.left.fixed ~ .content.center {
+      padding-left: nb-theme(sidebar-width-compact);
+    }
+
+    &.fixed.right ~ .content.center {
+      padding-left: 0;
+      padding-right: nb-theme(sidebar-width-compact);
+    }
+
+    &.start.fixed ~ .content {
+      @include nb-ltr(margin-left, nb-theme(sidebar-width-compact));
+      @include nb-rtl(margin-right, nb-theme(sidebar-width-compact));
+    }
+
+    &.fixed.end ~ .content {
+      @include nb-ltr(margin-right,nb-theme(sidebar-width-compact));
+      @include nb-rtl(margin-left, nb-theme(sidebar-width-compact));
+    }
+
+    &.start.fixed ~ .content.center {
+      @include nb-ltr(padding-left, nb-theme(sidebar-width-compact));
+      @include nb-rtl(padding-right, nb-theme(sidebar-width-compact));
+    }
+
+    &.fixed.end ~ .content.center {
+      @include nb-ltr(padding-right, nb-theme(sidebar-width-compact));
+      @include nb-rtl(padding-left, nb-theme(sidebar-width-compact));
+    }
   }
 
-  .title {
-    margin: 0;
+  &.fixed.left.collapsed + .content,
+  &.fixed.start.collapsed + .content {
+    margin-left: 0;
   }
 
-  .status {
-    text-transform: uppercase;
+  &.fixed.right.collapsed + .content,
+  &.fixed.end.collapsed + .content {
+    margin-right: 0;
   }
 
-  .nb-card-header {
-    padding: $card-padding;
-    border-bottom: $card-divider-width $card-divider-style $card-divider-color;
-    border-top-left-radius: $card-border-radius;
-    border-top-right-radius: $card-border-radius;
-
-    color: $card-header-text-color;
-    font-family: $card-header-text-font-family;
-    font-size: $card-header-text-font-size;
-    font-weight: $card-header-text-font-weight;
-    line-height: $card-header-text-line-height;
+  &.expanded {
+    width: nb-theme(sidebar-width);
+    > .scrollable {
+      width: nb-theme(sidebar-width);
+    }
   }
 
-  .nb-card-body {
-    flex: 1;
-    -ms-flex: 1 1 auto;
-    overflow: auto;
-    padding: $card-padding;
-    position: relative;
+  nb-sidebar-header {
+    padding: nb-theme(sidebar-padding);
+    height: nb-theme(sidebar-header-height);
   }
 
-  .nb-card-footer {
-    padding: $card-padding;
-    border-top: $card-divider-width $card-divider-style $card-divider-color;
-    border-bottom-left-radius: $card-border-radius;
-    border-bottom-right-radius: $card-border-radius;
+  nb-sidebar-footer {
+    padding: nb-theme(sidebar-padding);
+    height: nb-theme(sidebar-footer-height);
+  }
+
+  nb-menu {
+    margin: 0 -#{nb-theme(sidebar-padding)} -#{nb-theme(sidebar-padding)};
   }
 }
+
+//.nb-card {
+//  flex-direction: row;
+//  align-items: center;
+//  overflow: visible;
+//
+//  background-color: $card-background-color;
+//  border: $card-border-width $card-border-style $card-border-color;
+//  border-radius: $card-border-radius;
+//  box-shadow: $card-shadow;
+//
+//  color: $card-text-color;
+//  font-family: $card-text-font-family;
+//  font-size: $card-text-font-size;
+//  font-weight: $card-text-font-weight;
+//  line-height: $card-text-line-height;
+//  margin-bottom: $card-margin-bottom;
+//
+//  .icon-container {
+//    height: 100%;
+//    padding: 0.625rem;
+//  }
+//
+//  .icon {
+//    display: flex;
+//    align-items: center;
+//    justify-content: center;
+//    width: 5.75rem;
+//    height: 4.75rem;
+//    font-size: 3.75rem;
+//    border-radius: 0.25rem;
+//    transition: width 0.4s ease;
+//    transform: translate3d(0, 0, 0);
+//    -webkit-transform-style: preserve-3d;
+//    -webkit-backface-visibility: hidden;
+//    color: #192038;
+//  }
+//
+//  &.off {
+//    color: $text-hint-color;
+//
+//    .status,
+//    .title,
+//    .icon {
+//      color: $text-hint-color;
+//    }
+//  }
+//
+//  .details {
+//    display: flex;
+//    flex-direction: column;
+//    justify-content: center;
+//    height: 100%;
+//    border-left: 1px solid transparent;
+//  }
+//
+//  .title {
+//    margin: 0;
+//  }
+//
+//  .status {
+//    text-transform: uppercase;
+//  }
+//
+//  .nb-card-header {
+//    padding: $card-padding;
+//    border-bottom: $card-divider-width $card-divider-style $card-divider-color;
+//    border-top-left-radius: $card-border-radius;
+//    border-top-right-radius: $card-border-radius;
+//
+//    color: $card-header-text-color;
+//    font-family: $card-header-text-font-family;
+//    font-size: $card-header-text-font-size;
+//    font-weight: $card-header-text-font-weight;
+//    line-height: $card-header-text-line-height;
+//  }
+//
+//  .nb-card-body {
+//    flex: 1;
+//    -ms-flex: 1 1 auto;
+//    overflow: auto;
+//    padding: $card-padding;
+//    position: relative;
+//  }
+//
+//  .nb-card-footer {
+//    padding: $card-padding;
+//    border-top: $card-divider-width $card-divider-style $card-divider-color;
+//    border-bottom-left-radius: $card-border-radius;
+//    border-bottom-right-radius: $card-border-radius;
+//  }
+//}
+
