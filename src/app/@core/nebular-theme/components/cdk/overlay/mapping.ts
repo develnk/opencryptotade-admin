@@ -95,12 +95,12 @@ const CDK_MODULES = [OverlayModule, PortalModule];
 })
 export class NbCdkMappingModule {
   static forRoot(): ModuleWithProviders {
-    return <ModuleWithProviders> {
+    return {
       ngModule: NbCdkMappingModule,
       providers: [
         NbOverlay,
         NbOverlayPositionBuilder,
       ],
-    };
+    } as ModuleWithProviders;
   }
 }

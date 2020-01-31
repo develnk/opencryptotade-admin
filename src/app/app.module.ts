@@ -17,6 +17,8 @@ import { HttpErrorInterceptor } from './@core/interceptors/httpError.interceptor
 import { APP_BASE_HREF } from '@angular/common';
 import { CoreModule } from './@core/core.module';
 import { NbSidebarModule } from './@core/nebular-theme/components/sidebar/sidebar.module';
+import { NbLayoutModule } from './@core/nebular-theme/components/layout/layout.module';
+import { HeaderInterceptor } from './@core/interceptors/header.interceptor';
 
 @NgModule({
   declarations: [
@@ -30,15 +32,17 @@ import { NbSidebarModule } from './@core/nebular-theme/components/sidebar/sideba
     NgbModule,
     DashboardModule,
     NgxAuthModule,
+    NbLayoutModule,
     ThemeModule.forRoot(),
     NbSidebarModule.forRoot(),
     NbMenuModule.forRoot(),
     NbWindowModule.forRoot(),
     AppRoutingModule,
-    CoreModule.forRoot(),
+    CoreModule.forRoot()
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS,  useClass: HttpErrorInterceptor,  multi: true },
+    { provide: HTTP_INTERCEPTORS,  useClass: HeaderInterceptor,  multi: true },
     { provide: APP_BASE_HREF, useValue: '/' }
   ],
   bootstrap: [AppComponent]

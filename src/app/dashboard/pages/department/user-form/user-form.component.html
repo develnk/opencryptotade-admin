@@ -1,7 +1,44 @@
-<form class="form">
-  <label for="subject">Subject:</label>
-  <input nbInput id="subject" type="text">
-
-  <label class="text-label" for="text">Text:</label>
-  <textarea nbInput id="text"></textarea>
-</form>
+<nb-card>
+  <nb-card-body>
+    <div class="row">
+      <div class="col-sm-6">
+        <div class="form-group">
+          <label for="inputFirstName" class="label">First Name</label>
+          <input type="text" nbInput fullWidth id="inputFirstName" placeholder="First Name" [(ngModel)]="selectedUser.firstName">
+        </div>
+      </div>
+      <div class="col-sm-6">
+        <div class="form-group">
+          <label for="inputLastName" class="label">Last Name</label>
+          <input type="text" nbInput fullWidth id="inputLastName" placeholder="Last Name" [(ngModel)]="selectedUser.lastName">
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-6">
+        <div class="form-group">
+          <label for="inputEmail" class="label">Email</label>
+          <input type="email" nbInput fullWidth id="inputEmail" placeholder="Email" [(ngModel)]="selectedUser.email">
+        </div>
+      </div>
+      <div class="col-sm-6">
+        <div class="form-group">
+          <label for="inputLogin" class="label">Login</label>
+          <input type="text" nbInput fullWidth id="inputLogin" placeholder="Login" [(ngModel)]="selectedUser.login">
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <div class="form-group">
+          <label for="inputNote" class="label">Note</label>
+          <textarea nbInput fullWidth id="inputNote" placeholder="Note" [(ngModel)]="selectedUser.note"></textarea>
+        </div>
+      </div>
+    </div>
+  </nb-card-body>
+  <nb-card-footer>
+    <button class="cancel" nbButton status="danger" (click)="close()">Cancel</button>
+    <button nbButton status="success" (click)="submit()">Submit</button>
+  </nb-card-footer>
+</nb-card>

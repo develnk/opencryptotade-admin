@@ -1,8 +1,9 @@
-import {Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
+import {Component, OnInit, ViewContainerRef } from '@angular/core';
 import { DataService } from '../../../@core/services/data.service';
-import { LocalDataSource } from '../../../@core/ng2-smart-table';
 import { NbWindowService } from '../../../@core/nebular-theme/components/window/window.service';
-import {UserFormComponent} from './user-form/user-form.component';
+import { UserFormComponent } from './user-form/user-form.component';
+import { DepartmentService } from './department.service';
+import { User } from './user';
 
 @Component({
   selector: 'app-department',
@@ -11,7 +12,7 @@ import {UserFormComponent} from './user-form/user-form.component';
 })
 export class DepartmentComponent implements OnInit {
 
-  source: LocalDataSource;
+  currentUser: User;
 
   settings = {
     columns: {
@@ -38,6 +39,10 @@ export class DepartmentComponent implements OnInit {
       created: {
         title: 'Created',
         editable: false
+      },
+      updated: {
+        title: 'Updated',
+        editable: false
       }
     },
     actions: {
@@ -51,22 +56,26 @@ export class DepartmentComponent implements OnInit {
     }
   };
 
-  constructor(private dataService: DataService, private windowService: NbWindowService) {
-    this.source = new LocalDataSource();
+  constructor(private dataService: DataService,
+              public departmentService: DepartmentService,
+              private windowService: NbWindowService,
+              private viewContainer: ViewContainerRef) {
 
     this.dataService.getUsers().subscribe(response => {
       const resultArray = Object.keys(response).map( index => {
         return response[index];
       });
-      this.source.load(resultArray);
+      this.departmentService.source.load(resultArray);
     });
   }
 
-  openWindowForm() {
-    this.windowService.open(UserFormComponent, { title: `Window` });
+  openWindowForm(event) {
+    this.departmentService.changeCurrentUser(event.data);
+    this.windowService.open(UserFormComponent, { title: `User Department Edit`, hasBackdrop: true, viewContainerRef: this.viewContainer });
   }
 
   ngOnInit() {
+    this.departmentService.currentUser.subscribe(currentUser => this.currentUser = currentUser);
   }
 
 }

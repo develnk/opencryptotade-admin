@@ -17,13 +17,11 @@ export class LocalDataSource extends DataSource {
 
   constructor(data: Array<any> = []) {
     super();
-
     this.data = data;
   }
 
   load(data: Array<any>): Promise<any> {
     this.data = data;
-
     return super.load(data);
   }
 
@@ -36,20 +34,17 @@ export class LocalDataSource extends DataSource {
 
   append(element: any): Promise<any> {
     this.reset(true);
-
     this.data.push(element);
     return super.append(element);
   }
 
   add(element: any): Promise<any> {
     this.data.push(element);
-
     return super.add(element);
   }
 
   remove(element: any): Promise<any> {
     this.data = this.data.filter(el => el !== element);
-
     return super.remove(element);
   }
 

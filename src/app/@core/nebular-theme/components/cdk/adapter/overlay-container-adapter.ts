@@ -18,6 +18,14 @@ export class NbOverlayContainerAdapter extends NbOverlayContainer {
     this.container = container;
   }
 
+  getContainerElement() {
+    if (!this.container) {
+      this.container = this._document.querySelector('nb-layout');
+      this._createContainer();
+    }
+    return this.container;
+  }
+
   clearContainer() {
     this.container = null;
     this._containerElement = null;

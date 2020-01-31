@@ -7,6 +7,9 @@
 
 $topnav-background-color: #222;
 
+html, body { height: 100%; }
+//body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
 body {
   color: nb-theme(text-basic-color);
   font-family: nb-theme(text-paragraph-font-family);
@@ -456,4 +459,3 @@ a:hover{
 //    border-bottom-right-radius: $card-border-radius;
 //  }
 //}
-

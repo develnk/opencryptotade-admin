@@ -17,4 +17,8 @@ export class DataService {
     return this.http.get(ep.base_url + ep.all_users);
   }
 
+  updateUser(user) {
+    return this.http.put(ep.base_url + ep.accounts, JSON.stringify(user));
+  }
+
 }

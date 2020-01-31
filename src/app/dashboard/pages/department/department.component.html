@@ -1,22 +1,9 @@
 <nb-card>
   <nb-card-header>Department</nb-card-header>
   <nb-card-body>
-    <ng2-smart-table [settings]="settings" [source]="source"></ng2-smart-table>
+    <ng2-smart-table [settings]="settings" [source]="departmentService.source" (userRowSelect)="openWindowForm($event)"></ng2-smart-table>
   </nb-card-body>
   <nb-card-footer>
-    <p>Total users: {{source.count()}}</p>
+    <p>Total users: {{departmentService.source.count()}}</p>
   </nb-card-footer>
 </nb-card>
-<!--<div class="nb-card">-->
-<!--  <div class="nb-card-header">-->
-<!--    Department-->
-<!--  </div>-->
-
-<!--  <div class="nb-card-body">-->
-<!--    <ng2-smart-table [settings]="settings" [source]="source"></ng2-smart-table>-->
-<!--  </div>-->
-
-<!--  <div class="nb-card-footer">-->
-<!--    <p>Total users: {{source.count()}}</p>-->
-<!--  </div>-->
-<!--</div>-->

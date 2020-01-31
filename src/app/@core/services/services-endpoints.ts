@@ -5,6 +5,6 @@ export const ENDPOINTS = {
   auth: 'oauth/token',
   accounts: 'accounts/',
   current_account: 'accounts/current',
-  all_users: 'accounts/getAll'
+  all_users: 'accounts/getAll',
 
 };

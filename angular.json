@@ -130,6 +130,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "opencrypto-trade"
+    }
+  },
+  "defaultProject": "opencrypto-trade",
+  "cli": {
+    "analytics": false
+  }
 }
