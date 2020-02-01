@@ -33,10 +33,11 @@
               "src/css/styles.scss",
               "node_modules/@mdi/font/css/materialdesignicons.css",
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
-              "node_modules/bootstrap/dist/css/bootstrap-grid.min.css"
+              "node_modules/bootstrap/dist/css/bootstrap-grid.min.css",
+              "node_modules/pace-js/templates/pace-theme-flash.tmpl.css"
             ],
             "scripts": [
-              "node_modules/jquery/dist/jquery.min.js",
+              "node_modules/pace-js/pace.min.js",
               "node_modules/bootstrap/dist/js/bootstrap.js"
             ]
           },
@@ -100,8 +101,13 @@
               "src/favicon.ico",
               "src/assets"
             ],
-            "styles": [],
-            "scripts": []
+            "styles": [
+              "node_modules/bootstrap/dist/css/bootstrap.css",
+              "node_modules/pace-js/templates/pace-theme-flash.tmpl.css"
+            ],
+            "scripts": [
+              "node_modules/pace-js/pace.min.js"
+            ]
           }
         },
         "lint": {
