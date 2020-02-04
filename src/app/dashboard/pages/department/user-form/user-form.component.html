@@ -1,44 +1,100 @@
 <nb-card>
   <nb-card-body>
-    <div class="row">
-      <div class="col-sm-6">
-        <div class="form-group">
-          <label for="inputFirstName" class="label">First Name</label>
-          <input type="text" nbInput fullWidth id="inputFirstName" placeholder="First Name" [(ngModel)]="selectedUser.firstName">
+    <div [formGroup]="departmentForm">
+      <div class="row">
+        <div class="col-sm-6">
+          <div class="form-group">
+            <label for="inputFirstName" class="label">First Name</label>
+            <input type="text" nbInput fullWidth id="inputFirstName" placeholder="First Name" formControlName='firstName'>
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <div class="form-group">
+            <label for="inputLastName" class="label">Last Name</label>
+            <input type="text" nbInput fullWidth id="inputLastName" placeholder="Last Name" formControlName='lastName'>
+          </div>
         </div>
       </div>
-      <div class="col-sm-6">
-        <div class="form-group">
-          <label for="inputLastName" class="label">Last Name</label>
-          <input type="text" nbInput fullWidth id="inputLastName" placeholder="Last Name" [(ngModel)]="selectedUser.lastName">
+      <div class="row">
+        <div class="col-sm-6">
+          <div class="form-group">
+            <label for="inputEmail" class="label">Email</label>
+            <input type="email"
+                   email
+                   formControlName='email'
+                   nbInput
+                   fullWidth
+                   [ngClass]="{'status-danger': departmentForm.get('email').invalid}"
+                   id="inputEmail"
+                   placeholder="Email"
+                   class="form-control"
+            >
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <div class="form-group">
+            <label for="inputLogin" class="label">Login</label>
+            <input type="text" nbInput fullWidth id="inputLogin" [ngClass]="{'status-danger': departmentForm.get('login').invalid}" placeholder="Login" formControlName='login'>
+          </div>
         </div>
       </div>
-    </div>
-    <div class="row">
-      <div class="col-sm-6">
-        <div class="form-group">
-          <label for="inputEmail" class="label">Email</label>
-          <input type="email" nbInput fullWidth id="inputEmail" placeholder="Email" [(ngModel)]="selectedUser.email">
+      <div class="row">
+        <div class="col-12">
+          <div class="row">
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label for="inputPass" class="label">Password</label>
+                <input id="inputPass" nbInput fullWidth type="password" [ngClass]="{'status-danger': pwd.hasError('minlength')}" class="form-control" formControlName='password'>
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label for="inputConfPass" class="label">Confirm Password</label>
+                <input id="inputConfPass" nbInput fullWidth type="password" class="form-control" [ngClass]="{'status-danger': cpwd.hasError('invalid')}" formControlName='confirm_password'>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-      <div class="col-sm-6">
-        <div class="form-group">
-          <label for="inputLogin" class="label">Login</label>
-          <input type="text" nbInput fullWidth id="inputLogin" placeholder="Login" [(ngModel)]="selectedUser.login">
+      <div class="row">
+        <div class="col-12">
+          <div class="form-group">
+            <label for="inputNote" class="label">Note</label>
+            <textarea nbInput fullWidth id="inputNote" placeholder="Note" formControlName='note'></textarea>
+          </div>
         </div>
       </div>
-    </div>
-    <div class="row">
-      <div class="col-12">
-        <div class="form-group">
-          <label for="inputNote" class="label">Note</label>
-          <textarea nbInput fullWidth id="inputNote" placeholder="Note" [(ngModel)]="selectedUser.note"></textarea>
+      <div class="row" *ngIf="departmentForm.invalid">
+        <div class="col-12">
+          <div *ngIf="departmentForm.get('email').invalid && (departmentForm.get('email').dirty || departmentForm.get('email').touched)">
+            <p class="alert alert-danger" *ngIf="departmentForm.get('email').errors.email">
+              Email is not valid.
+            </p>
+            <p class="alert alert-danger" *ngIf="departmentForm.get('email').errors.required">
+              Email is required.
+            </p>
+          </div>
+          <div *ngIf="cpwd.hasError('invalid')">
+            <p class="alert alert-danger">
+              Password did not match.
+            </p>
+          </div>
+          <div *ngIf="pwd.hasError('minlength')">
+            <p  class="alert alert-danger">
+              Password length.
+            </p>
+          </div>
+          <div *ngIf="departmentForm.get('login').invalid && (departmentForm.get('login').dirty || departmentForm.get('login').touched)">
+            <p class="alert alert-danger" *ngIf="departmentForm.get('login').errors.required">
+              Login is required.
+            </p>
+          </div>
         </div>
       </div>
     </div>
   </nb-card-body>
   <nb-card-footer>
     <button class="cancel" nbButton status="danger" (click)="close()">Cancel</button>
-    <button nbButton status="success" (click)="submit()">Submit</button>
+    <button nbButton status="success" (click)="submit()" [disabled]="departmentForm.pristine || departmentForm.invalid">Submit</button>
   </nb-card-footer>
 </nb-card>

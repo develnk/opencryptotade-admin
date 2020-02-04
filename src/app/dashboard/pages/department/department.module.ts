@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { ReactiveFormsModule } from '@angular/forms';
 import { NbWindowModule } from '../../../@core/nebular-theme/components/window/window.module';
 import { NbCardModule } from '../../../@core/nebular-theme/components/card/card.module';
 import { NbButtonModule } from '../../../@core/nebular-theme/components/button/button.module';
@@ -18,7 +19,8 @@ const COMPONENTS = [
 ];
 
 const MODULES = [
-  FormsModule,
+  CommonModule,
+  ReactiveFormsModule,
   RouterModule,
   DepartmentRoutingModule,
   NbWindowModule.forChild(),

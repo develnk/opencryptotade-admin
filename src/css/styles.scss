@@ -189,7 +189,6 @@ a:hover{
 }
 
 .nb-sidebar {
-
   background-color: nb-theme(sidebar-background-color);
   box-shadow: nb-theme(sidebar-shadow);
   color: nb-theme(sidebar-text-color);
@@ -367,95 +366,3 @@ a:hover{
     margin: 0 -#{nb-theme(sidebar-padding)} -#{nb-theme(sidebar-padding)};
   }
 }
-
-//.nb-card {
-//  flex-direction: row;
-//  align-items: center;
-//  overflow: visible;
-//
-//  background-color: $card-background-color;
-//  border: $card-border-width $card-border-style $card-border-color;
-//  border-radius: $card-border-radius;
-//  box-shadow: $card-shadow;
-//
-//  color: $card-text-color;
-//  font-family: $card-text-font-family;
-//  font-size: $card-text-font-size;
-//  font-weight: $card-text-font-weight;
-//  line-height: $card-text-line-height;
-//  margin-bottom: $card-margin-bottom;
-//
-//  .icon-container {
-//    height: 100%;
-//    padding: 0.625rem;
-//  }
-//
-//  .icon {
-//    display: flex;
-//    align-items: center;
-//    justify-content: center;
-//    width: 5.75rem;
-//    height: 4.75rem;
-//    font-size: 3.75rem;
-//    border-radius: 0.25rem;
-//    transition: width 0.4s ease;
-//    transform: translate3d(0, 0, 0);
-//    -webkit-transform-style: preserve-3d;
-//    -webkit-backface-visibility: hidden;
-//    color: #192038;
-//  }
-//
-//  &.off {
-//    color: $text-hint-color;
-//
-//    .status,
-//    .title,
-//    .icon {
-//      color: $text-hint-color;
-//    }
-//  }
-//
-//  .details {
-//    display: flex;
-//    flex-direction: column;
-//    justify-content: center;
-//    height: 100%;
-//    border-left: 1px solid transparent;
-//  }
-//
-//  .title {
-//    margin: 0;
-//  }
-//
-//  .status {
-//    text-transform: uppercase;
-//  }
-//
-//  .nb-card-header {
-//    padding: $card-padding;
-//    border-bottom: $card-divider-width $card-divider-style $card-divider-color;
-//    border-top-left-radius: $card-border-radius;
-//    border-top-right-radius: $card-border-radius;
-//
-//    color: $card-header-text-color;
-//    font-family: $card-header-text-font-family;
-//    font-size: $card-header-text-font-size;
-//    font-weight: $card-header-text-font-weight;
-//    line-height: $card-header-text-line-height;
-//  }
-//
-//  .nb-card-body {
-//    flex: 1;
-//    -ms-flex: 1 1 auto;
-//    overflow: auto;
-//    padding: $card-padding;
-//    position: relative;
-//  }
-//
-//  .nb-card-footer {
-//    padding: $card-padding;
-//    border-top: $card-divider-width $card-divider-style $card-divider-color;
-//    border-bottom-left-radius: $card-border-radius;
-//    border-bottom-right-radius: $card-border-radius;
-//  }
-//}

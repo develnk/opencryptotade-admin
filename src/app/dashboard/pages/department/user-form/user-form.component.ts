@@ -1,4 +1,5 @@
 import {Component, OnInit} from '@angular/core';
+import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NbWindowRef } from '../../../../@core/nebular-theme/components/window/window-ref';
 import { DepartmentService } from '../department.service';
 import { User } from '../user';
@@ -12,11 +13,21 @@ export class UserFormComponent implements OnInit {
 
   selectedUser: User;
   unchangedUser: User;
+  departmentForm: FormGroup;
   private submitClosed = false;
+
+  get cpwd() {
+    return this.departmentForm.get('confirm_password');
+  }
+
+  get pwd() {
+    return this.departmentForm.get('password');
+  }
 
   constructor(private windowRef: NbWindowRef,
               private departmentService: DepartmentService,
-              private dataService: DataService
+              private dataService: DataService,
+              private fb: FormBuilder
   ) {}
 
   ngOnInit(): void {
@@ -25,11 +36,28 @@ export class UserFormComponent implements OnInit {
       // Clone of selectedUser for revert changes if window closed without save changes.
       this.unchangedUser = JSON.parse(JSON.stringify(this.selectedUser));
     });
+
     this.windowRef.onClose.subscribe(() => {
       if (!this.submitClosed) {
         this.revertData();
       }
     });
+
+    this.createFormGroup();
+    this.onChanges();
+  }
+
+  onChanges() {
+    this.departmentForm.get('note').valueChanges.subscribe(note => this.selectedUser.note = note);
+    this.departmentForm.get('email').valueChanges.subscribe(email => this.selectedUser.email = email);
+    this.departmentForm.get('login').valueChanges.subscribe(login => this.selectedUser.login = login);
+    this.departmentForm.get('password').valueChanges.subscribe(passwd => {
+      if (passwd !== this.cpwd) {
+        this.departmentForm.get('confirm_password').setErrors({invalid: true});
+      }
+    });
+    this.departmentForm.get('firstName').valueChanges.subscribe(firstName => this.selectedUser.firstName = firstName);
+    this.departmentForm.get('lastName').valueChanges.subscribe(lastName => this.selectedUser.lastName = lastName);
   }
 
   close() {
@@ -37,7 +65,7 @@ export class UserFormComponent implements OnInit {
     this.windowRef.close();
   }
 
-  private revertData() {
+  revertData() {
     this.departmentService.source.getAll().then((users: Array<User>) => {
       const found = users.find(user => user.id === this.selectedUser.id);
       // Revert changes at selected row.
@@ -48,10 +76,33 @@ export class UserFormComponent implements OnInit {
   submit() {
     // Send to server for update user fields.
     this.dataService.updateUser(this.selectedUser).subscribe(response => {
-      console.log(response);
+      this.departmentService.source.refresh();
     });
-    this.departmentService.source.refresh();
     this.submitClosed = true;
     this.windowRef.close();
   }
+
+  createFormGroup() {
+    this.departmentForm = this.fb.group({
+      login: [this.selectedUser.login, [Validators.required]],
+      firstName: [this.selectedUser.firstName, [Validators.required]],
+      lastName: [this.selectedUser.lastName, [Validators.required]],
+      email: [this.selectedUser.email, [Validators.required, Validators.email]],
+      password: ['', [Validators.minLength(6)]],
+      confirm_password: ['', [this.duplicatePassword]],
+      note: [this.selectedUser.note]
+    });
+  }
+
+  duplicatePassword(control: AbstractControl) {
+    if (!control.parent || !control) { return; }
+    const pwd = control.parent.get('password');
+    const cpwd = control.parent.get('confirm_password');
+
+    if (!pwd || !cpwd) { return; }
+    if (pwd.value !== cpwd.value) {
+      return { invalid: true };
+    }
+  }
+
 }
