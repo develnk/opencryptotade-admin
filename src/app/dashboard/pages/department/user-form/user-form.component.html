@@ -11,7 +11,13 @@
         <div class="col-sm-6">
           <div class="form-group">
             <label for="inputLastName" class="label">Last Name</label>
-            <input type="text" nbInput fullWidth id="inputLastName" placeholder="Last Name" formControlName='lastName'>
+            <input
+                    type="text"
+                    nbInput
+                    fullWidth
+                    id="inputLastName"
+                    placeholder="Last Name"
+                    formControlName='lastName'>
           </div>
         </div>
       </div>
@@ -34,7 +40,14 @@
         <div class="col-sm-6">
           <div class="form-group">
             <label for="inputLogin" class="label">Login</label>
-            <input type="text" nbInput fullWidth id="inputLogin" [ngClass]="{'status-danger': departmentForm.get('login').invalid}" placeholder="Login" formControlName='login'>
+            <input
+                    type="text"
+                    nbInput
+                    fullWidth
+                    id="inputLogin"
+                    [ngClass]="{'status-danger': departmentForm.get('login').invalid}"
+                    placeholder="Login"
+                    formControlName='login'>
           </div>
         </div>
       </div>
@@ -44,15 +57,44 @@
             <div class="col-sm-6">
               <div class="form-group">
                 <label for="inputPass" class="label">Password</label>
-                <input id="inputPass" nbInput fullWidth type="password" [ngClass]="{'status-danger': pwd.hasError('minlength')}" class="form-control" formControlName='password'>
+                <input
+                        id="inputPass"
+                        nbInput
+                        fullWidth
+                        type="password"
+                        [ngClass]="{'status-danger': pwd.hasError('minlength')}"
+                        class="form-control"
+                        formControlName='password'>
               </div>
             </div>
             <div class="col-sm-6">
               <div class="form-group">
                 <label for="inputConfPass" class="label">Confirm Password</label>
-                <input id="inputConfPass" nbInput fullWidth type="password" class="form-control" [ngClass]="{'status-danger': cpwd.hasError('invalid')}" formControlName='confirm_password'>
+                <input
+                        id="inputConfPass"
+                        nbInput
+                        fullWidth
+                        type="password"
+                        class="form-control" [ngClass]="{'status-danger': cpwd.hasError('invalid')}"
+                        formControlName='confirm_password'>
               </div>
             </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12">
+          <div class="form-group">
+            <label for="roles">Select User Roles</label>
+            <ng-select
+                    id="roles"
+                    [items]="_roles"
+                    [multiple]="true"
+                    [closeOnSelect]="false"
+                    labelForId="roles"
+                    placeholder="Select Roles"
+                    formControlName='role'>
+            </ng-select>
           </div>
         </div>
       </div>
@@ -87,6 +129,11 @@
           <div *ngIf="departmentForm.get('login').invalid && (departmentForm.get('login').dirty || departmentForm.get('login').touched)">
             <p class="alert alert-danger" *ngIf="departmentForm.get('login').errors.required">
               Login is required.
+            </p>
+          </div>
+          <div *ngIf="departmentForm.get('role').invalid && (departmentForm.get('role').dirty || departmentForm.get('role').touched)">
+            <p class="alert alert-danger">
+              Please select roles to user.
             </p>
           </div>
         </div>

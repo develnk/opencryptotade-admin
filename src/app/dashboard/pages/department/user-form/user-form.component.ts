@@ -15,6 +15,7 @@ export class UserFormComponent implements OnInit {
   unchangedUser: User;
   departmentForm: FormGroup;
   private submitClosed = false;
+  readonly _roles: string[] = ['ADMIN', 'MANAGER', 'SALES'];
 
   get cpwd() {
     return this.departmentForm.get('confirm_password');
@@ -22,6 +23,10 @@ export class UserFormComponent implements OnInit {
 
   get pwd() {
     return this.departmentForm.get('password');
+  }
+
+  get role() {
+    return this.departmentForm.get('role');
   }
 
   constructor(private windowRef: NbWindowRef,
@@ -48,16 +53,17 @@ export class UserFormComponent implements OnInit {
   }
 
   onChanges() {
-    this.departmentForm.get('note').valueChanges.subscribe(note => this.selectedUser.note = note);
-    this.departmentForm.get('email').valueChanges.subscribe(email => this.selectedUser.email = email);
+    this.departmentForm.get('firstName').valueChanges.subscribe(firstName => this.selectedUser.firstName = firstName);
+    this.departmentForm.get('lastName').valueChanges.subscribe(lastName => this.selectedUser.lastName = lastName);
     this.departmentForm.get('login').valueChanges.subscribe(login => this.selectedUser.login = login);
+    this.departmentForm.get('email').valueChanges.subscribe(email => this.selectedUser.email = email);
     this.departmentForm.get('password').valueChanges.subscribe(passwd => {
       if (passwd !== this.cpwd) {
         this.departmentForm.get('confirm_password').setErrors({invalid: true});
       }
     });
-    this.departmentForm.get('firstName').valueChanges.subscribe(firstName => this.selectedUser.firstName = firstName);
-    this.departmentForm.get('lastName').valueChanges.subscribe(lastName => this.selectedUser.lastName = lastName);
+    this.departmentForm.get('role').valueChanges.subscribe(role => this.selectedUser.role = role);
+    this.departmentForm.get('note').valueChanges.subscribe(note => this.selectedUser.note = note);
   }
 
   close() {
@@ -88,6 +94,7 @@ export class UserFormComponent implements OnInit {
       firstName: [this.selectedUser.firstName, [Validators.required]],
       lastName: [this.selectedUser.lastName, [Validators.required]],
       email: [this.selectedUser.email, [Validators.required, Validators.email]],
+      role: [this.selectedUser.role, [Validators.required, this.roleValidate]],
       password: ['', [Validators.minLength(6)]],
       confirm_password: ['', [this.duplicatePassword]],
       note: [this.selectedUser.note]
@@ -101,6 +108,15 @@ export class UserFormComponent implements OnInit {
 
     if (!pwd || !cpwd) { return; }
     if (pwd.value !== cpwd.value) {
+      return { invalid: true };
+    }
+  }
+
+  roleValidate(control: AbstractControl) {
+    if (!control.parent || !control) { return; }
+    const selectedRoles = control.parent.get('role');
+
+    if (selectedRoles.value.length === 0) {
       return { invalid: true };
     }
   }

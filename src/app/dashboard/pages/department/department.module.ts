@@ -12,6 +12,7 @@ import { DepartmentRoutingModule } from './department-routing.module';
 import { NbInputModule } from '../../../@core/nebular-theme/components/input/input.module';
 import { NbThemeModule } from '../../../@core/nebular-theme/theme.module';
 import { DepartmentService } from './department.service';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 const COMPONENTS = [
   DepartmentComponent,
@@ -29,6 +30,7 @@ const MODULES = [
   NbButtonModule,
   NbThemeModule.forRoot(),
   Ng2SmartTableModule,
+  NgSelectModule
 ];
 
 const ENTRY_COMPONENTS = [
@@ -40,9 +42,9 @@ const SERVICES = [
 ];
 
 @NgModule({
-  imports: [
-    ...MODULES,
-  ],
+    imports: [
+        ...MODULES,
+    ],
   declarations: [
     ...COMPONENTS,
   ],
