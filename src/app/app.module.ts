@@ -1,24 +1,24 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
+import { APP_BASE_HREF } from '@angular/common';
 import { NgModule } from '@angular/core';
+
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { DashboardModule } from './dashboard/dashboard.module';
-import { PageNotFoundComponent } from './@core/page-not-found/page-not-found.component';
-import { NgxAuthModule } from './@core/auth/auth.module';
-import { NbWindowModule } from './@core/nebular-theme/components/window/window.module';
 import { ThemeModule } from './@theme/theme.module';
-import { NbMenuModule } from './@core/nebular-theme/components/menu/menu.module';
-import { HttpErrorInterceptor } from './@core/interceptors/httpError.interceptor';
-import { APP_BASE_HREF } from '@angular/common';
+import { NgxAuthModule } from './@core/auth/auth.module';
 import { CoreModule } from './@core/core.module';
+import { NbMenuModule } from './@core/nebular-theme/components/menu/menu.module';
+import { NbWindowModule } from './@core/nebular-theme/components/window/window.module';
+import { HttpErrorInterceptor } from './@core/interceptors/httpError.interceptor';
+import { HeaderInterceptor } from './@core/interceptors/header.interceptor';
 import { NbSidebarModule } from './@core/nebular-theme/components/sidebar/sidebar.module';
 import { NbLayoutModule } from './@core/nebular-theme/components/layout/layout.module';
-import { HeaderInterceptor } from './@core/interceptors/header.interceptor';
+import { PageNotFoundComponent } from './@core/page-not-found/page-not-found.component';
 
 @NgModule({
   declarations: [
