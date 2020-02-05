@@ -21,4 +21,8 @@ export class DataService {
     return this.http.put(ep.base_url + ep.accounts, JSON.stringify(user));
   }
 
+  createUser(user) {
+    return this.http.post(ep.base_url + ep.accounts, JSON.stringify(user));
+  }
+
 }

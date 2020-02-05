@@ -15,6 +15,7 @@ export class UserFormComponent implements OnInit {
   unchangedUser: User;
   departmentForm: FormGroup;
   private submitClosed = false;
+  private _buttonText = 'Update';
   readonly _roles: string[] = ['ADMIN', 'MANAGER', 'SALES'];
 
   get cpwd() {
@@ -27,6 +28,14 @@ export class UserFormComponent implements OnInit {
 
   get role() {
     return this.departmentForm.get('role');
+  }
+
+  get buttonText(): string {
+    return this._buttonText;
+  }
+
+  set buttonText(value: string) {
+    this._buttonText = value;
   }
 
   constructor(private windowRef: NbWindowRef,
@@ -50,6 +59,7 @@ export class UserFormComponent implements OnInit {
 
     this.createFormGroup();
     this.onChanges();
+    this.onNewUser();
   }
 
   onChanges() {
@@ -58,8 +68,13 @@ export class UserFormComponent implements OnInit {
     this.departmentForm.get('login').valueChanges.subscribe(login => this.selectedUser.login = login);
     this.departmentForm.get('email').valueChanges.subscribe(email => this.selectedUser.email = email);
     this.departmentForm.get('password').valueChanges.subscribe(passwd => {
-      if (passwd !== this.cpwd) {
+      if (passwd !== this.cpwd.value) {
         this.departmentForm.get('confirm_password').setErrors({invalid: true});
+      }
+    });
+    this.departmentForm.get('confirm_password').valueChanges.subscribe(passwd => {
+      if (passwd === this.pwd.value) {
+        this.selectedUser.password = passwd;
       }
     });
     this.departmentForm.get('role').valueChanges.subscribe(role => this.selectedUser.role = role);
@@ -74,16 +89,27 @@ export class UserFormComponent implements OnInit {
   revertData() {
     this.departmentService.source.getAll().then((users: Array<User>) => {
       const found = users.find(user => user.id === this.selectedUser.id);
-      // Revert changes at selected row.
-      this.departmentService.source.update(found, this.unchangedUser);
+
+      if (found) {
+        // Revert changes at selected row.
+        this.departmentService.source.update(found, this.unchangedUser);
+      }
     });
   }
 
   submit() {
-    // Send to server for update user fields.
-    this.dataService.updateUser(this.selectedUser).subscribe(response => {
-      this.departmentService.source.refresh();
-    });
+    if (this.departmentService.createUser) {
+      this.dataService.createUser(this.selectedUser).subscribe(response => {
+        // @TODO Need review response
+        this.departmentService.source.add(this.selectedUser);
+        this.departmentService.source.refresh();
+      });
+    } else {
+      this.dataService.updateUser(this.selectedUser).subscribe(response => {
+        // @TODO Need review response
+        this.departmentService.source.refresh();
+      });
+    }
     this.submitClosed = true;
     this.windowRef.close();
   }
@@ -116,8 +142,17 @@ export class UserFormComponent implements OnInit {
     if (!control.parent || !control) { return; }
     const selectedRoles = control.parent.get('role');
 
+    if (selectedRoles.value === null) { return; }
     if (selectedRoles.value.length === 0) {
       return { invalid: true };
+    }
+  }
+
+  onNewUser() {
+    if (this.departmentService.createUser) {
+      this.buttonText = 'Create';
+      this.pwd.setValidators([Validators.required]);
+      this.cpwd.setValidators([Validators.required]);
     }
   }
 

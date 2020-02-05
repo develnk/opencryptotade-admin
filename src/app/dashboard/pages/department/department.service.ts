@@ -1,29 +1,29 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { User } from './user';
 import { LocalDataSource } from '../../../@core/ng2-smart-table';
 
 @Injectable()
 export class DepartmentService {
 
+    public static readonly defaultUser: User = {
+        id: 0,
+        login: '',
+        email: '',
+        role: [],
+        password: ''
+    };
+
     private _source: LocalDataSource;
     private userSource: BehaviorSubject<User>;
-    currentUser: any;
+    private _createUser: boolean;
+    currentUser: Observable<User>;
 
     constructor() {
-        const defaultUser: User = {
-            id: 0,
-            login: '',
-            firstName: '',
-            lastName: '',
-            email: '',
-            note: '',
-            role: [''],
-            created: ''
-        };
         this._source = new LocalDataSource();
-        this.userSource = new BehaviorSubject(defaultUser);
+        this.userSource = new BehaviorSubject(DepartmentService.defaultUser);
         this.currentUser = this.userSource.asObservable();
+        this.createUser = false;
     }
 
     changeCurrentUser(user: User) {
@@ -36,6 +36,14 @@ export class DepartmentService {
 
     set source(value: LocalDataSource) {
         this._source = value;
+    }
+
+    get createUser(): boolean {
+        return this._createUser;
+    }
+
+    set createUser(value: boolean) {
+        this._createUser = value;
     }
 
 }

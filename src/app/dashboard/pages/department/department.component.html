@@ -1,7 +1,16 @@
 <nb-card>
-  <nb-card-header>Department</nb-card-header>
+  <nb-card-header>
+    <div class="row">
+      <div class="col-6">
+        Department
+      </div>
+      <div class="col-6">
+        <button nbButton class="btn btn-secondary float-right" status="primary" (click)="createUser()">Create User</button>
+      </div>
+    </div>
+  </nb-card-header>
   <nb-card-body>
-    <ng2-smart-table [settings]="settings" [source]="departmentService.source" (userRowSelect)="openWindowForm($event)"></ng2-smart-table>
+    <ng2-smart-table [settings]="settings" [source]="departmentService.source" (userRowSelect)="updateUser($event)"></ng2-smart-table>
   </nb-card-body>
   <nb-card-footer>
     <p>Total users: {{departmentService.source.count()}}</p>
