@@ -3,7 +3,6 @@ import { NgModule } from '@angular/core';
 
 import { DashboardComponent } from './dashboard.component';
 import { BasicComponent } from './pages/basic/basic.component';
-import { SmtpComponent } from './pages/smtp/smtp.component';
 import { RegionalComponent } from './pages/regional/regional.component';
 import { DaemonsComponent } from './pages/daemons/daemons.component';
 import { AuthGuard } from '../@core/guards/auth-guard.service';
@@ -36,7 +35,9 @@ export const routes: Routes = [
           },
           {
             path: 'smtp',
-            component: SmtpComponent,
+            loadChildren: () => import('./pages/smtp/smtp.module').then(m => m.SMTPModule),
+            data: { role: 'ADMIN' },
+            canActivate: [ RoleGuard ],
           },
           {
             path: 'regional',

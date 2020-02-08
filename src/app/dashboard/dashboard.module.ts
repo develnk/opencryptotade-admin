@@ -4,7 +4,6 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { DashboardComponent } from './dashboard.component';
 import { BasicComponent } from './pages/basic/basic.component';
-import { SmtpComponent } from './pages/smtp/smtp.component';
 import { RegionalComponent } from './pages/regional/regional.component';
 import { DaemonsComponent } from './pages/daemons/daemons.component';
 import { AuthGuard } from '../@core/guards/auth-guard.service';
@@ -17,7 +16,6 @@ import { DashboardRoutingModule } from './dashboard-routing.module';
   declarations: [
     DashboardComponent,
     BasicComponent,
-    SmtpComponent,
     RegionalComponent,
     DaemonsComponent
   ],

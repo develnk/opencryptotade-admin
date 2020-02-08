@@ -1,1 +1,74 @@
-<p>smtp works!</p>
+<nb-card>
+    <nb-card-header>
+        <h6>SMTP Settings</h6>
+    </nb-card-header>
+    <nb-card-body>
+        <div>
+            <div class="row">
+                <div class="col-6">
+                    <div class="form-group">
+                        <label for="userName" class="label">User Name</label>
+                        <input
+                                type="text"
+                                nbInput
+                                fullWidth
+                                id="userName"
+                                placeholder="User Name"
+                                formControlName='userName'>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="form-group">
+                        <label for="inputPass" class="label">Password</label>
+                        <input
+                                id="inputPass"
+                                nbInput
+                                fullWidth
+                                type="password"
+                                class="form-control"
+                                formControlName='password'>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6">
+                    <div class="form-group">
+                        <label for="smtpHost" class="label">SMTP Host</label>
+                        <input
+                                type="text"
+                                nbInput
+                                fullWidth
+                                id="smtpHost"
+                                placeholder="SMTP Host"
+                                formControlName='smtpHost'>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="form-group">
+                        <label for="smtpPort" class="label">SMTP Port</label>
+                        <input
+                                type="text"
+                                nbInput
+                                fullWidth
+                                id="smtpPort"
+                                placeholder="SMTP Port"
+                                formControlName='smtpPort'>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6">
+                    <nb-select selected="1" hero status="primary" (selectedChange)="changeEncryption($event)" formControlName="encryption">
+                        <nb-select-label></nb-select-label>
+                        <nb-option value="1">No Encryption</nb-option>
+                        <nb-option value="2">SSL</nb-option>
+                        <nb-option value="3">TLS</nb-option>
+                    </nb-select>
+                </div>
+            </div>
+        </div>
+    </nb-card-body>
+    <nb-card-footer>
+        <button nbButton status="success" (click)="save()">Save</button>
+    </nb-card-footer>
+</nb-card>
