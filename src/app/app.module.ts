@@ -12,13 +12,10 @@ import { DashboardModule } from './dashboard/dashboard.module';
 import { ThemeModule } from './@theme/theme.module';
 import { NgxAuthModule } from './@core/auth/auth.module';
 import { CoreModule } from './@core/core.module';
-import { NbMenuModule } from './@core/nebular-theme/components/menu/menu.module';
-import { NbWindowModule } from './@core/nebular-theme/components/window/window.module';
 import { HttpErrorInterceptor } from './@core/interceptors/httpError.interceptor';
 import { HeaderInterceptor } from './@core/interceptors/header.interceptor';
-import { NbSidebarModule } from './@core/nebular-theme/components/sidebar/sidebar.module';
-import { NbLayoutModule } from './@core/nebular-theme/components/layout/layout.module';
 import { PageNotFoundComponent } from './@core/page-not-found/page-not-found.component';
+import { NbLayoutModule, NbMenuModule, NbSidebarModule, NbWindowModule } from '@nebular/theme';
 
 @NgModule({
   declarations: [

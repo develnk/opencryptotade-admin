@@ -1,9 +1,9 @@
 import { Component, OnInit, ViewContainerRef } from '@angular/core';
 import { DataService } from '../../../@core/services/data.service';
-import { NbWindowService } from '../../../@core/nebular-theme/components/window/window.service';
 import { UserFormComponent } from './user-form/user-form.component';
 import { DepartmentService } from './department.service';
 import { User } from './user';
+import { NbWindowService } from '@nebular/theme';
 
 @Component({
   selector: 'app-department',

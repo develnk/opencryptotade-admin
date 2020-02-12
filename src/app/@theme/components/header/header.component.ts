@@ -1,11 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import {NbMediaBreakpointsService, NbMenuService, NbSidebarService, NbThemeService} from '../../../@core/nebular-theme/public_api';
-
+import { NbMediaBreakpointsService, NbMenuService, NbSidebarService, NbThemeService } from '@nebular/theme';
 import { Subject } from 'rxjs';
 import { LayoutService } from '../../../@core/utils';
 import { DataService } from '../../../@core/services/data.service';
-import {filter, map, takeUntil} from 'rxjs/operators';
-import {User} from '../../../@core/models/user';
+import { map, takeUntil } from 'rxjs/operators';
+import { User } from '../../../@core/models/user';
 
 @Component({
   selector: 'app-header',

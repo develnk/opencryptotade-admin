@@ -1,4 +1,4 @@
-import { NbJSThemeOptions, CORPORATE_THEME as baseTheme } from '../../@core/nebular-theme/public_api';
+import { NbJSThemeOptions, CORPORATE_THEME as baseTheme } from '@nebular/theme';
 
 const baseThemeVariables = baseTheme.variables;
 

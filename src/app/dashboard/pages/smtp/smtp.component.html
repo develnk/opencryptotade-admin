@@ -3,7 +3,7 @@
         <h6>SMTP Settings</h6>
     </nb-card-header>
     <nb-card-body>
-        <div>
+        <div [formGroup]="smtpForm">
             <div class="row">
                 <div class="col-6">
                     <div class="form-group">
@@ -58,7 +58,7 @@
             </div>
             <div class="row">
                 <div class="col-6">
-                    <nb-select selected="1" hero status="primary" (selectedChange)="changeEncryption($event)" formControlName="encryption">
+                    <nb-select selected="1" hero status="primary" (selectedChange)="changeEncryption($event)">
                         <nb-select-label></nb-select-label>
                         <nb-option value="1">No Encryption</nb-option>
                         <nb-option value="2">SSL</nb-option>

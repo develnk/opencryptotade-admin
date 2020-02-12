@@ -1,9 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { NbWindowRef } from '../../../../@core/nebular-theme/components/window/window-ref';
 import { DepartmentService } from '../department.service';
 import { User } from '../user';
 import { DataService } from '../../../../@core/services/data.service';
+import { NbWindowRef } from '@nebular/theme';
 
 @Component({
   templateUrl: './user-form.component.html',

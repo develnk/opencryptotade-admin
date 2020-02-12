@@ -4,7 +4,7 @@
 @import 'themes';
 
 // framework component themes (styles tied to theme variables)
-@import '../../@core/nebular-theme/styles/globals';
+@import '~@nebular/theme/styles/globals';
 
 @import '~bootstrap/scss/functions';
 @import '~bootstrap/scss/variables';

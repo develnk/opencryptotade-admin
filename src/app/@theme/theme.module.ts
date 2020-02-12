@@ -1,18 +1,15 @@
 import { ModuleWithProviders, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
-  NbMenuModule,
-  NbButtonModule,
-  NbSelectModule,
-  NbIconModule,
-  NbThemeModule,
-  NbUserModule,
   NbActionsModule,
-  NbContextMenuModule,
-  NbSidebarModule,
+  NbButtonModule,
+  NbContextMenuModule, NbIconModule,
   NbLayoutModule,
-} from '../@core/nebular-theme/public_api';
-import { NbEvaIconsModule } from '../@core/eva-icons/eva-icons.module';
+  NbMenuModule, NbSelectModule,
+  NbSidebarModule, NbThemeModule,
+  NbUserModule
+} from '@nebular/theme';
+import { NbEvaIconsModule } from '@nebular/eva-icons';
 
 import {
   FooterComponent,

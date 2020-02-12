@@ -1,7 +1,7 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { of as observableOf,  Observable,  BehaviorSubject } from 'rxjs';
 import { takeWhile } from 'rxjs/operators';
-import {NbLayoutDirection, NbLayoutDirectionService} from '../nebular-theme/services/direction.service';
+import { NbLayoutDirection, NbLayoutDirectionService } from '@nebular/theme';
 
 @Injectable()
 export class StateService implements OnDestroy {

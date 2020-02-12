@@ -8,9 +8,9 @@ import { RegionalComponent } from './pages/regional/regional.component';
 import { DaemonsComponent } from './pages/daemons/daemons.component';
 import { AuthGuard } from '../@core/guards/auth-guard.service';
 import { RoleGuard } from '../@core/guards/role-guard.service';
-import { NbMenuModule } from '../@core/nebular-theme/components/menu/menu.module';
 import { ThemeModule } from '../@theme/theme.module';
 import { DashboardRoutingModule } from './dashboard-routing.module';
+import { NbMenuModule } from '@nebular/theme';
 
 @NgModule({
   declarations: [
