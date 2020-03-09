@@ -25,4 +25,12 @@ export class DataService {
     return this.http.post(ep.base_url + ep.accounts, JSON.stringify(user));
   }
 
+  updateSmtpSettings(data) {
+    return this.http.put(ep.base_url + ep.smtp, JSON.stringify(data));
+  }
+
+  getSmtpSettings() {
+    return this.http.get(ep.base_url + ep.smtp);
+  }
+
 }
