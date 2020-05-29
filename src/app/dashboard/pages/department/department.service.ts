@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { User } from './user';
-import { LocalDataSource } from '../../../@core/ng2-smart-table';
+import { LocalDataSource } from 'ng2-smart-table';
 
 @Injectable()
 export class DepartmentService {

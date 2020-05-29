@@ -4,11 +4,11 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { DepartmentComponent } from './department.component';
 import { UserFormComponent } from './user-form/user-form.component';
-import { Ng2SmartTableModule } from '../../../@core/ng2-smart-table';
 import { DepartmentRoutingModule } from './department-routing.module';
 import { DepartmentService } from './department.service';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { NbButtonModule, NbCardModule, NbInputModule, NbThemeModule, NbWindowModule } from '@nebular/theme';
+import { NbButtonModule, NbCardModule, NbInputModule, NbLayoutModule, NbThemeModule, NbWindowModule} from '@nebular/theme';
+import { Ng2SmartTableModule } from 'ng2-smart-table';
 
 const COMPONENTS = [
   DepartmentComponent,
@@ -26,7 +26,8 @@ const MODULES = [
   NbButtonModule,
   NbThemeModule.forRoot(),
   Ng2SmartTableModule,
-  NgSelectModule
+  NgSelectModule,
+  NbLayoutModule,
 ];
 
 const ENTRY_COMPONENTS = [
@@ -38,9 +39,9 @@ const SERVICES = [
 ];
 
 @NgModule({
-    imports: [
-        ...MODULES,
-    ],
+  imports: [
+    ...MODULES,
+  ],
   declarations: [
     ...COMPONENTS,
   ],

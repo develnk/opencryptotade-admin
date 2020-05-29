@@ -1,9 +1,9 @@
-import { Component, OnInit, ViewContainerRef } from '@angular/core';
-import { DataService } from '../../../@core/services/data.service';
-import { UserFormComponent } from './user-form/user-form.component';
-import { DepartmentService } from './department.service';
-import { User } from './user';
-import { NbWindowService } from '@nebular/theme';
+import {Component, OnInit, ViewContainerRef} from '@angular/core';
+import {DataService} from '../../../@core/services/data.service';
+import {UserFormComponent} from './user-form/user-form.component';
+import {DepartmentService} from './department.service';
+import {User} from './user';
+import {NbWindowService, NbWindowState} from '@nebular/theme';
 
 @Component({
   selector: 'app-department',
@@ -76,13 +76,19 @@ export class DepartmentComponent implements OnInit {
   updateUser(event) {
     this.departmentService.changeCurrentUser(event.data);
     this.departmentService.createUser = false;
-    this.windowService.open(UserFormComponent, { title: 'User Department Edit', hasBackdrop: true, viewContainerRef: this.viewContainer });
+    this.windowService.open(UserFormComponent, {
+      title: 'User Department Edit',
+      viewContainerRef: this.viewContainer,
+    });
   }
 
   createUser() {
     this.departmentService.changeCurrentUser(DepartmentService.defaultUser);
     this.departmentService.createUser = true;
-    this.windowService.open(UserFormComponent, { title: 'Create User', hasBackdrop: true, viewContainerRef: this.viewContainer });
+    this.windowService.open(UserFormComponent, {
+      title: 'Create User',
+      viewContainerRef: this.viewContainer
+    });
   }
 
 }

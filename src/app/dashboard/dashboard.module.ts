@@ -19,13 +19,13 @@ import { NbMenuModule } from '@nebular/theme';
     RegionalComponent,
     DaemonsComponent
   ],
-  imports: [
-    DashboardRoutingModule,
-    ThemeModule,
-    NbMenuModule,
-    NgbModule,
-    CommonModule
-  ],
+    imports: [
+        DashboardRoutingModule,
+        ThemeModule,
+        NbMenuModule,
+        NgbModule,
+        CommonModule,
+    ],
   exports: [
     DashboardComponent,
   ],
