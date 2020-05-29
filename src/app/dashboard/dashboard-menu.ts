@@ -28,8 +28,20 @@ export const MENU_ITEMS: NbMenuItem[] = [
       },
       {
         title: 'SMTP',
+        icon: 'at-outline',
         link: '/dashboard/smtp',
-        icon: 'at-outline'
+        children: [
+          {
+            title: 'Settings',
+            icon: 'settings-outline',
+            link: '/dashboard/smtp'
+          },
+          {
+            title: 'Template Builder',
+            icon: 'layout-outline',
+            link: '/dashboard/template_builder',
+          },
+        ]
       },
     ],
   },

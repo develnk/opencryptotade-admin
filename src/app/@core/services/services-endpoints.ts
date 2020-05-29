@@ -6,5 +6,7 @@ export const ENDPOINTS = {
   accounts: 'accounts/',
   current_account: 'accounts/current',
   all_users: 'accounts/getAll',
+  smtp: 'smtp/',
+  smtp_send: 'smtp/send',
 
 };

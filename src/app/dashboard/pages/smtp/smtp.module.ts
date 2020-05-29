@@ -5,7 +5,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { SMTPComponent } from './smtp.component';
 import { SMTPRoutingModule } from './smtp-routing.module';
 import { SMTPService } from './smtp.service';
-import { NbButtonModule, NbCardModule, NbInputModule, NbSelectModule, NbThemeModule } from '@nebular/theme';
+import { NbButtonModule, NbCardModule, NbInputModule, NbSelectModule, NbThemeModule, NbCheckboxModule } from '@nebular/theme';
 
 
 const COMPONENTS = [
@@ -21,6 +21,7 @@ const MODULES = [
     NbInputModule,
     NbSelectModule,
     NbButtonModule,
+    NbCheckboxModule,
     NbThemeModule.forRoot(),
 ];
 
