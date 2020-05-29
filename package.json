@@ -32,7 +32,7 @@
     "pace-js": "^1.0.2",
     "popper.js": "^1.16.1",
     "rxjs": "^6.5.5",
-    "tslib": "^1.11.1",
+    "tslib": "2.0.0",
     "zone.js": "^0.10.3"
   },
   "devDependencies": {
@@ -55,6 +55,6 @@
     "protractor": "^5.4.3",
     "ts-node": "^8.6.2",
     "tslint": "^6.0.0",
-    "typescript": "~3.7.5"
+    "typescript": "~3.9.3"
   }
 }
