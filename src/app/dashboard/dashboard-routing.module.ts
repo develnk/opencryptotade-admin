@@ -40,6 +40,12 @@ export const routes: Routes = [
             canActivate: [ RoleGuard ],
           },
           {
+            path: 'template_builder',
+            loadChildren: () => import('./pages/template_builder/template_builder.module').then(m => m.TemplateBuilder),
+            data: { role: 'ADMIN' },
+            canActivate: [ RoleGuard ],
+          },
+          {
             path: 'regional',
             component: RegionalComponent,
           },

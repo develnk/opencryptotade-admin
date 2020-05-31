@@ -1,0 +1,30 @@
+nb-layout#tb-layout {
+  .tb-sidebar {
+    flex-grow: 1;
+    padding: 0 1rem 2.25rem 0;
+
+    .card-tb-buttons {
+
+    }
+
+    nb-list {
+      padding-top: 2rem;
+      cursor: pointer;
+
+      nb-list-item:hover, nb-list-item.active {
+        background-color: #f9f9f9;
+      }
+    }
+
+  }
+
+  .tb-listing {
+    flex-grow: 2;
+    padding: 0 1rem 2.25rem 0;
+  }
+
+  .tb-view {
+    flex-grow: 5;
+    padding: 0 0 2.25rem 0;
+  }
+}
