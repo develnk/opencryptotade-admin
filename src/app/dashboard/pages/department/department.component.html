@@ -13,7 +13,6 @@
       </nb-card-header>
       <nb-card-body>
             <ng2-smart-table [settings]="settings" [source]="departmentService.source" (userRowSelect)="updateUser($event)"></ng2-smart-table>
-
       </nb-card-body>
       <nb-card-footer>
         <p>Total users: {{departmentService.source.count()}}</p>

@@ -1,18 +1,23 @@
-import {Component, OnInit, ViewContainerRef} from '@angular/core';
-import {DataService} from '../../../@core/services/data.service';
-import {UserFormComponent} from './user-form/user-form.component';
-import {DepartmentService} from './department.service';
-import {User} from './user';
-import {NbWindowService, NbWindowState} from '@nebular/theme';
+import { Component, OnDestroy, OnInit, ViewContainerRef } from '@angular/core';
+import { DataService } from '../../../@core/services/data.service';
+import { UserFormComponent } from './user-form/user-form.component';
+import { DepartmentService } from './department.service';
+import { User } from './user';
+import { NbWindowService } from '@nebular/theme';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-department',
   templateUrl: './department.component.html',
   styleUrls: ['./department.component.scss']
 })
-export class DepartmentComponent implements OnInit {
+export class DepartmentComponent implements OnInit, OnDestroy {
 
   currentUser: User;
+
+  private currentUserSubscription: Subscription;
+
+  private usersSubscription: Subscription;
 
   settings = {
     columns: {
@@ -61,7 +66,7 @@ export class DepartmentComponent implements OnInit {
               private windowService: NbWindowService,
               private viewContainer: ViewContainerRef) {
 
-    this.dataService.getUsers().subscribe(response => {
+    this.usersSubscription = this.dataService.getUsers().subscribe(response => {
       const resultArray = Object.keys(response).map( index => {
         return response[index];
       });
@@ -70,7 +75,12 @@ export class DepartmentComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.departmentService.currentUser.subscribe(currentUser => this.currentUser = currentUser);
+    this.currentUserSubscription = this.departmentService.currentUser.subscribe(currentUser => this.currentUser = currentUser);
+  }
+
+  ngOnDestroy() {
+    this.currentUserSubscription.unsubscribe();
+    this.usersSubscription.unsubscribe();
   }
 
   updateUser(event) {
