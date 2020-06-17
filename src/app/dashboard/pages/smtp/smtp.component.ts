@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { DataService } from '../../../@core/services/data.service';
+import { BackendService } from '../../../@core/services/backend.service';
 import { SMTPService } from './smtp.service';
 import { Smtp } from '../../../@core/models/smtp';
 
@@ -21,7 +21,7 @@ export class SMTPComponent implements OnInit {
   encryption: string;
 
   constructor(
-      private dataService: DataService,
+      private dataService: BackendService,
       private smtpService: SMTPService,
       private fb: FormBuilder
   ) {}

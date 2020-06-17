@@ -8,5 +8,8 @@ export const ENDPOINTS = {
   all_users: 'accounts/getAll',
   smtp: 'smtp/',
   smtp_send: 'smtp/send',
+  template_builder: 'template-builder/',
+  template_builder_triggers: 'template-builder/triggers',
+  template_builder_folder: 'template-builder/folder'
 
 };

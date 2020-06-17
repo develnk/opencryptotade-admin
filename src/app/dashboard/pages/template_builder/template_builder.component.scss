@@ -3,7 +3,19 @@ nb-layout#tb-layout {
     flex-grow: 1;
     padding: 0 1rem 2.25rem 0;
 
-    .card-tb-buttons {
+    nb-card-body.tb-buttons {
+      padding: 0;
+
+      button {
+        margin: 0;
+      }
+
+      .tb-button {
+        margin: 10px 10px 0;
+      }
+    }
+
+    nb-card.card-tb-buttons {
 
     }
 

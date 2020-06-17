@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit, ViewContainerRef } from '@angular/core';
-import { DataService } from '../../../@core/services/data.service';
+import { BackendService } from '../../../@core/services/backend.service';
 import { UserFormComponent } from './user-form/user-form.component';
 import { DepartmentService } from './department.service';
 import { User } from './user';
@@ -61,7 +61,7 @@ export class DepartmentComponent implements OnInit, OnDestroy {
     }
   };
 
-  constructor(private dataService: DataService,
+  constructor(private dataService: BackendService,
               public departmentService: DepartmentService,
               private windowService: NbWindowService,
               private viewContainer: ViewContainerRef) {

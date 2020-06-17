@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { NbMediaBreakpointsService, NbMenuService, NbSidebarService, NbThemeService } from '@nebular/theme';
 import { Subject } from 'rxjs';
 import { LayoutService } from '../../../@core/utils';
-import { DataService } from '../../../@core/services/data.service';
+import { BackendService } from '../../../@core/services/backend.service';
 import { map, takeUntil } from 'rxjs/operators';
 import { User } from '../../../@core/models/user';
 
@@ -27,7 +27,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
               private themeService: NbThemeService,
               private layoutService: LayoutService,
               private breakpointService: NbMediaBreakpointsService,
-              private dataService: DataService) {
+              private dataService: BackendService) {
   }
 
   ngOnInit() {

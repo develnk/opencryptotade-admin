@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DepartmentService } from '../department.service';
 import { User } from '../user';
-import { DataService } from '../../../../@core/services/data.service';
+import { BackendService } from '../../../../@core/services/backend.service';
 import { NbWindowRef } from '@nebular/theme';
 
 @Component({
@@ -40,7 +40,7 @@ export class UserFormComponent implements OnInit {
 
   constructor(private windowRef: NbWindowRef,
               private departmentService: DepartmentService,
-              private dataService: DataService,
+              private dataService: BackendService,
               private fb: FormBuilder
   ) {}
 

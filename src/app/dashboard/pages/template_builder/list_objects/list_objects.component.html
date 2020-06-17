@@ -1,0 +1,40 @@
+<nb-card>
+  <nb-card-body>
+    <div class="list-objects" *ngIf="isFolder">
+      <div class="folder">
+        Default
+      </div>
+      <div class="folder" *ngFor="let folder of folders">
+        {{ folder.name }}
+        <div class="folder-select">
+          <div class="folder-remove">
+            <div class="folder-remove-button" (click)="removeFolder(folder)">Remove</div>
+          </div>
+          <div class="folder-edit">
+            <div class="folder-edit-button" (click)="editSelectedFolder(folder)">Edit</div>
+          </div>
+        </div>
+      </div>
+    </div>
+<!--    <nb-accordion>-->
+<!--      <nb-accordion-item [expanded]="accordionExpanded" [disabled]="accordionDisabled" *ngFor="let item of listObjects.data">-->
+<!--        <nb-accordion-item-header>-->
+<!--          {{ item.title }}-->
+<!--        </nb-accordion-item-header>-->
+<!--        <nb-accordion-item-body>-->
+<!--          <div *ngIf="isFolder">-->
+<!--            <div *ngFor="let folder of folders">-->
+<!--              {{ folder.name }}-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </nb-accordion-item-body>-->
+<!--      </nb-accordion-item>-->
+<!--    </nb-accordion>-->
+    <div class="folder-control" *ngIf="isFolder">
+      <input type="text" nbInput fullWidth status="info" placeholder="Folder Name" [formControl]="folderInput">
+      <button [hidden]="!showAddFolder" nbButton status="primary" (click)="addFolder()">Add</button>
+      <button [hidden]="!showEditFolder" nbButton status="success" (click)="editFolder()">Edit</button>
+      <button [hidden]="!showCancelFolder" nbButton status="danger" (click)="cancelFolder()">X</button>
+    </div>
+  </nb-card-body>
+</nb-card>

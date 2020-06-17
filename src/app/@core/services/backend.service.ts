@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { ENDPOINTS as ep } from './services-endpoints';
 
 @Injectable({
   providedIn: 'root'
 })
-export class DataService {
+export class BackendService {
 
   constructor(private http: HttpClient) {}
 
@@ -31,6 +31,26 @@ export class DataService {
 
   getSmtpSettings() {
     return this.http.get(ep.base_url + ep.smtp);
+  }
+
+  getAllEmailTriggers() {
+    return this.http.post(ep.base_url + ep.template_builder_triggers, JSON.stringify([]));
+  }
+
+  getAllFolders() {
+    return this.http.get(ep.base_url + ep.template_builder_folder);
+  }
+
+  createFolder(name) {
+    return this.http.post(ep.base_url + ep.template_builder_folder, JSON.stringify({name: name}));
+  }
+
+  updateFolder(data) {
+    return this.http.put(ep.base_url + ep.template_builder_folder, JSON.stringify(data));
+  }
+
+  deleteFolder(id) {
+    return this.http.delete(ep.base_url + ep.template_builder_folder + '/' + id, {responseType: 'text'});
   }
 
 }
