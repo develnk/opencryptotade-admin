@@ -70,7 +70,9 @@ export class ListObjectsComponent implements OnInit {
 
   printBlockBuilder() {
     this.isBlockBuilder = true;
-
+    this.isFolder = false;
+    this.accordionExpanded = false;
+    this.accordionDisabled = false;
   }
 
   printTemplates() {
@@ -79,6 +81,7 @@ export class ListObjectsComponent implements OnInit {
 
   printFolders() {
     this.isFolder = true;
+    this.isBlockBuilder = false;
     this.accordionExpanded = true;
     this.accordionDisabled = true;
     this.folders = [];
