@@ -1,6 +1,5 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { ListGroupModel } from '../model/list_group.model';
 import { ListType } from '../enum/list_type';
 import { ListFolderModel } from '../model/list_folder.model';
 import { ListObjectsModel } from '../model/list_objects.model';
@@ -17,7 +16,9 @@ export class ListObjectsComponent implements OnInit {
 
   listObjects: ListObjectsModel;
   isTemplate = false;
+  isTemplateBuilder = false;
   isBlock = false;
+  isBlockBuilder = false;
   isFolder = false;
   accordionExpanded = false;
   accordionDisabled = false;
@@ -56,10 +57,19 @@ export class ListObjectsComponent implements OnInit {
       case ListType.Folder:
         this.printFolders();
         break;
+
+      case ListType.BlockBuilder:
+        this.printBlockBuilder();
+        break;
     }
   }
 
   printBlocks() {
+
+  }
+
+  printBlockBuilder() {
+    this.isBlockBuilder = true;
 
   }
 

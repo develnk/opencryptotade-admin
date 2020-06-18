@@ -53,4 +53,8 @@ export class BackendService {
     return this.http.delete(ep.base_url + ep.template_builder_folder + '/' + id, {responseType: 'text'});
   }
 
+  getTemplateBuilderBlocks() {
+    return this.http.get(ep.base_url + ep.template_builder_blocks);
+  }
+
 }

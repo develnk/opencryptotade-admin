@@ -16,20 +16,32 @@
         </div>
       </div>
     </div>
-<!--    <nb-accordion>-->
-<!--      <nb-accordion-item [expanded]="accordionExpanded" [disabled]="accordionDisabled" *ngFor="let item of listObjects.data">-->
-<!--        <nb-accordion-item-header>-->
-<!--          {{ item.title }}-->
-<!--        </nb-accordion-item-header>-->
-<!--        <nb-accordion-item-body>-->
-<!--          <div *ngIf="isFolder">-->
-<!--            <div *ngFor="let folder of folders">-->
-<!--              {{ folder.name }}-->
-<!--            </div>-->
-<!--          </div>-->
-<!--        </nb-accordion-item-body>-->
-<!--      </nb-accordion-item>-->
-<!--    </nb-accordion>-->
+    <div class="list-objects" *ngIf="isBlock || isTemplate || isBlockBuilder">
+          <nb-accordion>
+            <nb-accordion-item [expanded]="accordionExpanded" [disabled]="accordionDisabled" *ngFor="let group of listObjects.data">
+              <nb-accordion-item-header>
+                {{ group.title }}
+              </nb-accordion-item-header>
+              <nb-accordion-item-body>
+                <div *ngIf="isBlockBuilder">
+                  <table>
+                    <tbody>
+                      <tr class="block" *ngFor="let item of group.object">
+                        <td class="block-template">
+                          {{ item.html }}
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+<!--                <div *ngFor="let item of group.object">-->
+<!--                  <p></p>-->
+<!--                </div>-->
+              </nb-accordion-item-body>
+            </nb-accordion-item>
+          </nb-accordion>
+    </div>
     <div class="folder-control" *ngIf="isFolder">
       <input type="text" nbInput fullWidth status="info" placeholder="Folder Name" [formControl]="folderInput">
       <button [hidden]="!showAddFolder" nbButton status="primary" (click)="addFolder()">Add</button>

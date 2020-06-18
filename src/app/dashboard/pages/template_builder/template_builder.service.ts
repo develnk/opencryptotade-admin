@@ -29,4 +29,8 @@ export class TemplateBuilderService {
     return this.dataService.getAllFolders()
   }
 
+  getBlocks(): Observable<any> {
+    return this.dataService.getTemplateBuilderBlocks();
+  }
+
 }

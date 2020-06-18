@@ -7,6 +7,8 @@ import { ListType } from './enum/list_type';
 import { ListItemModel } from './model/list_item.model';
 import { ListFolderModel } from './model/list_folder.model';
 import { ListObjectsModel } from './model/list_objects.model';
+import { ListBaseBlockModel } from './model/list_base_block.model';
+import { HelpService } from '../../../@core/utils/help.service';
 
 @Component({
   selector: 'app-template-builder',
@@ -63,7 +65,20 @@ export class TemplateBuilderComponent implements OnInit {
 
       case ListType.BlockBuilder:
         this.listType = ListType.BlockBuilder;
-
+        this.templateBuilderService.getBlocks().subscribe((value: ListBaseBlockModel[]) => {
+          const temp: ListObjectsModel = new ListObjectsModel();
+          temp.type = ListType.BlockBuilder;
+          const groupedBaseBlocks: [] = HelpService.groupBy(value, 'type');
+          groupedBaseBlocks.map((group: Array<ListBaseBlockModel>) => {
+            const listItemModels:ListItemModel[] = [];
+            const type = group[0].type;
+            group.map((itemObject: ListBaseBlockModel) => {
+              listItemModels.push(itemObject);
+            });
+            temp.data.push({title: type, object: listItemModels});
+          })
+          this.templateBuilderService.changeCurrentListObject(temp);
+        });
         break;
     }
   }
