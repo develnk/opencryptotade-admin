@@ -1,131 +1,135 @@
-<nb-card>
-    <nb-card-header>
-        <h6>SMTP Settings</h6>
-    </nb-card-header>
-    <nb-card-body>
-        <div [formGroup]="smtpForm">
-            <div class="row">
-                <div class="col-6">
-                    <div class="form-group">
-                        <label for="userName" class="label">User Name</label>
-                        <input
-                                type="text"
-                                nbInput
-                                fullWidth
-                                id="userName"
-                                placeholder="User Name"
-                                [ngClass]="{'status-danger': smtpForm.get('userName').invalid}"
-                                formControlName='userName'>
+<nb-layout>
+  <nb-layout-column>
+    <nb-card>
+        <nb-card-header>
+            <h6>SMTP Settings</h6>
+        </nb-card-header>
+        <nb-card-body>
+            <div [formGroup]="smtpForm">
+                <div class="row">
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label for="userName" class="label">User Name</label>
+                            <input
+                                    type="text"
+                                    nbInput
+                                    fullWidth
+                                    id="userName"
+                                    placeholder="User Name"
+                                    [ngClass]="{'status-danger': smtpForm.get('userName').invalid}"
+                                    formControlName='userName'>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label for="inputPass" class="label">Password</label>
+                            <input
+                                    id="inputPass"
+                                    nbInput
+                                    fullWidth
+                                    type="password"
+                                    placeholder="Password"
+                                    [ngClass]="{'status-danger': smtpForm.get('password').invalid}"
+                                    class="form-control"
+                                    formControlName='password'>
+                        </div>
                     </div>
                 </div>
-                <div class="col-6">
-                    <div class="form-group">
-                        <label for="inputPass" class="label">Password</label>
-                        <input
-                                id="inputPass"
-                                nbInput
-                                fullWidth
-                                type="password"
-                                placeholder="Password"
-                                [ngClass]="{'status-danger': smtpForm.get('password').invalid}"
-                                class="form-control"
-                                formControlName='password'>
+                <div class="row">
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label for="smtpHost" class="label">SMTP Host</label>
+                            <input
+                                    type="text"
+                                    nbInput
+                                    fullWidth
+                                    id="smtpHost"
+                                    [ngClass]="{'status-danger': smtpForm.get('smtpHost').invalid}"
+                                    placeholder="SMTP Host"
+                                    formControlName='smtpHost'>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label for="smtpPort" class="label">SMTP Port</label>
+                            <input
+                                    type="text"
+                                    nbInput
+                                    fullWidth
+                                    id="smtpPort"
+                                    [ngClass]="{'status-danger': smtpForm.get('smtpPort').invalid}"
+                                    placeholder="SMTP Port"
+                                    formControlName='smtpPort'>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-6">
-                    <div class="form-group">
-                        <label for="smtpHost" class="label">SMTP Host</label>
-                        <input
-                                type="text"
-                                nbInput
-                                fullWidth
-                                id="smtpHost"
-                                [ngClass]="{'status-danger': smtpForm.get('smtpHost').invalid}"
-                                placeholder="SMTP Host"
-                                formControlName='smtpHost'>
-                    </div>
-                </div>
-                <div class="col-6">
-                    <div class="form-group">
-                        <label for="smtpPort" class="label">SMTP Port</label>
-                        <input
-                                type="text"
-                                nbInput
-                                fullWidth
-                                id="smtpPort"
-                                [ngClass]="{'status-danger': smtpForm.get('smtpPort').invalid}"
-                                placeholder="SMTP Port"
-                                formControlName='smtpPort'>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-              <div class="col-6">
                 <div class="row">
                   <div class="col-6">
-                    <nb-select [(selected)]="encryption" hero status="primary" (selectedChange)="changeEncryption($event)">
-                      <nb-option value="1">No Encryption</nb-option>
-                      <nb-option value="2">SSL</nb-option>
-                      <nb-option value="3">TLS</nb-option>
-                    </nb-select>
+                    <div class="row">
+                      <div class="col-6">
+                        <nb-select [(selected)]="encryption" hero status="primary" (selectedChange)="changeEncryption($event)">
+                          <nb-option value="1">No Encryption</nb-option>
+                          <nb-option value="2">SSL</nb-option>
+                          <nb-option value="3">TLS</nb-option>
+                        </nb-select>
+                      </div>
+                      <div class="col-6">
+                        <nb-checkbox formControlName='debug'>Debug</nb-checkbox>
+                      </div>
+                    </div>
                   </div>
                   <div class="col-6">
-                    <nb-checkbox formControlName='debug'>Debug</nb-checkbox>
+                    <div class="form-group">
+                      <label for="emailFrom" class="label">Email From</label>
+                      <input
+                        type="text"
+                        nbInput
+                        fullWidth
+                        id="emailFrom"
+                        [ngClass]="{'status-danger': smtpForm.get('from').invalid}"
+                        placeholder="From"
+                        formControlName='from'>
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div class="col-6">
-                <div class="form-group">
-                  <label for="emailFrom" class="label">Email From</label>
-                  <input
-                    type="text"
-                    nbInput
-                    fullWidth
-                    id="emailFrom"
-                    [ngClass]="{'status-danger': smtpForm.get('from').invalid}"
-                    placeholder="From"
-                    formControlName='from'>
+              <div class="row" *ngIf="smtpForm.invalid">
+                <div class="col-12">
+                  <div *ngIf="smtpForm.get('userName').invalid && (smtpForm.get('userName').dirty || smtpForm.get('userName').touched)">
+                    <p class="alert alert-danger" *ngIf="smtpForm.get('userName').errors.required">
+                      SMTP user name is required.
+                    </p>
                 </div>
-              </div>
-            </div>
-          <div class="row" *ngIf="smtpForm.invalid">
-            <div class="col-12">
-              <div *ngIf="smtpForm.get('userName').invalid && (smtpForm.get('userName').dirty || smtpForm.get('userName').touched)">
-                <p class="alert alert-danger" *ngIf="smtpForm.get('userName').errors.required">
-                  SMTP user name is required.
-                </p>
-              </div>
-              <div *ngIf="smtpForm.get('smtpHost').invalid && (smtpForm.get('smtpHost').dirty || smtpForm.get('smtpHost').touched)">
-                <p class="alert alert-danger" *ngIf="smtpForm.get('smtpHost').errors.required">
-                  SMTP host is required.
-                </p>
-              </div>
-              <div *ngIf="smtpForm.get('smtpPort').invalid && (smtpForm.get('smtpPort').dirty || smtpForm.get('smtpPort').touched)">
-                <p class="alert alert-danger" *ngIf="smtpForm.get('smtpPort').errors.pattern">
-                  SMTP port: only numbers allow.
-                </p>
-                <p class="alert alert-danger" *ngIf="smtpForm.get('smtpPort').errors.required">
-                  SMTP port is required.
-                </p>
-              </div>
-              <div *ngIf="smtpForm.get('from').invalid && (smtpForm.get('from').dirty || smtpForm.get('from').touched)">
-                <p class="alert alert-danger" *ngIf="smtpForm.get('from').errors.required">
-                  Email From is required.
-                </p>
-                <p class="alert alert-danger" *ngIf="smtpForm.get('from').errors.email">
-                  Wrong email format.
-                </p>
+                <div *ngIf="smtpForm.get('smtpHost').invalid && (smtpForm.get('smtpHost').dirty || smtpForm.get('smtpHost').touched)">
+                  <p class="alert alert-danger" *ngIf="smtpForm.get('smtpHost').errors.required">
+                    SMTP host is required.
+                  </p>
+                </div>
+                <div *ngIf="smtpForm.get('smtpPort').invalid && (smtpForm.get('smtpPort').dirty || smtpForm.get('smtpPort').touched)">
+                  <p class="alert alert-danger" *ngIf="smtpForm.get('smtpPort').errors.pattern">
+                    SMTP port: only numbers allow.
+                  </p>
+                  <p class="alert alert-danger" *ngIf="smtpForm.get('smtpPort').errors.required">
+                    SMTP port is required.
+                  </p>
+                </div>
+                <div *ngIf="smtpForm.get('from').invalid && (smtpForm.get('from').dirty || smtpForm.get('from').touched)">
+                  <p class="alert alert-danger" *ngIf="smtpForm.get('from').errors.required">
+                    Email From is required.
+                  </p>
+                  <p class="alert alert-danger" *ngIf="smtpForm.get('from').errors.email">
+                    Wrong email format.
+                  </p>
+                </div>
               </div>
             </div>
           </div>
+      </nb-card-body>
+      <nb-card-footer>
+        <div class="buttons-row">
+          <button nbButton status="success" (click)="save()" [disabled]="smtpForm.pristine || smtpForm.invalid">Save</button>
+          <button nbButton status="info" (click)="test()">Test</button>
         </div>
-    </nb-card-body>
-    <nb-card-footer>
-      <div class="buttons-row">
-        <button nbButton status="success" (click)="save()" [disabled]="smtpForm.pristine || smtpForm.invalid">Save</button>
-        <button nbButton status="info" (click)="test()">Test</button>
-      </div>
-    </nb-card-footer>
-</nb-card>
+      </nb-card-footer>
+    </nb-card>
+  </nb-layout-column>
+</nb-layout>
