@@ -23,21 +23,29 @@
                 {{ group.title }}
               </nb-accordion-item-header>
               <nb-accordion-item-body>
-                <div *ngIf="isBlockBuilder">
+                <div class="block-builder" *ngIf="isBlockBuilder || isBlock">
                   <table>
                     <tbody>
                       <tr class="block" *ngFor="let item of group.object">
                         <td class="block-template">
-                          {{ item.html }}
+                          <div class="block-body">
+                            <table>
+                              <tbody>
+                              <tr>
+                                <td [innerHtml]="item.html"></td>
+                              </tr>
+                              </tbody>
+                            </table>
+                          </div>
+                          <div class="select-block">
+                            <div class="copy-button" (click)="copyBaseBlock(item)"><i class="fa fa-clone" aria-hidden="true"></i>Copy</div>
+                            <div *ngIf="isBlockBuilder" class="edit-button" (click)="editBaseBlock(item)"><i class="fa fa-pencil" aria-hidden="true"></i>Edit</div>
+                          </div>
                         </td>
                       </tr>
                     </tbody>
                   </table>
                 </div>
-
-<!--                <div *ngFor="let item of group.object">-->
-<!--                  <p></p>-->
-<!--                </div>-->
               </nb-accordion-item-body>
             </nb-accordion-item>
           </nb-accordion>

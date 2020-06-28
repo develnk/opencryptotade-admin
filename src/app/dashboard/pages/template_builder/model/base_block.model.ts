@@ -1,7 +1,7 @@
 export class BaseBlockModel {
 
   id: string;
-  type: string;
+  type: number;
   html: string;
 
 }

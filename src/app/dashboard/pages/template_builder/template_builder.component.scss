@@ -1,21 +1,21 @@
-nb-layout#tb-layout {
-  .tb-sidebar {
+nb-layout#tpl-layout {
+  .tpl-sidebar {
     flex-grow: 1;
     padding: 0 1rem 2.25rem 0;
 
-    nb-card-body.tb-buttons {
+    nb-card-body.tpl-buttons {
       padding: 0;
 
       button {
         margin: 0;
       }
 
-      .tb-button {
+      .tpl-button {
         margin: 10px 10px 0;
       }
     }
 
-    nb-card.card-tb-buttons {
+    nb-card.card-tpl-buttons {
 
     }
 
@@ -30,12 +30,12 @@ nb-layout#tb-layout {
 
   }
 
-  .tb-listing {
+  .tpl-listing {
     flex-grow: 2;
     padding: 0 1rem 2.25rem 0;
   }
 
-  .tb-view {
+  .tpl-view {
     flex-grow: 5;
     padding: 0 0 2.25rem 0;
   }

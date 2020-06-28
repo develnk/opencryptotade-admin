@@ -9,8 +9,10 @@ import { ListFolderModel } from './model/list_folder.model';
 import { ListObjectsModel } from './model/list_objects.model';
 import { ListBaseBlockModel } from './model/list_base_block.model';
 import { HelpService } from '../../../@core/utils/help.service';
+import { TemplateComponent } from './template/template.component';
 
 @Component({
+  providers: [TemplateComponent],
   selector: 'app-template-builder',
   templateUrl: './template_builder.component.html',
   styleUrls: ['./template_builder.component.scss']
@@ -22,7 +24,7 @@ export class TemplateBuilderComponent implements OnInit {
   selectedItemMenu: MenuModel;
   menuList: MenuModel[];
 
-  constructor(private templateBuilderService: TemplateBuilderService) {
+  constructor(private templateBuilderService: TemplateBuilderService, private templateComponent: TemplateComponent) {
   }
 
   ngOnInit(): void {
@@ -47,10 +49,12 @@ export class TemplateBuilderComponent implements OnInit {
         break;
       case ListType.Block:
         this.listType = ListType.Block;
-
+        this.templateComponent.resetInitial();
+        this.blocksSubscribe(ListType.Block);
         break;
 
       case ListType.Folder:
+        this.templateComponent.resetInitial();
         const listItems:ListItemModel[] = [];
         this.templateBuilderService.getFolders().subscribe((value: FolderModel[]) => {
           value.map((folder: FolderModel) => {
@@ -65,26 +69,30 @@ export class TemplateBuilderComponent implements OnInit {
 
       case ListType.BlockBuilder:
         this.listType = ListType.BlockBuilder;
-        this.templateBuilderService.getBlocks().subscribe((value: ListBaseBlockModel[]) => {
-          const temp: ListObjectsModel = new ListObjectsModel();
-          temp.type = ListType.BlockBuilder;
-          const groupedBaseBlocks: [] = HelpService.groupBy(value, 'type');
-          groupedBaseBlocks.map((group: Array<ListBaseBlockModel>) => {
-            const listItemModels:ListItemModel[] = [];
-            const type = group[0].type;
-            group.map((itemObject: ListBaseBlockModel) => {
-              listItemModels.push(itemObject);
-            });
-            temp.data.push({title: type, object: listItemModels});
-          })
-          this.templateBuilderService.changeCurrentListObject(temp);
-        });
+        this.blocksSubscribe(ListType.BlockBuilder);
         break;
     }
   }
 
   isActive(item: MenuModel) {
     return this.selectedItemMenu === item;
+  }
+
+  blocksSubscribe(listType: number) {
+    this.templateBuilderService.getBlocks().subscribe((value: ListBaseBlockModel[]) => {
+      const temp: ListObjectsModel = new ListObjectsModel();
+      temp.type = listType;
+      const groupedBaseBlocks: [] = HelpService.groupBy(value, 'type');
+      groupedBaseBlocks.map((group: Array<ListBaseBlockModel>) => {
+        const listItemModels:ListItemModel[] = [];
+        const type = group[0].type;
+        group.map((itemObject: ListBaseBlockModel) => {
+          listItemModels.push(itemObject);
+        });
+        temp.data.push({title: type, object: listItemModels});
+      })
+      this.templateBuilderService.changeCurrentListObject(temp);
+    });
   }
 
 }

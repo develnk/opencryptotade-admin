@@ -6,6 +6,10 @@ import { ListObjectsModel } from '../model/list_objects.model';
 import { TemplateBuilderService } from '../template_builder.service';
 import { BackendService } from '../../../../@core/services/backend.service';
 import { FolderModel } from '../model/folder.model';
+import { ListItemModel } from '../model/list_item.model';
+import { ListBaseBlockModel } from '../model/list_base_block.model';
+import { BaseBlockModel } from '../model/base_block.model';
+import { BlockType } from '../enum/block_type';
 
 @Component({
   selector: 'app-list-objects',
@@ -29,7 +33,7 @@ export class ListObjectsComponent implements OnInit {
   showCancelFolder: boolean;
   currentFolderEdit: ListFolderModel;
 
-  constructor(private templateBuilderService: TemplateBuilderService, private dataService: BackendService,) {
+  constructor(private templateBuilderService: TemplateBuilderService, private dataService: BackendService) {
 
   }
 
@@ -65,7 +69,12 @@ export class ListObjectsComponent implements OnInit {
   }
 
   printBlocks() {
-
+    this.isTemplate = false;
+    this.isBlock = true;
+    this.isBlockBuilder = false;
+    this.isFolder = false;
+    this.accordionExpanded = false;
+    this.accordionDisabled = false;
   }
 
   printBlockBuilder() {
@@ -82,12 +91,14 @@ export class ListObjectsComponent implements OnInit {
   printFolders() {
     this.isFolder = true;
     this.isBlockBuilder = false;
+    this.isBlock = false;
     this.accordionExpanded = true;
     this.accordionDisabled = true;
     this.folders = [];
     this.listObjects.data[0].object.map((folder: ListFolderModel) => {
       this.folders.push(folder);
     });
+    this.templateBuilderService.changeCurrentDefaultBlockBuilder();
   }
 
   removeFolder(folder: ListFolderModel) {
@@ -131,4 +142,33 @@ export class ListObjectsComponent implements OnInit {
     this.showCancelFolder = false;
     this.showAddFolder = true;
   }
+
+  editBaseBlock(block: ListBaseBlockModel) {
+    const blockModel: BaseBlockModel = new BaseBlockModel();
+    blockModel.id = block.id;
+    switch (block.type) {
+      case 'HEADER':
+        blockModel.type = BlockType.Header;
+        break;
+
+      case 'CONTENT':
+        blockModel.type = BlockType.Content;
+        break;
+
+      case 'FOOTER':
+        blockModel.type = BlockType.Footer;
+        break;
+
+      default:
+        blockModel.type = BlockType.Content;
+        break;
+    }
+    blockModel.html = block.html;
+    this.templateBuilderService.changeCurrentBlockBuilderObject(blockModel);
+  }
+
+  copyBaseBlock(block: ListItemModel) {
+
+  }
+
 }

@@ -1,11 +1,51 @@
-<nb-card>
+<nb-card class="tpl-builder">
   <nb-card-header>
-
+    <div class="row" *ngIf="!isInitial">
+      <div class="col-sm-6 col-md-6">
+        <label>Select Block Type:</label>
+        <nb-select [(selected)]="selectedBlockType" fullWidth (selectedChange)="changeBlockType($event)">
+          <nb-option value="0">Header</nb-option>
+          <nb-option value="1">Content</nb-option>
+          <nb-option value="2">Footer</nb-option>
+        </nb-select>
+      </div>
+      <div class="col-sm-6 col-md-6">
+        <label>Select Style:</label>
+        <nb-select disabled fullWidth selected="0">
+          <nb-option value="0">Standard</nb-option>
+          <nb-option value="1">Metro</nb-option>
+          <nb-option value="2">Modern</nb-option>
+        </nb-select>
+      </div>
+    </div>
   </nb-card-header>
   <nb-card-body>
-    <b>Test</b>
+    <div *ngIf="isInitial">
+      <div class="empty-block-preview" *ngIf="blockTemplateIsEmpty">Template is empty! Please select block from blocks section.</div>
+    </div>
+    <div *ngIf="isBlockBuilder && !isInitial">
+      <textarea nbInput fullWidth rows="15" wrap="hard" class="block-code-editor" [(ngModel)]="blockTemplateContent"></textarea>
+      <div class="block-preview">
+        <div class="empty-block-preview" *ngIf="blockTemplateIsEmpty">Block is empty. All that you type in the editor will be displayed here.</div>
+        <div class="not-empty-block-preview" *ngIf="!blockTemplateIsEmpty">
+          <table align="center">
+            <tbody>
+            <tr>
+              <td id="block-template" [innerHtml]="blockTemplateContent"></td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
   </nb-card-body>
   <nb-card-footer>
-
+      <div *ngIf="isBlockBuilder && !isInitial">
+        <div class="row align-items-center justify-content-end">
+          <button nbButton status="warning" class="pull-right">Delete Base Block</button>
+          <button nbButton status="danger" class="pull-left" (click)="resetBaseBlock()">Reset</button>
+          <button nbButton status="success" class="pull-right">Update</button>
+        </div>
+      </div>
   </nb-card-footer>
 </nb-card>
