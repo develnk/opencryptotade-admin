@@ -57,4 +57,8 @@ export class BackendService {
     return this.http.get(ep.base_url + ep.template_builder_blocks);
   }
 
+  updateTemplateBuilderBlock(value) {
+    return this.http.put(ep.base_url + ep.template_builder_blocks, JSON.stringify(value));
+  }
+
 }

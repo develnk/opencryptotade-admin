@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { ListGroupModel } from './model/list_group.model';
 import { TemplateBuilderService } from './template_builder.service';
 import { MenuModel } from './model/menu.model';
 import { FolderModel } from './model/folder.model';
@@ -7,8 +6,6 @@ import { ListType } from './enum/list_type';
 import { ListItemModel } from './model/list_item.model';
 import { ListFolderModel } from './model/list_folder.model';
 import { ListObjectsModel } from './model/list_objects.model';
-import { ListBaseBlockModel } from './model/list_base_block.model';
-import { HelpService } from '../../../@core/utils/help.service';
 import { TemplateComponent } from './template/template.component';
 
 @Component({
@@ -50,7 +47,7 @@ export class TemplateBuilderComponent implements OnInit {
       case ListType.Block:
         this.listType = ListType.Block;
         this.templateComponent.resetInitial();
-        this.blocksSubscribe(ListType.Block);
+        this.templateBuilderService.blocksSubscribe(ListType.Block);
         break;
 
       case ListType.Folder:
@@ -62,37 +59,20 @@ export class TemplateBuilderComponent implements OnInit {
           });
           const temp: ListObjectsModel = new ListObjectsModel();
           temp.type = ListType.Folder;
-          temp.data.push({title: 'Folders', object: listItems});
+          temp.data.push({title: 'Folders', object: listItems, expand: false});
           this.templateBuilderService.changeCurrentListObject(temp);
         })
         break;
 
       case ListType.BlockBuilder:
         this.listType = ListType.BlockBuilder;
-        this.blocksSubscribe(ListType.BlockBuilder);
+        this.templateBuilderService.blocksSubscribe(ListType.BlockBuilder);
         break;
     }
   }
 
   isActive(item: MenuModel) {
     return this.selectedItemMenu === item;
-  }
-
-  blocksSubscribe(listType: number) {
-    this.templateBuilderService.getBlocks().subscribe((value: ListBaseBlockModel[]) => {
-      const temp: ListObjectsModel = new ListObjectsModel();
-      temp.type = listType;
-      const groupedBaseBlocks: [] = HelpService.groupBy(value, 'type');
-      groupedBaseBlocks.map((group: Array<ListBaseBlockModel>) => {
-        const listItemModels:ListItemModel[] = [];
-        const type = group[0].type;
-        group.map((itemObject: ListBaseBlockModel) => {
-          listItemModels.push(itemObject);
-        });
-        temp.data.push({title: type, object: listItemModels});
-      })
-      this.templateBuilderService.changeCurrentListObject(temp);
-    });
   }
 
 }

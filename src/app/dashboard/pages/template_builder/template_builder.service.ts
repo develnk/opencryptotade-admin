@@ -6,6 +6,9 @@ import { ListType } from './enum/list_type';
 import { ListGroupModel } from './model/list_group.model';
 import { BaseBlockModel } from './model/base_block.model';
 import { BlockType } from './enum/block_type';
+import { ListItemModel } from './model/list_item.model';
+import { ListBaseBlockModel } from './model/list_base_block.model';
+import { HelpService } from '../../../@core/utils/help.service';
 
 @Injectable()
 export class TemplateBuilderService {
@@ -17,7 +20,7 @@ export class TemplateBuilderService {
 
   public static readonly defaultBaseBlock: BaseBlockModel = {
     id: '',
-    type: BlockType.Content,
+    type: BlockType.BODY,
     html: ''
   }
 
@@ -59,6 +62,28 @@ export class TemplateBuilderService {
 
   getBlocks(): Observable<any> {
     return this.dataService.getTemplateBuilderBlocks();
+  }
+
+  updateBlock(data: ListItemModel): Observable<any> {
+    return this.dataService.updateTemplateBuilderBlock(data);
+  }
+
+  blocksSubscribe(listType: number, typeExpand?: string) {
+    this.getBlocks().subscribe((value: ListBaseBlockModel[]) => {
+      const temp: ListObjectsModel = new ListObjectsModel();
+      temp.type = listType;
+      const groupedBaseBlocks: [] = HelpService.groupBy(value, 'type');
+      groupedBaseBlocks.map((group: Array<ListBaseBlockModel>) => {
+        const listItemModels:ListItemModel[] = [];
+        const type = group[0].type;
+        const expand = typeExpand === type;
+        group.map((itemObject: ListBaseBlockModel) => {
+          listItemModels.push(itemObject);
+        });
+        temp.data.push({title: type, object: listItemModels, expand: expand});
+      })
+      this.changeCurrentListObject(temp);
+    });
   }
 
 }

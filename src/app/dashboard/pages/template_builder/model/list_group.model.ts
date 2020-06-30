@@ -4,5 +4,6 @@ export class ListGroupModel {
 
   title: string;
   object: ListItemModel[];
+  expand: boolean;
 
 }

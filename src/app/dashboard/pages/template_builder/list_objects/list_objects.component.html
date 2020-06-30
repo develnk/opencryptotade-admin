@@ -18,7 +18,7 @@
     </div>
     <div class="list-objects" *ngIf="isBlock || isTemplate || isBlockBuilder">
           <nb-accordion>
-            <nb-accordion-item [expanded]="accordionExpanded" [disabled]="accordionDisabled" *ngFor="let group of listObjects.data">
+            <nb-accordion-item [expanded]="group.expand" [disabled]="accordionDisabled" *ngFor="let group of listObjects.data">
               <nb-accordion-item-header>
                 {{ group.title }}
               </nb-accordion-item-header>

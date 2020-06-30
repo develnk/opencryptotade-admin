@@ -1,9 +1,11 @@
-import {Component, OnInit} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { BlockType } from '../enum/block_type';
 import { TemplateBuilderService } from '../template_builder.service';
 import { BackendService } from '../../../../@core/services/backend.service';
 import { BaseBlockModel } from '../model/base_block.model';
-import {BehaviorSubject, Subject} from 'rxjs';
+import { ListBaseBlockModel } from '../model/list_base_block.model';
+import { ListItemModel } from '../model/list_item.model';
+import { ListType } from '../enum/list_type';
 
 @Component({
   selector: 'app-template',
@@ -18,7 +20,7 @@ export class TemplateComponent implements OnInit {
   blockTemplateIsEmpty = true;
   baseBlockObject: BaseBlockModel;
   blockTemplateContent = '';
-  selectedBlockType = BlockType.Content.toString();
+  selectedBlockType = BlockType.BODY.toString();
 
   constructor(private templateBuilderService: TemplateBuilderService, private dataService: BackendService) {
     this.templateBuilderService.initialBlockBuilder.subscribe(value => {
@@ -30,7 +32,6 @@ export class TemplateComponent implements OnInit {
     this.templateBuilderService.currentBlockBuilderObject.subscribe(currentBlockBuilder => {
         if (currentBlockBuilder.id !== '') {
           this.isInitial = false;
-          // this.initial$.next(false);
           this.isBlockBuilder = true;
           this.blockTemplateIsEmpty = false;
         }
@@ -50,6 +51,17 @@ export class TemplateComponent implements OnInit {
 
   resetBaseBlock() {
     this.templateBuilderService.changeCurrentDefaultBlockBuilder();
+  }
+
+  updateBaseBlock() {
+    const data: ListItemModel = new ListBaseBlockModel(
+      this.baseBlockObject.id,
+      BlockType[this.selectedBlockType],
+      this.blockTemplateContent
+    );
+    this.templateBuilderService.updateBlock(data).subscribe((result: ListBaseBlockModel) => {
+      this.templateBuilderService.blocksSubscribe(ListType.BlockBuilder, BlockType[this.selectedBlockType]);
+    });
   }
 
   public resetInitial() {

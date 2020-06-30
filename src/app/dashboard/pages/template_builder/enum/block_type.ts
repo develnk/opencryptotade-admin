@@ -1,7 +1,7 @@
 export enum BlockType {
 
-  Header ,
-  Content,
-  Footer,
+  HEADER ,
+  BODY,
+  FOOTER,
 
 }

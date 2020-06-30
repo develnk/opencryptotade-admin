@@ -92,8 +92,6 @@ export class ListObjectsComponent implements OnInit {
     this.isFolder = true;
     this.isBlockBuilder = false;
     this.isBlock = false;
-    this.accordionExpanded = true;
-    this.accordionDisabled = true;
     this.folders = [];
     this.listObjects.data[0].object.map((folder: ListFolderModel) => {
       this.folders.push(folder);
@@ -148,19 +146,19 @@ export class ListObjectsComponent implements OnInit {
     blockModel.id = block.id;
     switch (block.type) {
       case 'HEADER':
-        blockModel.type = BlockType.Header;
+        blockModel.type = BlockType.HEADER;
         break;
 
-      case 'CONTENT':
-        blockModel.type = BlockType.Content;
+      case 'BODY':
+        blockModel.type = BlockType.BODY;
         break;
 
       case 'FOOTER':
-        blockModel.type = BlockType.Footer;
+        blockModel.type = BlockType.FOOTER;
         break;
 
       default:
-        blockModel.type = BlockType.Content;
+        blockModel.type = BlockType.BODY;
         break;
     }
     blockModel.html = block.html;
