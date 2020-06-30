@@ -40,12 +40,10 @@
     </div>
   </nb-card-body>
   <nb-card-footer>
-      <div *ngIf="isBlockBuilder && !isInitial">
-        <div class="row align-items-center justify-content-end">
-          <button nbButton status="warning" class="pull-right">Delete Base Block</button>
-          <button nbButton status="danger" class="pull-left" (click)="resetBaseBlock()">Reset</button>
-          <button nbButton status="success" class="pull-right" (click)="updateBaseBlock()">Update</button>
-        </div>
+      <div class="buttons-row align-items-center justify-content-end" *ngIf="isBlockBuilder && !isInitial">
+        <button nbButton status="warning" class="pull-right">Delete Base Block</button>
+        <button nbButton status="danger" class="pull-left" (click)="resetBaseBlock()">Reset</button>
+        <button nbButton status="success" class="pull-right" (click)="updateBaseBlock()">Update</button>
       </div>
   </nb-card-footer>
 </nb-card>
