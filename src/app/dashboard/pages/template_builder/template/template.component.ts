@@ -54,14 +54,17 @@ export class TemplateComponent implements OnInit {
   }
 
   updateBaseBlock() {
-    const data: ListItemModel = new ListBaseBlockModel(
-      this.baseBlockObject.id,
-      BlockType[this.selectedBlockType],
-      this.blockTemplateContent
-    );
-    this.templateBuilderService.updateBlock(data).subscribe((result: ListBaseBlockModel) => {
-      this.templateBuilderService.blocksSubscribe(ListType.BlockBuilder, BlockType[this.selectedBlockType]);
-    });
+    if (this.baseBlockObject.id !== '') {
+      const data: ListItemModel = new ListBaseBlockModel(
+        this.baseBlockObject.id,
+        BlockType[this.selectedBlockType],
+        this.blockTemplateContent
+      );
+      this.templateBuilderService.updateBlock(data).subscribe((result: ListBaseBlockModel) => {
+        this.templateBuilderService.blocksSubscribe(ListType.BlockBuilder, BlockType[this.selectedBlockType]);
+      });
+    }
+    // @TODO Show information about cannot update empty Base Block.
   }
 
   public resetInitial() {
