@@ -3,10 +3,13 @@ import { CommonModule } from '@angular/common';
 import {
   NbActionsModule,
   NbButtonModule,
-  NbContextMenuModule, NbIconModule,
+  NbContextMenuModule,
+  NbIconModule,
   NbLayoutModule,
-  NbMenuModule, NbSelectModule,
-  NbSidebarModule, NbThemeModule,
+  NbMenuModule,
+  NbSelectModule,
+  NbSidebarModule,
+  NbThemeModule,
   NbUserModule
 } from '@nebular/theme';
 import { NbEvaIconsModule } from '@nebular/eva-icons';
