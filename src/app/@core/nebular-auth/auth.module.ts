@@ -84,7 +84,7 @@ export function nbNoOpInterceptorFilter(req: HttpRequest<any>): boolean {
   ],
 })
 export class NbAuthModule {
-  static forRoot(nbAuthOptions?: NbAuthOptions): ModuleWithProviders {
+  static forRoot(nbAuthOptions?: NbAuthOptions): ModuleWithProviders<NbAuthModule> {
     return {
       ngModule: NbAuthModule,
       providers: [
@@ -103,6 +103,6 @@ export class NbAuthModule {
         NbPasswordAuthStrategy,
         NbOAuth2AuthStrategy,
       ],
-    } as ModuleWithProviders;
+    } as ModuleWithProviders<NbAuthModule>;
   }
 }

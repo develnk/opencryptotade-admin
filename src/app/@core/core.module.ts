@@ -44,12 +44,12 @@ export class CoreModule {
     throwIfAlreadyLoaded(parentModule, 'CoreModule');
   }
 
-  static forRoot(): ModuleWithProviders {
+  static forRoot(): ModuleWithProviders<CoreModule> {
     return {
       ngModule: CoreModule,
       providers: [
         ...NB_CORE_PROVIDERS,
       ],
-    } as ModuleWithProviders;
+    } as ModuleWithProviders<CoreModule>;
   }
 }
