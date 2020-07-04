@@ -29,7 +29,6 @@ const NB_MODULES = [
   NbUserModule,
   NbActionsModule,
   NbSidebarModule,
-  NbUserModule,
   NbContextMenuModule,
   NbButtonModule,
   NbSelectModule,

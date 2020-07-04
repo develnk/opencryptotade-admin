@@ -29,7 +29,7 @@
                       <div class="col-12 block-template">
                         <div class="block-body" [innerHtml]="item.html" ></div>
                         <div class="select-block">
-                          <div class="copy-button" (click)="copyBaseBlock(item)"><i class="fa fa-clone" aria-hidden="true"></i>Copy</div>
+                          <div class="copy-button" [ngClass]="{'button-one': !isBlockBuilder}" (click)="copyBaseBlock(item)"><i class="fa fa-clone" aria-hidden="true"></i>Copy</div>
                           <div *ngIf="isBlockBuilder" class="edit-button" (click)="editBaseBlock(item)"><i class="fa fa-pencil" aria-hidden="true"></i>Edit</div>
                         </div>
                       </div>
