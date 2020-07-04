@@ -20,7 +20,10 @@
           <nb-accordion>
             <nb-accordion-item [expanded]="group.expand" [disabled]="accordionDisabled" *ngFor="let group of listObjects.data">
               <nb-accordion-item-header>
-                {{ group.title }}  {{ group.count_objects}}
+                <h4 class="panel-title">
+                  <span>{{ group.title }}</span>
+                  <i class="float-right">{{ group.count_objects }}</i>
+                </h4>
               </nb-accordion-item-header>
               <nb-accordion-item-body>
                 <div class="block-builder" *ngIf="isBlockBuilder || isBlock">

@@ -1,4 +1,13 @@
 .list-objects {
+  .panel-title {
+    font-size: 0.9em;
+    width: 100%;
+
+    i {
+      margin-right: 25px;
+    }
+  }
+
   .folder {
     &:hover .folder-select  {
       visibility: visible;
