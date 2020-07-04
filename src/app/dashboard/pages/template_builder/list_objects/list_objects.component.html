@@ -20,17 +20,32 @@
           <nb-accordion>
             <nb-accordion-item [expanded]="group.expand" [disabled]="accordionDisabled" *ngFor="let group of listObjects.data">
               <nb-accordion-item-header>
-                {{ group.title }}
+                {{ group.title }}  {{ group.count_objects}}
               </nb-accordion-item-header>
               <nb-accordion-item-body>
                 <div class="block-builder" *ngIf="isBlockBuilder || isBlock">
-                  <div class="main-block-builder">
+                  <div class="main-block">
                     <div class="row block" *ngFor="let item of group.object">
                       <div class="col-12 block-template">
                         <div class="block-body" [innerHtml]="item.html" ></div>
                         <div class="select-block">
                           <div class="copy-button" [ngClass]="{'button-one': !isBlockBuilder}" (click)="copyBaseBlock(item)"><i class="fa fa-clone" aria-hidden="true"></i>Copy</div>
                           <div *ngIf="isBlockBuilder" class="edit-button" (click)="editBaseBlock(item)"><i class="fa fa-pencil" aria-hidden="true"></i>Edit</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="templates" *ngIf="isTemplate">
+                  <div class="main-block">
+                    <div class="row block" *ngFor="let item of group.object">
+                      <div class="col-12 block-template">
+                        <div class="block-body">
+                          <div class="name">{{ item.name }}</div>
+                          <div class="subject">{{ item.subject }}</div>
+                        </div>
+                        <div class="select-block">
+                          <div class="edit-button"><i class="fa fa-pencil" aria-hidden="true"></i>Edit</div>
                         </div>
                       </div>
                     </div>

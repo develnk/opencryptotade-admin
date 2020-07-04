@@ -20,7 +20,6 @@ export class ListObjectsComponent implements OnInit {
 
   listObjects: ListObjectsModel;
   isTemplate = false;
-  isTemplateBuilder = false;
   isBlock = false;
   isBlockBuilder = false;
   isFolder = false;
@@ -54,6 +53,7 @@ export class ListObjectsComponent implements OnInit {
       case ListType.Block:
         this.printBlocks();
         break;
+
       case ListType.Template:
         this.printTemplates();
         break;
@@ -85,12 +85,16 @@ export class ListObjectsComponent implements OnInit {
   }
 
   printTemplates() {
-
+    this.isFolder = false;
+    this.isBlockBuilder = false;
+    this.isBlock = false;
+    this.isTemplate = true;
   }
 
   printFolders() {
     this.isFolder = true;
     this.isBlockBuilder = false;
+    this.isTemplate = false;
     this.isBlock = false;
     this.folders = [];
     this.listObjects.data[0].object.map((folder: ListFolderModel) => {
@@ -105,7 +109,7 @@ export class ListObjectsComponent implements OnInit {
         const index = this.folders.indexOf(folder);
         this.folders.splice(index, 1);
       }
-    })
+    });
   }
 
   editSelectedFolder(folder: ListFolderModel) {

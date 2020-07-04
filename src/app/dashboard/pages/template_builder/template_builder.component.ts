@@ -1,10 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterContentInit } from '@angular/core';
 import { TemplateBuilderService } from './template_builder.service';
 import { MenuModel } from './model/menu.model';
-import { FolderModel } from './model/folder.model';
 import { ListType } from './enum/list_type';
-import { ListItemModel } from './model/list_item.model';
-import { ListFolderModel } from './model/list_folder.model';
 import { ListObjectsModel } from './model/list_objects.model';
 import { TemplateComponent } from './template/template.component';
 
@@ -14,7 +11,7 @@ import { TemplateComponent } from './template/template.component';
   templateUrl: './template_builder.component.html',
   styleUrls: ['./template_builder.component.scss']
 })
-export class TemplateBuilderComponent implements OnInit {
+export class TemplateBuilderComponent implements OnInit, AfterContentInit {
 
   listType: ListType;
   listObjects: ListObjectsModel;
@@ -32,8 +29,12 @@ export class TemplateBuilderComponent implements OnInit {
       new MenuModel('Block builder', ListType.BlockBuilder),
     ];
     this.selectedItemMenu = this.menuList[0];
-
     this.listType = ListType.Template;
+  }
+
+  ngAfterContentInit(): void {
+    this.templateComponent.resetInitial();
+    this.templateBuilderService.templatesTabSubscribe();
   }
 
   clickMenu(item: MenuModel) {
@@ -42,6 +43,8 @@ export class TemplateBuilderComponent implements OnInit {
     switch (item.type) {
       case ListType.Template:
         this.listType = ListType.Template;
+        this.templateComponent.resetInitial();
+        this.templateBuilderService.templatesTabSubscribe();
 
         break;
       case ListType.Block:
@@ -52,16 +55,7 @@ export class TemplateBuilderComponent implements OnInit {
 
       case ListType.Folder:
         this.templateComponent.resetInitial();
-        const listItems:ListItemModel[] = [];
-        this.templateBuilderService.getFolders().subscribe((value: FolderModel[]) => {
-          value.map((folder: FolderModel) => {
-            listItems.push(new ListFolderModel(folder.id, folder.name));
-          });
-          const temp: ListObjectsModel = new ListObjectsModel();
-          temp.type = ListType.Folder;
-          temp.data.push({title: 'Folders', object: listItems, expand: false});
-          this.templateBuilderService.changeCurrentListObject(temp);
-        })
+        this.templateBuilderService.foldersTabSubscribe();
         break;
 
       case ListType.BlockBuilder:

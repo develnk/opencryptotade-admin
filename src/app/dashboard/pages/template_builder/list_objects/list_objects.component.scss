@@ -72,15 +72,15 @@
     }
   }
 
+  .main-block {
+    width: 100%;
+  }
+
   .block-builder {
     zoom: 40% !important;
     -moz-transform: scale(0.4, 0.4);
     -moz-transform-origin: left top;
     min-width: 750px;
-
-    .main-block-builder {
-      width: 100%;
-    }
 
     .block {
       &:hover .select-block {
@@ -140,6 +140,10 @@
         }
       }
     }
+  }
+
+  .templates {
+
   }
 }
 
