@@ -10,6 +10,7 @@ import { ListItemModel } from '../model/list_item.model';
 import { ListBaseBlockModel } from '../model/list_base_block.model';
 import { BaseBlockModel } from '../model/base_block.model';
 import { BlockType } from '../enum/block_type';
+import { ListTemplateModel } from '../model/list_template.model';
 
 @Component({
   selector: 'app-list-objects',
@@ -82,6 +83,7 @@ export class ListObjectsComponent implements OnInit {
     this.isFolder = false;
     this.accordionExpanded = false;
     this.accordionDisabled = false;
+    this.isTemplate = false;
   }
 
   printTemplates() {
@@ -167,6 +169,10 @@ export class ListObjectsComponent implements OnInit {
     }
     blockModel.html = block.html;
     this.templateBuilderService.changeCurrentBlockBuilderObject(blockModel);
+  }
+
+  editTemplate(template: ListTemplateModel) {
+    this.templateBuilderService.changeCurrentTemplate(template);
   }
 
   copyBaseBlock(block: ListItemModel) {

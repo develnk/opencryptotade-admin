@@ -42,13 +42,20 @@
                 <div class="templates" *ngIf="isTemplate">
                   <div class="main-block">
                     <div class="row block" *ngFor="let item of group.object">
-                      <div class="col-12 block-template">
-                        <div class="block-body">
-                          <div class="name">{{ item.name }}</div>
-                          <div class="subject">{{ item.subject }}</div>
-                        </div>
-                        <div class="select-block">
-                          <div class="edit-button"><i class="fa fa-pencil" aria-hidden="true"></i>Edit</div>
+                      <div class="col-12 preview-template active-template">
+                        <div class="template-block">
+                          <div class="block prevent-selection">
+                            <div>
+                              <div class="template-name">{{ item.name }}</div>
+                              <div class="template-description">{{ item.subject }}</div>
+                            </div>
+                            <div class="select-block">
+                              <div class="delete-template-button-block">
+                                <div class="delete-template-button"></div>
+                              </div>
+                              <div class="edit-template-button" (click)="editTemplate(item)"><i class="fa fa-pencil" aria-hidden="true"></i>Edit</div>
+                            </div>
+                          </div>
                         </div>
                       </div>
                     </div>

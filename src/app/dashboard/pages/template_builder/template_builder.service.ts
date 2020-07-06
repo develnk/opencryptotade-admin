@@ -43,21 +43,21 @@ export class TemplateBuilderService {
   };
 
   // All List objects(Templates or Blocks or Folders).
-  listObjectSource: BehaviorSubject<ListObjectsModel>;
+  private listObjectSource: BehaviorSubject<ListObjectsModel>;
   currentListObject: Observable<ListObjectsModel>;
 
   // Block Builder.
-  blockBuilderSource: BehaviorSubject<BaseBlockModel>;
+  private blockBuilderSource: BehaviorSubject<BaseBlockModel>;
   currentBlockBuilderObject: Observable<BaseBlockModel>;
-  initialBlockBuilderSource: BehaviorSubject<boolean>;
+  private initialBlockBuilderSource: BehaviorSubject<boolean>;
   initialBlockBuilder: Observable<boolean>;
 
   // Folder.
-  foldersSource: BehaviorSubject<FolderModel[]>;
+  private foldersSource: BehaviorSubject<FolderModel[]>;
   folders: Observable<FolderModel[]>;
 
   // Templates.
-  templatesSource: BehaviorSubject<TemplateModel>;
+  private templatesSource: BehaviorSubject<TemplateModel>;
   currentTemplateObject: Observable<TemplateModel>;
 
   constructor(private dataService: BackendService) {
@@ -97,8 +97,12 @@ export class TemplateBuilderService {
     this.templatesSource.next(template);
   }
 
-  getFolders(): Observable<any> {
+  getAllFolders(): Observable<any> {
     return this.dataService.getAllFolders();
+  }
+
+  getAllTriggers(): Observable<any> {
+    return this.dataService.getAllEmailTriggers();
   }
 
   getAllTemplates(): Observable<any> {
@@ -132,7 +136,7 @@ export class TemplateBuilderService {
   }
 
   foldersTabSubscribe() {
-    this.getFolders().subscribe((folders: FolderModel[]) => {
+    this.getAllFolders().subscribe((folders: FolderModel[]) => {
       this.changeListFolders(folders);
       const listItems: ListItemModel[] = [];
       folders.map((folder: FolderModel) => {
@@ -147,14 +151,14 @@ export class TemplateBuilderService {
   }
 
   foldersSubscribe() {
-    this.getFolders().subscribe((folders: FolderModel[]) => {
+    this.getAllFolders().subscribe((folders: FolderModel[]) => {
       this.changeListFolders(folders);
     });
   }
 
   templatesTabSubscribe(folderExpand?: string) {
     this.getAllTemplates().subscribe((templates: TemplateModel[]) => {
-      this.getFolders().subscribe(folder => {
+      this.getAllFolders().subscribe(folder => {
         const temp: ListObjectsModel = new ListObjectsModel();
         const folders: ListFolderModel[] = [];
         folder.map(value => {

@@ -1,21 +1,47 @@
 <nb-card class="tpl-builder">
   <nb-card-header>
-    <div class="row" *ngIf="!isInitial">
-      <div class="col-sm-6 col-md-6">
-        <label>Select Block Type:</label>
-        <nb-select [(selected)]="selectedBlockType" fullWidth (selectedChange)="changeBlockType($event)">
-          <nb-option value="0">Header</nb-option>
-          <nb-option value="1">Body</nb-option>
-          <nb-option value="2">Footer</nb-option>
-        </nb-select>
+    <div *ngIf="!isInitial">
+      <div class="row" *ngIf="isBlockBuilder">
+        <div class="col-sm-6 col-md-6">
+          <label>Select Block Type:</label>
+          <nb-select [(selected)]="selectedBlockType" fullWidth (selectedChange)="changeBlockType($event)">
+            <nb-option value="0">Header</nb-option>
+            <nb-option value="1">Body</nb-option>
+            <nb-option value="2">Footer</nb-option>
+          </nb-select>
+        </div>
+        <div class="col-sm-6 col-md-6">
+          <label>Select Style:</label>
+          <nb-select disabled fullWidth selected="0">
+            <nb-option value="0">Standard</nb-option>
+            <nb-option value="1">Metro</nb-option>
+            <nb-option value="2">Modern</nb-option>
+          </nb-select>
+        </div>
       </div>
-      <div class="col-sm-6 col-md-6">
-        <label>Select Style:</label>
-        <nb-select disabled fullWidth selected="0">
-          <nb-option value="0">Standard</nb-option>
-          <nb-option value="1">Metro</nb-option>
-          <nb-option value="2">Modern</nb-option>
-        </nb-select>
+      <div class="row" *ngIf="isTemplateBuilder">
+        <div class="col-sm-4 col-md-4">
+          <label>Template Folder:</label>
+          <nb-select [(selected)]="template.folder" fullWidth (selectedChange)="updateTemplateFolder($event)">
+            <nb-option [value]="folder.id" *ngFor="let folder of allFolders">{{ folder.name }}</nb-option>
+          </nb-select>
+        </div>
+        <div class="col-sm-4 col-md-4">
+          <label for="template-name">Template Name:</label>
+          <input [value]="template.name" type="text" id="template-name" nbInput fullWidth fieldSize="small" placeholder="Input">
+        </div>
+        <div class="col-sm-4 col-md-4">
+          <label>Send Template When:</label>
+          <nb-select fullWidth [(selected)]="template.trigger" (selectedChange)="updateTemplateTrigger($event)">
+            <nb-option [value]="trigger.id" *ngFor="let trigger of allTriggers">{{ trigger.name }}</nb-option>
+          </nb-select>
+        </div>
+      </div>
+      <div class="row" *ngIf="isTemplateBuilder">
+        <div class="col-sm-12 col-md-12">
+          <label for="template-subject">Template Subject:</label>
+          <input [value]="template.subject" type="text" id="template-subject" nbInput fullWidth fieldSize="small" placeholder="Input">
+        </div>
       </div>
     </div>
   </nb-card-header>
