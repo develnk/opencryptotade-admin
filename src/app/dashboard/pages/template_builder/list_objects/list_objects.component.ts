@@ -71,19 +71,19 @@ export class ListObjectsComponent implements OnInit {
 
   printBlocks() {
     this.isTemplate = false;
-    this.isBlock = true;
     this.isBlockBuilder = false;
     this.isFolder = false;
     this.accordionExpanded = false;
     this.accordionDisabled = false;
+    this.isBlock = true;
   }
 
   printBlockBuilder() {
-    this.isBlockBuilder = true;
     this.isFolder = false;
     this.accordionExpanded = false;
     this.accordionDisabled = false;
     this.isTemplate = false;
+    this.isBlockBuilder = true;
   }
 
   printTemplates() {
@@ -94,10 +94,10 @@ export class ListObjectsComponent implements OnInit {
   }
 
   printFolders() {
-    this.isFolder = true;
     this.isBlockBuilder = false;
     this.isTemplate = false;
     this.isBlock = false;
+    this.isFolder = true;
     this.folders = [];
     this.listObjects.data[0].object.map((folder: ListFolderModel) => {
       this.folders.push(folder);

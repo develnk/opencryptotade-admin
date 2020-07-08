@@ -54,22 +54,48 @@
       <div class="block-preview">
         <div class="empty-block-preview" *ngIf="blockTemplateIsEmpty">Block is empty. All that you type in the editor will be displayed here.</div>
         <div class="not-empty-block-preview" *ngIf="!blockTemplateIsEmpty">
-          <table align="center">
-            <tbody>
-            <tr>
-              <td id="block-template" [innerHtml]="blockTemplateContent"></td>
-            </tr>
-            </tbody>
-          </table>
+          <div id="block-template" [innerHtml]="blockTemplateContent"></div>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="isTemplateBuilder && !isInitial">
+      <div class="template-preview">
+        <div class="empty-block-preview" *ngIf="blockTemplateIsEmpty">Template is empty. Please select block from blocks section.</div>
+        <div class="not-empty-block-preview" *ngIf="!blockTemplateIsEmpty">
+          <div id="template">
+            <div class="template-builder-block" *ngFor="let block of template.baseBlockLinks">
+              <div class="block-template" [innerHTML]="block.html"></div>
+              <div id="edit-button" class="block-code-button visibility-block">
+                <div class="module-code-button prevent-selection">
+                  <div class="code-button" *ngIf="!isVisibleEditor"></div>
+                  <div class="save-code-button" *ngIf="isVisibleEditor"></div>
+                </div>
+              </div>
+              <div id="delete-button" class="block-delete-button visibility-block">
+                <div class="module-delete-button prevent-selection">
+                  <div class="delete-button"></div>
+                </div>
+              </div>
+              <div id="dragdrop-button" class="block-dragdrop-button visibility-block">
+                <div class="module-dragdrop-button prevent-selection">
+                  <div class="dragdrop-button"></div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
   </nb-card-body>
   <nb-card-footer>
       <div class="buttons-row align-items-center justify-content-end" *ngIf="isBlockBuilder && !isInitial">
-        <button nbButton status="warning" class="pull-right">Delete Base Block</button>
-        <button nbButton status="danger" class="pull-left" (click)="resetBaseBlock()">Reset</button>
-        <button nbButton status="success" class="pull-right" (click)="updateBaseBlock()">Update</button>
+        <button nbButton status="warning" class="pull-right"><nb-icon icon="alert-triangle-outline"></nb-icon>Delete Base Block</button>
+        <button nbButton status="danger" class="pull-left" (click)="resetBaseBlock()"><nb-icon icon="trash-outline"></nb-icon>Reset</button>
+        <button nbButton status="success" class="pull-right" (click)="updateBaseBlock()"><nb-icon icon="edit-outline"></nb-icon>Update</button>
+      </div>
+      <div class="buttons-row align-items-center justify-content-end" *ngIf="isTemplateBuilder && !isInitial">
+        <button nbButton status="danger" class="pull-left"><nb-icon icon="copy-outline"></nb-icon>Copy and create new template</button>
+        <button nbButton status="success" class="pull-right"><nb-icon icon="edit-outline"></nb-icon>Update</button>
       </div>
   </nb-card-footer>
 </nb-card>

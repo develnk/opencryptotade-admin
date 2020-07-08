@@ -21,6 +21,7 @@ export class TemplateComponent implements OnInit {
   isBlockBuilder = false;
   isTemplateBuilder = false;
   blockTemplateIsEmpty = true;
+  isVisibleEditor = false;
   baseBlockObject: BaseBlockModel;
   blockTemplateContent = '';
   selectedBlockType = BlockType.BODY.toString();
@@ -55,6 +56,7 @@ export class TemplateComponent implements OnInit {
       if (template.id !== '') {
         this.isInitial = false;
         this.isBlockBuilder = false;
+        this.blockTemplateIsEmpty = false;
         this.isTemplateBuilder = true;
       }
 

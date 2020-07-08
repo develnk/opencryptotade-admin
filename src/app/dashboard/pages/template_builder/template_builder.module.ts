@@ -1,8 +1,18 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 import { RouterModule } from '@angular/router';
-import { NbLayoutModule, NbCardModule, NbButtonModule, NbListModule, NbAccordionModule, NbInputModule, NbSelectModule } from '@nebular/theme';
+import {
+  NbLayoutModule,
+  NbCardModule,
+  NbButtonModule,
+  NbListModule,
+  NbAccordionModule,
+  NbInputModule,
+  NbSelectModule,
+  NbIconModule
+} from '@nebular/theme';
 import { TemplateBuilderRoutingModule } from './template_builder-routing.module';
 import { TemplateBuilderComponent } from './template_builder.component';
 import { TemplateBuilderService } from './template_builder.service';
@@ -26,7 +36,9 @@ const MODULES = [
   NbLayoutModule,
   NbListModule,
   NbSelectModule,
-  NbAccordionModule
+  NbIconModule,
+  NbAccordionModule,
+  DragDropModule
 ];
 
 const ENTRY_COMPONENTS = [
