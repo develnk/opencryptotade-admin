@@ -62,8 +62,8 @@
       <div class="template-preview">
         <div class="empty-block-preview" *ngIf="blockTemplateIsEmpty">Template is empty. Please select block from blocks section.</div>
         <div class="not-empty-block-preview" *ngIf="!blockTemplateIsEmpty">
-          <div id="template">
-            <div class="template-builder-block" *ngFor="let block of template.baseBlockLinks">
+          <div id="template" cdkDropList (cdkDropListDropped)="drop($event)">
+            <div class="template-builder-block" cdkDrag *ngFor="let block of template.baseBlockLinks">
               <div class="block-template" [innerHTML]="block.html"></div>
               <div id="edit-button" class="block-code-button visibility-block">
                 <div class="module-code-button prevent-selection">
@@ -78,7 +78,7 @@
               </div>
               <div id="dragdrop-button" class="block-dragdrop-button visibility-block">
                 <div class="module-dragdrop-button prevent-selection">
-                  <div class="dragdrop-button"></div>
+                  <div class="dragdrop-button" cdkDragHandle></div>
                 </div>
               </div>
               <div class="block-code-editor" *ngIf="isTemplateBlockEdit(block.id)">

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { BlockType } from '../enum/block_type';
 import { TemplateBuilderService } from '../template_builder.service';
 import { BackendService } from '../../../../@core/services/backend.service';
@@ -10,6 +11,7 @@ import { TemplateModel } from '../model/template.model';
 import { FolderModel } from '../model/folder.model';
 import { TriggerModel } from '../model/trigger.model';
 import { TemplateEditBlockModel } from '../model/template_edit_block.model';
+import { BaseBlockLinkModel } from '../model/base_block_link.model';
 
 @Component({
   selector: 'app-template',
@@ -130,5 +132,12 @@ export class TemplateComponent implements OnInit {
 
   private findBlockEditingElement(blockId: string) {
     return this.blockEditing.find(b => b.id === blockId);
+  }
+
+  drop(event: CdkDragDrop<BaseBlockLinkModel[]>) {
+    moveItemInArray(this.template.baseBlockLinks, event.previousIndex, event.currentIndex);
+    this.template.baseBlockLinks.forEach((value, index) => {
+      value.weight = index;
+    });
   }
 }
