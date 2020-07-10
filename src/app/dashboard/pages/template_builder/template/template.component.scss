@@ -216,3 +216,9 @@
   -ms-user-select: none;
   user-select: none;
 }
+
+.template-preview {
+  .block-code-editor, .block-code-editor textarea {
+    margin: 0;
+  }
+}

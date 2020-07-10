@@ -9,6 +9,7 @@ import { ListType } from '../enum/list_type';
 import { TemplateModel } from '../model/template.model';
 import { FolderModel } from '../model/folder.model';
 import { TriggerModel } from '../model/trigger.model';
+import { TemplateEditBlockModel } from '../model/template_edit_block.model';
 
 @Component({
   selector: 'app-template',
@@ -21,13 +22,13 @@ export class TemplateComponent implements OnInit {
   isBlockBuilder = false;
   isTemplateBuilder = false;
   blockTemplateIsEmpty = true;
-  isVisibleEditor = false;
   baseBlockObject: BaseBlockModel;
+  blockEditing: TemplateEditBlockModel[] = [];
   blockTemplateContent = '';
   selectedBlockType = BlockType.BODY.toString();
   template: TemplateModel;
-  allFolders: FolderModel[];
-  allTriggers: TriggerModel[];
+  allFolders: FolderModel[] = [];
+  allTriggers: TriggerModel[] = [];
 
   constructor(private templateBuilderService: TemplateBuilderService, private dataService: BackendService) {
     this.templateBuilderService.initialBlockBuilder.subscribe(value => {
@@ -108,4 +109,26 @@ export class TemplateComponent implements OnInit {
     this.template.folder = value;
   }
 
+  editTemplateBlock(blockId: string) {
+    const foundBlockStatus =  this.findBlockEditingElement(blockId);
+    if (foundBlockStatus === undefined) {
+      this.blockEditing.push(new TemplateEditBlockModel(blockId, true));
+    }
+    else {
+      foundBlockStatus.status = true;
+    }
+  }
+
+  applyTemplateBlock(blockId: string) {
+    this.findBlockEditingElement(blockId).status = false;
+  }
+
+  isTemplateBlockEdit(blockId: string) {
+    const foundBlockStatus =  this.findBlockEditingElement(blockId);
+    return foundBlockStatus === undefined ? false : foundBlockStatus.status;
+  }
+
+  private findBlockEditingElement(blockId: string) {
+    return this.blockEditing.find(b => b.id === blockId);
+  }
 }

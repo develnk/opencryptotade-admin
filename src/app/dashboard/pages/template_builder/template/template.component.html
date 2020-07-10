@@ -67,8 +67,8 @@
               <div class="block-template" [innerHTML]="block.html"></div>
               <div id="edit-button" class="block-code-button visibility-block">
                 <div class="module-code-button prevent-selection">
-                  <div class="code-button" *ngIf="!isVisibleEditor"></div>
-                  <div class="save-code-button" *ngIf="isVisibleEditor"></div>
+                  <div class="code-button" *ngIf="!isTemplateBlockEdit(block.id)" (click)="editTemplateBlock(block.id)"></div>
+                  <div class="save-code-button" *ngIf="isTemplateBlockEdit(block.id)" (click)="applyTemplateBlock(block.id)"></div>
                 </div>
               </div>
               <div id="delete-button" class="block-delete-button visibility-block">
@@ -80,6 +80,9 @@
                 <div class="module-dragdrop-button prevent-selection">
                   <div class="dragdrop-button"></div>
                 </div>
+              </div>
+              <div class="block-code-editor" *ngIf="isTemplateBlockEdit(block.id)">
+                <textarea nbInput fullWidth rows="15" wrap="off" class="block-code-editor" [(ngModel)]="block.html"></textarea>
               </div>
             </div>
           </div>
