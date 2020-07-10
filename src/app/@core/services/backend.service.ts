@@ -41,6 +41,10 @@ export class BackendService {
     return this.http.get(ep.base_url + ep.template_builder);
   }
 
+  updateTemplateBuilderTemplate(value) {
+    return this.http.put(ep.base_url + ep.template_builder, JSON.stringify(value));
+  }
+
   getAllFolders() {
     return this.http.get(ep.base_url + ep.template_builder_folder);
   }

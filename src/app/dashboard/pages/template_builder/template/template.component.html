@@ -98,7 +98,7 @@
       </div>
       <div class="buttons-row align-items-center justify-content-end" *ngIf="isTemplateBuilder && !isInitial">
         <button nbButton status="danger" class="pull-left"><nb-icon icon="copy-outline"></nb-icon>Copy and create new template</button>
-        <button nbButton status="success" class="pull-right"><nb-icon icon="edit-outline"></nb-icon>Update</button>
+        <button nbButton status="success" class="pull-right" (click)="updateTemplate()"><nb-icon icon="edit-outline"></nb-icon>Update</button>
       </div>
   </nb-card-footer>
 </nb-card>

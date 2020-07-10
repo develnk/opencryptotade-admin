@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { BlockType } from '../enum/block_type';
 import { TemplateBuilderService } from '../template_builder.service';
-import { BackendService } from '../../../../@core/services/backend.service';
 import { BaseBlockModel } from '../model/base_block.model';
 import { ListBaseBlockModel } from '../model/list_base_block.model';
 import { ListItemModel } from '../model/list_item.model';
@@ -32,7 +31,7 @@ export class TemplateComponent implements OnInit {
   allFolders: FolderModel[] = [];
   allTriggers: TriggerModel[] = [];
 
-  constructor(private templateBuilderService: TemplateBuilderService, private dataService: BackendService) {
+  constructor(private templateBuilderService: TemplateBuilderService) {
     this.templateBuilderService.initialBlockBuilder.subscribe(value => {
       this.isInitial = value;
     });
@@ -123,6 +122,8 @@ export class TemplateComponent implements OnInit {
 
   applyTemplateBlock(blockId: string) {
     this.findBlockEditingElement(blockId).status = false;
+    const block = this.template.baseBlockLinks.find( b => b.id === blockId);
+    block.editFlag = !block.editFlag ? true : block.editFlag;
   }
 
   isTemplateBlockEdit(blockId: string) {
@@ -138,6 +139,12 @@ export class TemplateComponent implements OnInit {
     moveItemInArray(this.template.baseBlockLinks, event.previousIndex, event.currentIndex);
     this.template.baseBlockLinks.forEach((value, index) => {
       value.weight = index;
+    });
+  }
+
+  updateTemplate() {
+    this.templateBuilderService.updateTemplate(this.template).subscribe(result => {
+      console.log(result);
     });
   }
 }

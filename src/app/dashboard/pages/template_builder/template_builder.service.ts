@@ -117,6 +117,10 @@ export class TemplateBuilderService {
     return this.dataService.updateTemplateBuilderBlock(data);
   }
 
+  updateTemplate(data: TemplateModel): Observable<any> {
+    return this.dataService.updateTemplateBuilderTemplate(data);
+  }
+
   blocksSubscribe(listType: number, typeExpand?: string) {
     this.getBlocks().subscribe((value: ListBaseBlockModel[]) => {
       const temp: ListObjectsModel = new ListObjectsModel();
