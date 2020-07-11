@@ -13,6 +13,7 @@ import { FolderModel } from './model/folder.model';
 import { ListFolderModel } from './model/list_folder.model';
 import { TemplateModel } from './model/template.model';
 import { ListTemplateModel } from './model/list_template.model';
+import { BaseBlockLinkModel } from './model/base_block_link.model';
 
 @Injectable()
 export class TemplateBuilderService {
@@ -73,6 +74,25 @@ export class TemplateBuilderService {
     this.currentTemplateObject = this.templatesSource.asObservable();
   }
 
+  addBlockToTemplate(block: ListBaseBlockModel) {
+    const template: TemplateModel = this.getCurrentTemplate();
+    const lastWeight: number = template.baseBlockLinks.length + 1;
+    const newTemplateBaseBlock: BaseBlockLinkModel = {
+      weight: lastWeight,
+      baseBlockId: block.id,
+      templateId: template.id,
+      editFlag: false,
+    };
+
+    this.dataService.addTemplateBuilderBaseBlock(newTemplateBaseBlock).subscribe((newBlock: BaseBlockLinkModel) => {
+     template.baseBlockLinks.push(newBlock);
+    });
+  }
+
+  getCurrentBlockBuilderObject(): BaseBlockModel {
+    return this.blockBuilderSource.getValue();
+  }
+
   changeCurrentListObject(object: ListObjectsModel) {
     this.listObjectSource.next(object);
   }
@@ -95,6 +115,10 @@ export class TemplateBuilderService {
 
   changeCurrentTemplate(template: TemplateModel) {
     this.templatesSource.next(template);
+  }
+
+  getCurrentTemplate(): TemplateModel {
+    return this.templatesSource.getValue();
   }
 
   getAllFolders(): Observable<any> {

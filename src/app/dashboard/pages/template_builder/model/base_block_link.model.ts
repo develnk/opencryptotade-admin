@@ -1,10 +1,11 @@
 export class BaseBlockLinkModel {
 
-  id: string;
+  id?: string;
   weight: number;
   baseBlockId: string;
-  baseBlockCopyId: string;
+  baseBlockCopyId?: string;
+  templateId?: string;
   editFlag: boolean;
-  html: string;
+  html?: string;
 
 }

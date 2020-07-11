@@ -183,7 +183,16 @@ export class ListObjectsComponent implements OnInit {
   }
 
   copyBaseBlock(block: ListItemModel) {
+    this.loading = true;
+    if (this.listObjects.type === ListType.Block) {
+      this.templateBuilderService.addBlockToTemplate(block as ListBaseBlockModel);
+    }
+    else if (this.listObjects.type === ListType.Template) {
 
+    }
+
+    // Todo change this behaviour.
+    setTimeout(() => this.loading = false, 500);
   }
 
 }

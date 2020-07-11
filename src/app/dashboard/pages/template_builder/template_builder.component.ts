@@ -49,7 +49,7 @@ export class TemplateBuilderComponent implements OnInit, AfterContentInit {
         break;
       case ListType.Block:
         this.listType = ListType.Block;
-        this.templateComponent.resetInitial();
+        // this.templateComponent.resetInitial();
         this.templateBuilderService.blocksSubscribe(ListType.Block);
         break;
 
