@@ -11,7 +11,8 @@ import {
   NbAccordionModule,
   NbInputModule,
   NbSelectModule,
-  NbIconModule
+  NbIconModule,
+  NbSpinnerModule
 } from '@nebular/theme';
 import { TemplateBuilderRoutingModule } from './template_builder-routing.module';
 import { TemplateBuilderComponent } from './template_builder.component';
@@ -38,6 +39,7 @@ const MODULES = [
   NbSelectModule,
   NbIconModule,
   NbAccordionModule,
+  NbSpinnerModule,
   DragDropModule
 ];
 

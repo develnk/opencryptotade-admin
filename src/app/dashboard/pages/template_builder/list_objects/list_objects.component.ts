@@ -26,6 +26,7 @@ export class ListObjectsComponent implements OnInit {
   isFolder = false;
   accordionExpanded = false;
   accordionDisabled = false;
+  loading = false;
   folders: ListFolderModel[];
   folderInput: FormControl;
   showAddFolder: boolean;
@@ -106,10 +107,12 @@ export class ListObjectsComponent implements OnInit {
   }
 
   removeFolder(folder: ListFolderModel) {
+    this.loading = true;
     this.dataService.deleteFolder(folder.id).subscribe((response: string) => {
       if (response === 'true') {
         const index = this.folders.indexOf(folder);
         this.folders.splice(index, 1);
+        this.loading = false;
       }
     });
   }
@@ -123,19 +126,23 @@ export class ListObjectsComponent implements OnInit {
   }
 
   addFolder() {
+    this.loading = true;
     const folderName = this.folderInput.value;
     this.dataService.createFolder(folderName).subscribe((response: FolderModel) => {
       this.currentFolderEdit = new ListFolderModel(response.id, response.name);
       this.folders.push(this.currentFolderEdit);
       this.folderInput.setValue('');
+      this.loading = false;
     });
   }
 
   editFolder() {
+    this.loading = true;
     const folderToUpdate = this.currentFolderEdit;
     folderToUpdate.name = this.folderInput.value;
     this.dataService.updateFolder(folderToUpdate).subscribe((response: FolderModel) => {
       this.currentFolderEdit.name = response.name;
+      this.loading = false;
     });
   }
 

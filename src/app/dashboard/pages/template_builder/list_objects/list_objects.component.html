@@ -1,4 +1,4 @@
-<nb-card>
+<nb-card [nbSpinner]="loading" nbSpinnerStatus="warning" nbSpinnerSize="large" nbSpinnerMessage="">
   <nb-card-body>
     <div class="list-objects" *ngIf="isFolder">
       <div class="folder">

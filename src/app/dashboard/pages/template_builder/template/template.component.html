@@ -1,4 +1,4 @@
-<nb-card class="tpl-builder">
+<nb-card class="tpl-builder" [nbSpinner]="loading" nbSpinnerStatus="warning" nbSpinnerSize="large" nbSpinnerMessage="">
   <nb-card-header>
     <div *ngIf="!isInitial">
       <div class="row" *ngIf="isBlockBuilder">

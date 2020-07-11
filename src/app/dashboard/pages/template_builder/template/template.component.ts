@@ -23,6 +23,7 @@ export class TemplateComponent implements OnInit {
   isBlockBuilder = false;
   isTemplateBuilder = false;
   blockTemplateIsEmpty = true;
+  loading = false;
   baseBlockObject: BaseBlockModel;
   blockEditing: TemplateEditBlockModel[] = [];
   blockTemplateContent = '';
@@ -84,6 +85,7 @@ export class TemplateComponent implements OnInit {
 
   updateBaseBlock() {
     if (this.baseBlockObject.id !== '') {
+      this.loading = true;
       const data: ListItemModel = new ListBaseBlockModel(
         this.baseBlockObject.id,
         BlockType[this.selectedBlockType],
@@ -91,6 +93,7 @@ export class TemplateComponent implements OnInit {
       );
       this.templateBuilderService.updateBlock(data).subscribe((result: ListBaseBlockModel) => {
         this.templateBuilderService.blocksSubscribe(ListType.BlockBuilder, BlockType[this.selectedBlockType]);
+        this.loading = false;
       });
     }
     // @TODO Show information about cannot update empty Base Block.
@@ -143,7 +146,9 @@ export class TemplateComponent implements OnInit {
   }
 
   updateTemplate() {
+    this.loading = true;
     this.templateBuilderService.updateTemplate(this.template).subscribe(result => {
+      this.loading = false;
       console.log(result);
     });
   }
