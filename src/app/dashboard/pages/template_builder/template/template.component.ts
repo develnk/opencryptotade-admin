@@ -11,6 +11,7 @@ import { FolderModel } from '../model/folder.model';
 import { TriggerModel } from '../model/trigger.model';
 import { TemplateEditBlockModel } from '../model/template_edit_block.model';
 import { BaseBlockLinkModel } from '../model/base_block_link.model';
+import {TemplateBuilderComponent} from '../template_builder.component';
 
 @Component({
   selector: 'app-template',
@@ -21,46 +22,61 @@ export class TemplateComponent implements OnInit {
 
   isInitial = true;
   isBlockBuilder = false;
+  blockBuilderIsEmpty = true;
+  newBlockBuilder = true;
   isTemplateBuilder = false;
-  blockTemplateIsEmpty = true;
+  newTemplateBuilder = true;
+  isFolderBuilder = false;
+  templateIsEmpty = true;
   loading = false;
   baseBlockObject: BaseBlockModel;
   blockEditing: TemplateEditBlockModel[] = [];
-  blockTemplateContent = '';
+  blockContent = '';
   selectedBlockType = BlockType.BODY.toString();
   template: TemplateModel;
   allFolders: FolderModel[] = [];
   allTriggers: TriggerModel[] = [];
 
-  constructor(private templateBuilderService: TemplateBuilderService) {
-    this.templateBuilderService.initialBlockBuilder.subscribe(value => {
+  constructor(private templateBuilderService: TemplateBuilderService, private mainTemplateBuilderComponent: TemplateBuilderComponent) {
+    templateBuilderService.initial.subscribe((value: boolean) => {
       this.isInitial = value;
+    });
+
+    templateBuilderService.isTemplateBuilder.subscribe((value: boolean) => {
+      this.isTemplateBuilder = value;
+    });
+
+    templateBuilderService.isBlockBuilder.subscribe((value: boolean) => {
+      this.isBlockBuilder = value;
+    });
+
+    templateBuilderService.templateIsEmpty.subscribe((value: boolean) => {
+      this.templateIsEmpty = value;
+    });
+
+    templateBuilderService.isFolderBuilder.subscribe((value: boolean) => {
+      this.isFolderBuilder = value;
     });
   }
 
   ngOnInit(): void {
     this.templateBuilderService.currentBlockBuilderObject.subscribe((currentBlockBuilder: BaseBlockModel) => {
-        if (currentBlockBuilder.id !== '') {
-          this.isInitial = false;
-          this.isTemplateBuilder = false;
-          this.isBlockBuilder = true;
-          this.blockTemplateIsEmpty = false;
-        }
-        else {
-          this.blockTemplateIsEmpty = true;
-        }
-
+        this.newBlockBuilder = currentBlockBuilder.id === '';
+        this.blockBuilderIsEmpty = currentBlockBuilder.html === '';
         this.baseBlockObject = currentBlockBuilder;
-        this.blockTemplateContent = currentBlockBuilder.html;
+        this.blockContent = currentBlockBuilder.html;
         this.selectedBlockType = currentBlockBuilder.type.toString();
       });
 
     this.templateBuilderService.currentTemplateObject.subscribe((template: TemplateModel) => {
+      this.newTemplateBuilder = template.id === '';
       if (template.id !== '') {
-        this.isInitial = false;
-        this.isBlockBuilder = false;
-        this.blockTemplateIsEmpty = false;
-        this.isTemplateBuilder = true;
+        this.templateBuilderService.changeInitial(false);
+        this.templateBuilderService.changeIsNewTemplateBuilder(false);
+        this.templateBuilderService.changeIsFolderBuilder(false);
+        this.templateBuilderService.changeBlockBuilder(false);
+        this.templateBuilderService.changeTemplateIsEmpty(false);
+        this.templateBuilderService.changeIsTemplateBuilder(true);
       }
 
       this.template = template;
@@ -70,13 +86,17 @@ export class TemplateComponent implements OnInit {
       this.allTriggers = triggers;
     });
 
-    this.templateBuilderService.getAllFolders().subscribe((folders: FolderModel[]) => {
+    this.templateBuilderService.folders.subscribe((folders: FolderModel[]) => {
       this.allFolders = folders;
     });
   }
 
   changeBlockType(value) {
     this.selectedBlockType = value;
+  }
+
+  newBlockHtmlChange($event) {
+    this.blockBuilderIsEmpty = $event === '';
   }
 
   resetBaseBlock() {
@@ -89,9 +109,9 @@ export class TemplateComponent implements OnInit {
       const data: ListItemModel = new ListBaseBlockModel(
         this.baseBlockObject.id,
         BlockType[this.selectedBlockType],
-        this.blockTemplateContent
+        this.blockContent
       );
-      this.templateBuilderService.updateBlock(data).subscribe((result: ListBaseBlockModel) => {
+      this.templateBuilderService.updateBaseBlock(data).subscribe((result: ListBaseBlockModel) => {
         this.templateBuilderService.blocksSubscribe(ListType.BlockBuilder, BlockType[this.selectedBlockType]);
         this.loading = false;
       });
@@ -99,10 +119,28 @@ export class TemplateComponent implements OnInit {
     // @TODO Show information about cannot update empty Base Block.
   }
 
-  public resetInitial() {
-    this.templateBuilderService.changeInitialBlockBuilder(true);
-    this.isBlockBuilder = false;
-    this.blockTemplateIsEmpty = true;
+  createBaseBlock() {
+    this.loading = true;
+    const data: ListItemModel = new ListBaseBlockModel(
+      this.baseBlockObject.id,
+      BlockType[this.selectedBlockType],
+      this.blockContent
+    );
+
+    this.templateBuilderService.createBaseBlock(data).subscribe((result: ListBaseBlockModel) => {
+      this.templateBuilderService.blocksSubscribe(ListType.BlockBuilder, BlockType[this.selectedBlockType]);
+      this.loading = false;
+    });
+
+  }
+
+  deleteBaseBlock() {
+    this.loading = true;
+    this.templateBuilderService.deleteBaseBlock(this.baseBlockObject).subscribe(result => {
+      this.templateBuilderService.changeCurrentDefaultBlockBuilder();
+      this.templateBuilderService.blocksSubscribe(ListType.BlockBuilder, BlockType[this.selectedBlockType]);
+      this.loading = false;
+    });
   }
 
   updateTemplateTrigger(value) {
@@ -147,9 +185,19 @@ export class TemplateComponent implements OnInit {
 
   updateTemplate() {
     this.loading = true;
-    this.templateBuilderService.updateTemplate(this.template).subscribe(result => {
+    this.templateBuilderService.updateTemplate(this.template).subscribe((result: TemplateModel) => {
       this.loading = false;
-      console.log(result);
     });
   }
+
+  createTemplate() {
+    this.loading = true;
+    this.templateBuilderService.createTemplate(this.template).subscribe((result: TemplateModel) => {
+      this.loading = false;
+      const folderName: string = this.templateBuilderService.findFolderName(result.folder, this.allFolders);
+      this.templateBuilderService.templatesTabSubscribe(folderName);
+      this.mainTemplateBuilderComponent.selectedItemMenu = this.mainTemplateBuilderComponent.menuList[0];
+    });
+  }
+
 }

@@ -1,4 +1,4 @@
-<nb-card class="tpl-builder" [nbSpinner]="loading" nbSpinnerStatus="warning" nbSpinnerSize="large" nbSpinnerMessage="">
+<nb-card class="tpl-builder" [nbSpinner]="loading" nbSpinnerStatus="warning" nbSpinnerSize="large" nbSpinnerMessage="" *ngIf="!isFolderBuilder">
   <nb-card-header>
     <div *ngIf="!isInitial">
       <div class="row" *ngIf="isBlockBuilder">
@@ -28,7 +28,7 @@
         </div>
         <div class="col-sm-4 col-md-4">
           <label for="template-name">Template Name:</label>
-          <input [value]="template.name" type="text" id="template-name" nbInput fullWidth fieldSize="small" placeholder="Input">
+          <input [(ngModel)]="template.name" type="text" id="template-name" nbInput fullWidth fieldSize="small" placeholder="Input">
         </div>
         <div class="col-sm-4 col-md-4">
           <label>Send Template When:</label>
@@ -40,28 +40,28 @@
       <div class="row" *ngIf="isTemplateBuilder">
         <div class="col-sm-12 col-md-12">
           <label for="template-subject">Template Subject:</label>
-          <input [value]="template.subject" type="text" id="template-subject" nbInput fullWidth fieldSize="small" placeholder="Input">
+          <input [(ngModel)]="template.subject" type="text" id="template-subject" nbInput fullWidth fieldSize="small" placeholder="Input">
         </div>
       </div>
     </div>
   </nb-card-header>
-  <nb-card-body>
+  <nb-card-body *ngIf="!isFolderBuilder">
     <div *ngIf="isInitial">
-      <div class="empty-block-preview" *ngIf="blockTemplateIsEmpty">Template is empty! Please select block from blocks section.</div>
+      <div class="empty-block-preview" *ngIf="templateIsEmpty">Template is empty! Please select block from blocks section.</div>
     </div>
     <div *ngIf="isBlockBuilder && !isInitial">
-      <textarea nbInput fullWidth rows="15" wrap="hard" class="block-code-editor" [(ngModel)]="blockTemplateContent"></textarea>
+      <textarea nbInput fullWidth rows="15" wrap="hard" class="block-code-editor" [(ngModel)]="blockContent" (ngModelChange)="newBlockHtmlChange($event)"></textarea>
       <div class="block-preview">
-        <div class="empty-block-preview" *ngIf="blockTemplateIsEmpty">Block is empty. All that you type in the editor will be displayed here.</div>
-        <div class="not-empty-block-preview" *ngIf="!blockTemplateIsEmpty">
-          <div id="block-template" [innerHtml]="blockTemplateContent"></div>
+        <div class="empty-block-preview" *ngIf="blockBuilderIsEmpty">Block is empty. All that you type in the editor will be displayed here.</div>
+        <div class="not-empty-block-preview" *ngIf="!blockBuilderIsEmpty">
+          <div id="block-template" [innerHtml]="blockContent"></div>
         </div>
       </div>
     </div>
     <div *ngIf="isTemplateBuilder && !isInitial">
       <div class="template-preview">
-        <div class="empty-block-preview" *ngIf="blockTemplateIsEmpty">Template is empty. Please select block from blocks section.</div>
-        <div class="not-empty-block-preview" *ngIf="!blockTemplateIsEmpty">
+        <div class="empty-block-preview" *ngIf="templateIsEmpty">Template is empty. Please select block from blocks section.</div>
+        <div class="not-empty-block-preview" *ngIf="!templateIsEmpty">
           <div id="template" cdkDropList (cdkDropListDropped)="drop($event)">
             <div class="template-builder-block" cdkDrag *ngFor="let block of template.baseBlockLinks">
               <div class="block-template" [innerHTML]="block.html"></div>
@@ -91,14 +91,16 @@
     </div>
   </nb-card-body>
   <nb-card-footer>
-      <div class="buttons-row align-items-center justify-content-end" *ngIf="isBlockBuilder && !isInitial">
-        <button nbButton status="warning" class="pull-right"><nb-icon icon="alert-triangle-outline"></nb-icon>Delete Base Block</button>
-        <button nbButton status="danger" class="pull-left" (click)="resetBaseBlock()"><nb-icon icon="trash-outline"></nb-icon>Reset</button>
-        <button nbButton status="success" class="pull-right" (click)="updateBaseBlock()"><nb-icon icon="edit-outline"></nb-icon>Update</button>
-      </div>
-      <div class="buttons-row align-items-center justify-content-end" *ngIf="isTemplateBuilder && !isInitial">
-        <button nbButton status="danger" class="pull-left"><nb-icon icon="copy-outline"></nb-icon>Copy and create new template</button>
-        <button nbButton status="success" class="pull-right" (click)="updateTemplate()"><nb-icon icon="edit-outline"></nb-icon>Update</button>
-      </div>
+    <div class="buttons-row align-items-center justify-content-end" *ngIf="isBlockBuilder && !isInitial">
+      <button nbButton status="warning" class="pull-right" *ngIf="!newBlockBuilder" (click)="deleteBaseBlock()"><nb-icon icon="alert-triangle-outline"></nb-icon>Delete Base Block</button>
+      <button nbButton status="danger" class="pull-left" (click)="resetBaseBlock()"><nb-icon icon="trash-outline"></nb-icon>Reset</button>
+      <button nbButton status="success" class="pull-right" (click)="updateBaseBlock()" *ngIf="!newBlockBuilder"><nb-icon icon="edit-outline"></nb-icon>Update</button>
+      <button nbButton status="success" class="pull-right" (click)="createBaseBlock()" *ngIf="newBlockBuilder"><nb-icon icon="download-outline"></nb-icon>Create</button>
+    </div>
+    <div class="buttons-row align-items-center justify-content-end" *ngIf="isTemplateBuilder && !isInitial">
+      <button nbButton status="danger" class="pull-left"><nb-icon icon="copy-outline"></nb-icon>Copy and create new template</button>
+      <button nbButton status="success" class="pull-right" (click)="updateTemplate()" *ngIf="!newTemplateBuilder"><nb-icon icon="edit-outline"></nb-icon>Update</button>
+      <button nbButton status="success" class="pull-right" (click)="createTemplate()" *ngIf="newTemplateBuilder"><nb-icon icon="download-outline"></nb-icon>Create</button>
+    </div>
   </nb-card-footer>
 </nb-card>

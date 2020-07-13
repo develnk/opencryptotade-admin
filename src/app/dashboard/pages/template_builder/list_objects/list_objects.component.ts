@@ -34,9 +34,7 @@ export class ListObjectsComponent implements OnInit {
   showCancelFolder: boolean;
   currentFolderEdit: ListFolderModel;
 
-  constructor(private templateBuilderService: TemplateBuilderService, private dataService: BackendService) {
-
-  }
+  constructor(private templateBuilderService: TemplateBuilderService, private dataService: BackendService) {}
 
   ngOnInit(): void {
     this.folderInput = new FormControl('');
@@ -72,19 +70,21 @@ export class ListObjectsComponent implements OnInit {
 
   printBlocks() {
     this.isTemplate = false;
-    this.isBlockBuilder = false;
+    this.isBlock = true;
     this.isFolder = false;
+    this.isBlockBuilder = false;
     this.accordionExpanded = false;
     this.accordionDisabled = false;
-    this.isBlock = true;
   }
 
   printBlockBuilder() {
+    this.isTemplate = false;
+    this.isBlock = false;
     this.isFolder = false;
+    this.isBlockBuilder = true;
     this.accordionExpanded = false;
     this.accordionDisabled = false;
-    this.isTemplate = false;
-    this.isBlockBuilder = true;
+    this.templateBuilderService.changeCurrentDefaultBlockBuilder();
   }
 
   printTemplates() {
@@ -103,7 +103,6 @@ export class ListObjectsComponent implements OnInit {
     this.listObjects.data[0].object.map((folder: ListFolderModel) => {
       this.folders.push(folder);
     });
-    this.templateBuilderService.changeCurrentDefaultBlockBuilder();
   }
 
   removeFolder(folder: ListFolderModel) {
@@ -182,12 +181,16 @@ export class ListObjectsComponent implements OnInit {
     this.templateBuilderService.changeCurrentTemplate(template);
   }
 
-  copyBaseBlock(block: ListItemModel) {
+  copyBaseBlock(block: ListBaseBlockModel) {
     this.loading = true;
-    if (this.listObjects.type === ListType.Block) {
-      this.templateBuilderService.addBlockToTemplate(block as ListBaseBlockModel);
+    const newTemplateBuilderFlag = this.templateBuilderService.isNewTemplateBuilder.getValue();
+    if (this.listObjects.type === ListType.Block && !newTemplateBuilderFlag) {
+      this.templateBuilderService.addBlockToTemplate(block);
     }
-    else if (this.listObjects.type === ListType.Template) {
+    else if (this.listObjects.type === ListType.Block && newTemplateBuilderFlag) {
+      this.templateBuilderService.addBlockToNewTemplate(block);
+    }
+    else if (this.listObjects.type === ListType.BlockBuilder) {
 
     }
 

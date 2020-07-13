@@ -2,7 +2,7 @@ import { BaseBlockLinkModel } from './base_block_link.model';
 
 export class TemplateModel {
 
-  id: string;
+  id?: string;
   name: string;
   subject: string;
   folder: string;

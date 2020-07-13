@@ -12,6 +12,6 @@ export const ENDPOINTS = {
   template_builder_base_block: 'template-builder/add_base_block_links',
   template_builder_triggers: 'template-builder/triggers',
   template_builder_folder: 'template-builder/folder',
-  template_builder_blocks: 'template-builder/base_block'
+  template_builder_base_blocks: 'template-builder/base_block'
 
 };

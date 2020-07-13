@@ -2,24 +2,18 @@ import { Component, OnInit, AfterContentInit } from '@angular/core';
 import { TemplateBuilderService } from './template_builder.service';
 import { MenuModel } from './model/menu.model';
 import { ListType } from './enum/list_type';
-import { ListObjectsModel } from './model/list_objects.model';
-import { TemplateComponent } from './template/template.component';
 
 @Component({
-  providers: [TemplateComponent],
   selector: 'app-template-builder',
   templateUrl: './template_builder.component.html',
   styleUrls: ['./template_builder.component.scss']
 })
 export class TemplateBuilderComponent implements OnInit, AfterContentInit {
 
-  listType: ListType;
-  listObjects: ListObjectsModel;
   selectedItemMenu: MenuModel;
   menuList: MenuModel[];
 
-  constructor(private templateBuilderService: TemplateBuilderService, private templateComponent: TemplateComponent) {
-  }
+  constructor(private templateBuilderService: TemplateBuilderService) {}
 
   ngOnInit(): void {
     this.menuList = [
@@ -29,11 +23,10 @@ export class TemplateBuilderComponent implements OnInit, AfterContentInit {
       new MenuModel('Block builder', ListType.BlockBuilder),
     ];
     this.selectedItemMenu = this.menuList[0];
-    this.listType = ListType.Template;
   }
 
   ngAfterContentInit(): void {
-    this.templateComponent.resetInitial();
+    this.templateBuilderService.resetInitialTemplates();
     this.templateBuilderService.templatesTabSubscribe();
   }
 
@@ -42,27 +35,32 @@ export class TemplateBuilderComponent implements OnInit, AfterContentInit {
 
     switch (item.type) {
       case ListType.Template:
-        this.listType = ListType.Template;
-        this.templateComponent.resetInitial();
+        this.templateBuilderService.resetInitialTemplates();
         this.templateBuilderService.templatesTabSubscribe();
 
         break;
       case ListType.Block:
-        this.listType = ListType.Block;
-        // this.templateComponent.resetInitial();
+        this.templateBuilderService.resetInitialBlock();
         this.templateBuilderService.blocksSubscribe(ListType.Block);
         break;
 
       case ListType.Folder:
-        this.templateComponent.resetInitial();
+        this.templateBuilderService.resetInitialFolder();
         this.templateBuilderService.foldersTabSubscribe();
         break;
 
       case ListType.BlockBuilder:
-        this.listType = ListType.BlockBuilder;
+        this.templateBuilderService.resetInitialBlockBuilder();
         this.templateBuilderService.blocksSubscribe(ListType.BlockBuilder);
         break;
     }
+  }
+
+  createTemplateAction() {
+    this.selectedItemMenu = this.menuList[1];
+    this.templateBuilderService.resetInitialBlock();
+    this.templateBuilderService.blocksSubscribe(ListType.Block);
+    this.templateBuilderService.createNewTemplate();
   }
 
   isActive(item: MenuModel) {

@@ -3,7 +3,7 @@
     <nb-card class="card-tpl-buttons">
       <nb-card-body class="tpl-buttons">
         <div class="tpl-button">
-          <button nbButton fullWidth status="primary">Create Template</button>
+          <button nbButton fullWidth status="primary" (click)="createTemplateAction()">Create Template</button>
         </div>
         <nb-list>
           <nb-list-item *ngFor="let item of menuList" (click)="clickMenu(item)" [ngClass]="{active: isActive(item)}">

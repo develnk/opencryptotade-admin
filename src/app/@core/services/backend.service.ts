@@ -41,6 +41,10 @@ export class BackendService {
     return this.http.get(ep.base_url + ep.template_builder);
   }
 
+  createTemplateBuilderTemplate(value) {
+    return this.http.post(ep.base_url + ep.template_builder, JSON.stringify(value));
+  }
+
   updateTemplateBuilderTemplate(value) {
     return this.http.put(ep.base_url + ep.template_builder, JSON.stringify(value));
   }
@@ -65,12 +69,26 @@ export class BackendService {
     return this.http.delete(ep.base_url + ep.template_builder_folder + '/' + id, {responseType: 'text'});
   }
 
-  getTemplateBuilderBlocks() {
-    return this.http.get(ep.base_url + ep.template_builder_blocks);
+  getTemplateBuilderBaseBlocks() {
+    return this.http.get(ep.base_url + ep.template_builder_base_blocks);
   }
 
-  updateTemplateBuilderBlock(value) {
-    return this.http.put(ep.base_url + ep.template_builder_blocks, JSON.stringify(value));
+  createTemplateBuilderBaseBlock(value) {
+    return this.http.post(ep.base_url + ep.template_builder_base_blocks, JSON.stringify(value));
+  }
+
+  updateTemplateBuilderBaseBlock(value) {
+    return this.http.put(ep.base_url + ep.template_builder_base_blocks, JSON.stringify(value));
+  }
+
+  deleteTemplateBuilderBaseBlock(value) {
+    const options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      }),
+      body: value
+    };
+    return this.http.delete(ep.base_url + ep.template_builder_base_blocks, options);
   }
 
 }

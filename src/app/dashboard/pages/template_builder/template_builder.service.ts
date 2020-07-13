@@ -43,38 +43,77 @@ export class TemplateBuilderService {
     baseBlockLinks: [],
   };
 
-  // All List objects(Templates or Blocks or Folders).
+  initial: BehaviorSubject<boolean> = new BehaviorSubject(false);
+
+  // All List objects(Templates or Blocks or Folders or Block Builder).
   private listObjectSource: BehaviorSubject<ListObjectsModel>;
   currentListObject: Observable<ListObjectsModel>;
 
   // Block Builder.
   private blockBuilderSource: BehaviorSubject<BaseBlockModel>;
   currentBlockBuilderObject: Observable<BaseBlockModel>;
-  private initialBlockBuilderSource: BehaviorSubject<boolean>;
-  initialBlockBuilder: Observable<boolean>;
+  isBlockBuilder: BehaviorSubject<boolean> = new BehaviorSubject(false);
+
+  // Blocks.
+  isBlocks: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
   // Folder.
   private foldersSource: BehaviorSubject<FolderModel[]>;
   folders: Observable<FolderModel[]>;
+  isFolderBuilder: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
   // Templates.
   private templatesSource: BehaviorSubject<TemplateModel>;
   currentTemplateObject: Observable<TemplateModel>;
+  isTemplateBuilder: BehaviorSubject<boolean> = new BehaviorSubject(false);
+  isNewTemplateBuilder: BehaviorSubject<boolean> = new BehaviorSubject(true);
+  templateIsEmpty: BehaviorSubject<boolean> = new BehaviorSubject(true);
 
   constructor(private dataService: BackendService) {
     this.listObjectSource = new BehaviorSubject(TemplateBuilderService.defaultListObjects);
     this.currentListObject = this.listObjectSource.asObservable();
+
     this.blockBuilderSource = new BehaviorSubject(TemplateBuilderService.defaultBaseBlock);
     this.currentBlockBuilderObject = this.blockBuilderSource.asObservable();
-    this.initialBlockBuilderSource = new BehaviorSubject<boolean>(true);
-    this.initialBlockBuilder = this.initialBlockBuilderSource.asObservable();
+
     this.foldersSource = new BehaviorSubject<FolderModel[]>([TemplateBuilderService.defaultFolder]);
     this.folders = this.foldersSource.asObservable();
+
     this.templatesSource = new BehaviorSubject<TemplateModel>(TemplateBuilderService.defaultTemplate);
     this.currentTemplateObject = this.templatesSource.asObservable();
   }
 
+  changeInitial(value: boolean) {
+    this.initial.next(value);
+  }
+
+  changeBlockBuilder(value: boolean) {
+    this.isBlockBuilder.next(value);
+  }
+
+  changeTemplateIsEmpty(value: boolean) {
+    this.templateIsEmpty.next(value);
+  }
+
+  changeIsNewTemplateBuilder(value: boolean) {
+    this.isNewTemplateBuilder.next(value);
+  }
+
+  changeIsBlocks(value: boolean) {
+    this.isBlocks.next(value);
+  }
+
+  changeIsTemplateBuilder(value: boolean) {
+    this.isTemplateBuilder.next(value);
+  }
+
+  changeIsFolderBuilder(value: boolean) {
+    this.isFolderBuilder.next(value);
+  }
+
   addBlockToTemplate(block: ListBaseBlockModel) {
+    this.changeTemplateIsEmpty(false);
+    this.changeIsNewTemplateBuilder(false);
     const template: TemplateModel = this.getCurrentTemplate();
     const lastWeight: number = template.baseBlockLinks.length + 1;
     const newTemplateBaseBlock: BaseBlockLinkModel = {
@@ -89,6 +128,21 @@ export class TemplateBuilderService {
     });
   }
 
+  addBlockToNewTemplate(block: ListBaseBlockModel) {
+    const template: TemplateModel = this.getCurrentTemplate();
+    const lastWeight: number = template.baseBlockLinks.length + 1;
+    const newTemplateBaseBlock: BaseBlockLinkModel = {
+      weight: lastWeight,
+      templateId: template.id,
+      baseBlockId: block.id,
+      editFlag: false,
+      html: block.html
+    };
+    template.baseBlockLinks.push(newTemplateBaseBlock);
+    this.changeTemplateIsEmpty(false);
+    this.changeIsNewTemplateBuilder(true);
+  }
+
   getCurrentBlockBuilderObject(): BaseBlockModel {
     return this.blockBuilderSource.getValue();
   }
@@ -101,12 +155,77 @@ export class TemplateBuilderService {
     this.blockBuilderSource.next(object);
   }
 
+  getAllListFolders(): FolderModel[] {
+    return this.foldersSource.getValue();
+  }
+
   changeCurrentDefaultBlockBuilder() {
+    this.changeInitial(false);
+    this.changeTemplateIsEmpty(false);
+    this.changeIsTemplateBuilder(false);
+    this.changeIsFolderBuilder(false);
+    this.changeBlockBuilder(true);
     this.blockBuilderSource.next(TemplateBuilderService.defaultBaseBlock);
   }
 
-  changeInitialBlockBuilder(value: boolean) {
-    this.initialBlockBuilderSource.next(value);
+  changeCurrentDefaultTemplate() {
+    this.templatesSource.next(TemplateBuilderService.defaultTemplate);
+  }
+
+  clearDefaultTemplate() {
+    TemplateBuilderService.defaultTemplate.id = '';
+    TemplateBuilderService.defaultTemplate.name = '';
+    TemplateBuilderService.defaultTemplate.subject = '';
+    TemplateBuilderService.defaultTemplate.folder = '';
+    TemplateBuilderService.defaultTemplate.trigger = 0;
+    TemplateBuilderService.defaultTemplate.baseBlockLinks = [];
+  }
+
+  createNewTemplate() {
+    this.changeInitial(false);
+    this.clearDefaultTemplate();
+    this.changeCurrentDefaultTemplate();
+    this.changeIsNewTemplateBuilder(true);
+    this.changeIsTemplateBuilder(true);
+    this.changeIsFolderBuilder(false);
+    this.changeBlockBuilder(false);
+  }
+
+  resetInitialTemplates() {
+    this.changeInitial(false);
+    this.clearDefaultTemplate();
+    if (this.isNewTemplateBuilder.getValue()) {
+      this.changeCurrentDefaultTemplate();
+    }
+    this.changeBlockBuilder(false);
+    this.changeIsFolderBuilder(false);
+    this.changeIsTemplateBuilder(true);
+  }
+
+  resetInitialBlock() {
+    this.changeInitial(false);
+    this.clearDefaultTemplate();
+    if (this.isNewTemplateBuilder.getValue()) {
+      this.changeCurrentDefaultTemplate();
+    }
+    this.changeIsTemplateBuilder(true);
+    this.changeIsFolderBuilder(false);
+    this.changeBlockBuilder(false);
+  }
+
+  resetInitialBlockBuilder() {
+    this.changeInitial(false);
+    this.changeBlockBuilder(true);
+    this.changeIsTemplateBuilder(false);
+    this.changeIsFolderBuilder(false);
+    this.changeCurrentDefaultBlockBuilder();
+  }
+
+  resetInitialFolder() {
+    this.changeInitial(false);
+    this.changeIsFolderBuilder(true);
+    this.changeBlockBuilder(false);
+    this.changeIsTemplateBuilder(false);
   }
 
   changeListFolders(folders: FolderModel[]) {
@@ -134,11 +253,23 @@ export class TemplateBuilderService {
   }
 
   getBlocks(): Observable<any> {
-    return this.dataService.getTemplateBuilderBlocks();
+    return this.dataService.getTemplateBuilderBaseBlocks();
   }
 
-  updateBlock(data: ListItemModel): Observable<any> {
-    return this.dataService.updateTemplateBuilderBlock(data);
+  updateBaseBlock(data: ListItemModel): Observable<any> {
+    return this.dataService.updateTemplateBuilderBaseBlock(data);
+  }
+
+  createBaseBlock(data: ListItemModel): Observable<any> {
+    return this.dataService.createTemplateBuilderBaseBlock(data);
+  }
+
+  deleteBaseBlock(data: ListItemModel): Observable<any> {
+    return this.dataService.deleteTemplateBuilderBaseBlock(data);
+  }
+
+  createTemplate(data: TemplateModel): Observable<any> {
+    return this.dataService.createTemplateBuilderTemplate(data);
   }
 
   updateTemplate(data: TemplateModel): Observable<any> {
@@ -186,18 +317,19 @@ export class TemplateBuilderService {
 
   templatesTabSubscribe(folderExpand?: string) {
     this.getAllTemplates().subscribe((templates: TemplateModel[]) => {
-      this.getAllFolders().subscribe(folder => {
+      this.getAllFolders().subscribe((folders: FolderModel[]) => {
+        this.changeListFolders(folders);
         const temp: ListObjectsModel = new ListObjectsModel();
-        const folders: ListFolderModel[] = [];
-        folder.map(value => {
+        const folders_tmp: ListFolderModel[] = [];
+        folders.map(value => {
           temp.data.push({title: value.name, object: [], count_objects: 0, expand: false});
-          folders.push(new ListFolderModel(value.id, value.name));
+          folders_tmp.push(new ListFolderModel(value.id, value.name));
         });
         const groupedTemplates: [] = HelpService.groupBy(templates, 'folder');
         groupedTemplates.map((group: Array<TemplateModel>) => {
           const listItemModels: ListItemModel[] = [];
           const folderId = group[0].folder;
-          const folderName = folders.find(f => f.id === folderId).name;
+          const folderName = folders_tmp.find(f => f.id === folderId).name;
           const expand = folderExpand === folderName;
           group.map((itemObject: ListTemplateModel) => {
             listItemModels.push(itemObject);
@@ -209,6 +341,12 @@ export class TemplateBuilderService {
         this.changeCurrentListObject(temp);
       });
     });
+  }
+
+  findFolderName(id: string, folders: FolderModel[]): string {
+    const foundIndex = folders.findIndex(f => f.id === id);
+    return foundIndex !== -1 ? folders[foundIndex].name : '';
+
   }
 
 }
