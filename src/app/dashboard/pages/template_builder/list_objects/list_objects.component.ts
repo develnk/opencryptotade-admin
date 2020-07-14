@@ -200,6 +200,8 @@ export class ListObjectsComponent implements OnInit {
       this.loading = false;
       const folderName: string = this.templateBuilderService.findFolderName(result.folder, this.allFolders);
       this.templateBuilderService.templatesTabSubscribe(folderName);
+      this.templateService.clearDefaultTemplate();
+      this.templateService.changeCurrentDefaultTemplate();
     });
   }
 
