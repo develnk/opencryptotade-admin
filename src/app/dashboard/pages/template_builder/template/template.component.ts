@@ -11,7 +11,10 @@ import { FolderModel } from '../model/folder.model';
 import { TriggerModel } from '../model/trigger.model';
 import { TemplateEditBlockModel } from '../model/template_edit_block.model';
 import { BaseBlockLinkModel } from '../model/base_block_link.model';
-import {TemplateBuilderComponent} from '../template_builder.component';
+import { TemplateBuilderComponent } from '../template_builder.component';
+import { FolderService } from '../services/folder.service';
+import { BaseBlockService } from '../services/base_block.service';
+import { TemplateService } from '../services/template.service';
 
 @Component({
   selector: 'app-template',
@@ -37,30 +40,34 @@ export class TemplateComponent implements OnInit {
   allFolders: FolderModel[] = [];
   allTriggers: TriggerModel[] = [];
 
-  constructor(private templateBuilderService: TemplateBuilderService, private mainTemplateBuilderComponent: TemplateBuilderComponent) {
+  constructor(private templateBuilderService: TemplateBuilderService,
+              private folderService: FolderService,
+              private baseBlockService: BaseBlockService,
+              private templateService: TemplateService,
+              private mainTemplateBuilderComponent: TemplateBuilderComponent) {
     templateBuilderService.initial.subscribe((value: boolean) => {
       this.isInitial = value;
     });
 
-    templateBuilderService.isTemplateBuilder.subscribe((value: boolean) => {
+    templateService.isTemplateBuilder.subscribe((value: boolean) => {
       this.isTemplateBuilder = value;
     });
 
-    templateBuilderService.isBlockBuilder.subscribe((value: boolean) => {
+    baseBlockService.isBlockBuilder.subscribe((value: boolean) => {
       this.isBlockBuilder = value;
     });
 
-    templateBuilderService.templateIsEmpty.subscribe((value: boolean) => {
+    templateService.templateIsEmpty.subscribe((value: boolean) => {
       this.templateIsEmpty = value;
     });
 
-    templateBuilderService.isFolderBuilder.subscribe((value: boolean) => {
+    folderService.isFolderBuilder.subscribe((value: boolean) => {
       this.isFolderBuilder = value;
     });
   }
 
   ngOnInit(): void {
-    this.templateBuilderService.currentBlockBuilderObject.subscribe((currentBlockBuilder: BaseBlockModel) => {
+    this.baseBlockService.currentBlockBuilderObject.subscribe((currentBlockBuilder: BaseBlockModel) => {
         this.newBlockBuilder = currentBlockBuilder.id === '';
         this.blockBuilderIsEmpty = currentBlockBuilder.html === '';
         this.baseBlockObject = currentBlockBuilder;
@@ -68,15 +75,15 @@ export class TemplateComponent implements OnInit {
         this.selectedBlockType = currentBlockBuilder.type.toString();
       });
 
-    this.templateBuilderService.currentTemplateObject.subscribe((template: TemplateModel) => {
+    this.templateService.currentTemplateObject.subscribe((template: TemplateModel) => {
       this.newTemplateBuilder = template.id === '';
       if (template.id !== '') {
         this.templateBuilderService.changeInitial(false);
-        this.templateBuilderService.changeIsNewTemplateBuilder(false);
-        this.templateBuilderService.changeIsFolderBuilder(false);
-        this.templateBuilderService.changeBlockBuilder(false);
-        this.templateBuilderService.changeTemplateIsEmpty(false);
-        this.templateBuilderService.changeIsTemplateBuilder(true);
+        this.templateService.changeIsNewTemplateBuilder(false);
+        this.folderService.changeIsFolderBuilder(false);
+        this.baseBlockService.changeBlockBuilder(false);
+        this.templateService.changeTemplateIsEmpty(false);
+        this.templateService.changeIsTemplateBuilder(true);
       }
 
       this.template = template;
@@ -86,7 +93,7 @@ export class TemplateComponent implements OnInit {
       this.allTriggers = triggers;
     });
 
-    this.templateBuilderService.folders.subscribe((folders: FolderModel[]) => {
+    this.folderService.folders.subscribe((folders: FolderModel[]) => {
       this.allFolders = folders;
     });
   }

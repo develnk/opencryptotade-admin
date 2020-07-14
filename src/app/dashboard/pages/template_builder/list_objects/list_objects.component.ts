@@ -6,11 +6,13 @@ import { ListObjectsModel } from '../model/list_objects.model';
 import { TemplateBuilderService } from '../template_builder.service';
 import { BackendService } from '../../../../@core/services/backend.service';
 import { FolderModel } from '../model/folder.model';
-import { ListItemModel } from '../model/list_item.model';
 import { ListBaseBlockModel } from '../model/list_base_block.model';
 import { BaseBlockModel } from '../model/base_block.model';
 import { BlockType } from '../enum/block_type';
 import { ListTemplateModel } from '../model/list_template.model';
+import { ListObjectsService } from '../services/list_objects.service';
+import { BaseBlockService } from '../services/base_block.service';
+import { TemplateService } from '../services/template.service';
 
 @Component({
   selector: 'app-list-objects',
@@ -34,7 +36,11 @@ export class ListObjectsComponent implements OnInit {
   showCancelFolder: boolean;
   currentFolderEdit: ListFolderModel;
 
-  constructor(private templateBuilderService: TemplateBuilderService, private dataService: BackendService) {}
+  constructor(private templateBuilderService: TemplateBuilderService,
+              private dataService: BackendService,
+              private listObjectsService: ListObjectsService,
+              private baseBlockService: BaseBlockService,
+              private templateService: TemplateService) {}
 
   ngOnInit(): void {
     this.folderInput = new FormControl('');
@@ -42,7 +48,7 @@ export class ListObjectsComponent implements OnInit {
     this.showEditFolder = false;
     this.showCancelFolder = false;
     this.currentFolderEdit = null;
-    this.templateBuilderService.currentListObject.subscribe( currentListObject => {
+    this.listObjectsService.currentListObject.subscribe( currentListObject => {
       this.listObjects = currentListObject;
       this.listObjectsChanges();
     });
@@ -174,16 +180,16 @@ export class ListObjectsComponent implements OnInit {
         break;
     }
     blockModel.html = block.html;
-    this.templateBuilderService.changeCurrentBlockBuilderObject(blockModel);
+    this.baseBlockService.changeCurrentBlockBuilderObject(blockModel);
   }
 
   editTemplate(template: ListTemplateModel) {
-    this.templateBuilderService.changeCurrentTemplate(template);
+    this.templateService.changeCurrentTemplate(template);
   }
 
   copyBaseBlock(block: ListBaseBlockModel) {
     this.loading = true;
-    const newTemplateBuilderFlag = this.templateBuilderService.isNewTemplateBuilder.getValue();
+    const newTemplateBuilderFlag = this.templateService.isNewTemplateBuilder.getValue();
     if (this.listObjects.type === ListType.Block && !newTemplateBuilderFlag) {
       this.templateBuilderService.addBlockToTemplate(block);
     }
