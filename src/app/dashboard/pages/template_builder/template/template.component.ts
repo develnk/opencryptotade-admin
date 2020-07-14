@@ -15,6 +15,7 @@ import { TemplateBuilderComponent } from '../template_builder.component';
 import { FolderService } from '../services/folder.service';
 import { BlockBuilderService } from '../services/block_builder.service';
 import { TemplateService } from '../services/template.service';
+import { NotificationsService } from 'angular2-notifications';
 
 @Component({
   selector: 'app-template',
@@ -44,7 +45,8 @@ export class TemplateComponent implements OnInit {
               private folderService: FolderService,
               private baseBlockService: BlockBuilderService,
               private templateService: TemplateService,
-              private mainTemplateBuilderComponent: TemplateBuilderComponent) {
+              private mainTemplateBuilderComponent: TemplateBuilderComponent,
+              private notificationsService: NotificationsService) {
     templateBuilderService.initial.subscribe((value: boolean) => {
       this.isInitial = value;
     });
@@ -118,10 +120,24 @@ export class TemplateComponent implements OnInit {
         BlockType[this.selectedBlockType],
         this.blockContent
       );
-      this.baseBlockService.updateBaseBlock(data).subscribe((result: ListBaseBlockModel) => {
-        this.templateBuilderService.blocksSubscribe(ListType.BlockBuilder, BlockType[this.selectedBlockType]);
-        this.loading = false;
-      });
+      this.baseBlockService.updateBaseBlock(data).subscribe(
+        (result: ListBaseBlockModel) => {
+          this.templateBuilderService.blocksSubscribe(ListType.BlockBuilder, BlockType[this.selectedBlockType]);
+          this.notificationsService.success(
+            'Base block',
+            'Updated'
+          );
+        },
+        error => {
+          this.loading = false;
+          this.notificationsService.error(
+            'Base block update',
+            'Error: ' + error
+          );
+        },
+        () => {
+          this.loading = false;
+        });
     }
     // @TODO Show information about cannot update empty Base Block.
   }
@@ -134,20 +150,48 @@ export class TemplateComponent implements OnInit {
       this.blockContent
     );
 
-    this.baseBlockService.createBaseBlock(data).subscribe((result: ListBaseBlockModel) => {
-      this.templateBuilderService.blocksSubscribe(ListType.BlockBuilder, BlockType[this.selectedBlockType]);
-      this.loading = false;
-    });
+    this.baseBlockService.createBaseBlock(data).subscribe(
+      (result: ListBaseBlockModel) => {
+        this.templateBuilderService.blocksSubscribe(ListType.BlockBuilder, BlockType[this.selectedBlockType]);
+        this.notificationsService.success(
+          'Base block',
+          'Created'
+        );
+      },
+      error => {
+        this.loading = false;
+        this.notificationsService.error(
+          'Base block create',
+          'Error: ' + error
+        );
+      },
+      () => {
+        this.loading = false;
+      });
 
   }
 
   deleteBaseBlock() {
     this.loading = true;
-    this.baseBlockService.deleteBaseBlock(this.baseBlockObject).subscribe(result => {
-      this.templateBuilderService.changeCurrentDefaultBlockBuilder();
-      this.templateBuilderService.blocksSubscribe(ListType.BlockBuilder, BlockType[this.selectedBlockType]);
-      this.loading = false;
-    });
+    this.baseBlockService.deleteBaseBlock(this.baseBlockObject).subscribe(
+      result => {
+        this.templateBuilderService.changeCurrentDefaultBlockBuilder();
+        this.templateBuilderService.blocksSubscribe(ListType.BlockBuilder, BlockType[this.selectedBlockType]);
+        this.notificationsService.success(
+          'Base block',
+          'Deleted'
+        );
+      },
+      error => {
+        this.loading = false;
+        this.notificationsService.error(
+          'Base block delete',
+          'Error: ' + error
+        );
+      },
+      () => {
+        this.loading = false;
+      });
   }
 
   updateTemplateTrigger(value) {
@@ -192,19 +236,47 @@ export class TemplateComponent implements OnInit {
 
   updateTemplate() {
     this.loading = true;
-    this.templateBuilderService.updateTemplate(this.template).subscribe((result: TemplateModel) => {
-      this.loading = false;
-    });
+    this.templateBuilderService.updateTemplate(this.template).subscribe(
+      (result: TemplateModel) => {
+        this.notificationsService.success(
+          'Template',
+          'Updated'
+        );
+      },
+      error => {
+        this.loading = false;
+        this.notificationsService.error(
+          'Template update',
+          'Error: ' + error
+        );
+      },
+      () => {
+        this.loading = false;
+      });
   }
 
   createTemplate() {
     this.loading = true;
-    this.templateBuilderService.createTemplate(this.template).subscribe((result: TemplateModel) => {
-      this.loading = false;
-      const folderName: string = this.templateBuilderService.findFolderName(result.folder, this.allFolders);
-      this.templateBuilderService.templatesTabSubscribe(folderName);
-      this.mainTemplateBuilderComponent.selectedItemMenu = this.mainTemplateBuilderComponent.menuList[0];
-    });
+    this.templateBuilderService.createTemplate(this.template).subscribe(
+      (result: TemplateModel) => {
+        const folderName: string = this.templateBuilderService.findFolderName(result.folder, this.allFolders);
+        this.templateBuilderService.templatesTabSubscribe(folderName);
+        this.mainTemplateBuilderComponent.selectedItemMenu = this.mainTemplateBuilderComponent.menuList[0];
+        this.notificationsService.success(
+          'Template',
+          'Created'
+        );
+      },
+      error => {
+        this.loading = false;
+        this.notificationsService.error(
+          'Template create',
+          'Error: ' + error
+        );
+      },
+      () => {
+        this.loading = false;
+      });
   }
 
 }

@@ -2,9 +2,9 @@ import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 import { APP_BASE_HREF } from '@angular/common';
 import { NgModule } from '@angular/core';
-
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NotificationAnimationType, SimpleNotificationsModule } from 'angular2-notifications';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -30,6 +30,16 @@ import { NbLayoutModule, NbMenuModule, NbSidebarModule, NbWindowModule } from '@
     DashboardModule,
     NgxAuthModule,
     NbLayoutModule,
+    SimpleNotificationsModule.forRoot({
+      position: ['top', 'right'],
+      timeOut: 5000,
+      maxLength: 20,
+      lastOnBottom: true,
+      showProgressBar: true,
+      pauseOnHover: true,
+      clickToClose: true,
+      animate: NotificationAnimationType.FromRight
+    }),
     ThemeModule.forRoot(),
     NbSidebarModule.forRoot(),
     NbMenuModule.forRoot(),
@@ -44,4 +54,4 @@ import { NbLayoutModule, NbMenuModule, NbSidebarModule, NbWindowModule } from '@
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}

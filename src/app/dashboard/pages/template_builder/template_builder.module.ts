@@ -34,6 +34,7 @@ const MODULES = [
   CommonModule,
   ReactiveFormsModule,
   RouterModule,
+  FormsModule,
   TemplateBuilderRoutingModule,
   NbCardModule,
   NbInputModule,
@@ -61,7 +62,6 @@ const SERVICES = [
 @NgModule({
   imports: [
     ...MODULES,
-    FormsModule,
   ],
   declarations: [
     ...COMPONENTS,

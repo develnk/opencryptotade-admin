@@ -374,3 +374,11 @@ a:hover{
 button[nbButton] {
   margin: 0.5rem;
 }
+
+.simple-notification-wrapper {
+  &.top {
+    top: 80px!important;
+  }
+
+  z-index: 9999!important;
+}

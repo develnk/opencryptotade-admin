@@ -11,6 +11,7 @@ import { RoleGuard } from '../@core/guards/role-guard.service';
 import { ThemeModule } from '../@theme/theme.module';
 import { DashboardRoutingModule } from './dashboard-routing.module';
 import { NbMenuModule } from '@nebular/theme';
+import { SimpleNotificationsModule } from 'angular2-notifications';
 
 @NgModule({
   declarations: [
@@ -19,13 +20,14 @@ import { NbMenuModule } from '@nebular/theme';
     RegionalComponent,
     DaemonsComponent
   ],
-    imports: [
-        DashboardRoutingModule,
-        ThemeModule,
-        NbMenuModule,
-        NgbModule,
-        CommonModule,
-    ],
+  imports: [
+    DashboardRoutingModule,
+    ThemeModule,
+    NbMenuModule,
+    NgbModule,
+    CommonModule,
+    SimpleNotificationsModule,
+  ],
   exports: [
     DashboardComponent,
   ],

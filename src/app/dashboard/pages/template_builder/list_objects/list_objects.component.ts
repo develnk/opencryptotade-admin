@@ -14,6 +14,7 @@ import { ListObjectsService } from '../services/list_objects.service';
 import { BlockBuilderService } from '../services/block_builder.service';
 import { TemplateService } from '../services/template.service';
 import { FolderService } from '../services/folder.service';
+import { NotificationsService } from 'angular2-notifications';
 
 @Component({
   selector: 'app-list-objects',
@@ -43,7 +44,8 @@ export class ListObjectsComponent implements OnInit {
               private listObjectsService: ListObjectsService,
               private baseBlockService: BlockBuilderService,
               private folderService: FolderService,
-              private templateService: TemplateService) {}
+              private templateService: TemplateService,
+              private notificationsService: NotificationsService) {}
 
   ngOnInit(): void {
     this.folderInput = new FormControl('');
@@ -124,9 +126,22 @@ export class ListObjectsComponent implements OnInit {
       if (response === 'true') {
         const index = this.folders.indexOf(folder);
         this.folders.splice(index, 1);
-        this.loading = false;
+        this.notificationsService.success(
+          'Folder',
+          'Folder deleted'
+        );
       }
-    });
+      },
+      error => {
+        this.loading = false;
+        this.notificationsService.error(
+          'Folder delete',
+          'Error: ' + error
+        );
+      },
+      () => {
+        this.loading = false;
+      });
   }
 
   editSelectedFolder(folder: ListFolderModel) {
@@ -140,22 +155,50 @@ export class ListObjectsComponent implements OnInit {
   addFolder() {
     this.loading = true;
     const folderName = this.folderInput.value;
-    this.dataService.createFolder(folderName).subscribe((response: FolderModel) => {
-      this.currentFolderEdit = new ListFolderModel(response.id, response.name);
-      this.folders.push(this.currentFolderEdit);
-      this.folderInput.setValue('');
-      this.loading = false;
-    });
+    this.dataService.createFolder(folderName).subscribe(
+      (response: FolderModel) => {
+        this.currentFolderEdit = new ListFolderModel(response.id, response.name);
+        this.folders.push(this.currentFolderEdit);
+        this.folderInput.setValue('');
+        this.notificationsService.success(
+          'Folder',
+          'New folder created'
+        );
+      },
+      error => {
+        this.loading = false;
+        this.notificationsService.error(
+          'Folder create',
+          'Error: ' + error
+        );
+      },
+      () => {
+        this.loading = false;
+      });
   }
 
   editFolder() {
     this.loading = true;
     const folderToUpdate = this.currentFolderEdit;
     folderToUpdate.name = this.folderInput.value;
-    this.dataService.updateFolder(folderToUpdate).subscribe((response: FolderModel) => {
-      this.currentFolderEdit.name = response.name;
-      this.loading = false;
-    });
+    this.dataService.updateFolder(folderToUpdate).subscribe(
+      (response: FolderModel) => {
+          this.currentFolderEdit.name = response.name;
+          this.notificationsService.success(
+            'Folder',
+            'Folder updated'
+          );
+      },
+      error => {
+        this.loading = false;
+        this.notificationsService.error(
+          'Folder updated',
+          'Error: ' + error
+        );
+      },
+      () => {
+        this.loading = false;
+      });
   }
 
   cancelFolder() {
@@ -196,13 +239,27 @@ export class ListObjectsComponent implements OnInit {
 
   deleteTemplate(template: ListTemplateModel) {
     this.loading = true;
-    this.templateService.deleteTemplate(template).subscribe(result => {
-      this.loading = false;
-      const folderName: string = this.templateBuilderService.findFolderName(result.folder, this.allFolders);
-      this.templateBuilderService.templatesTabSubscribe(folderName);
-      this.templateService.clearDefaultTemplate();
-      this.templateService.changeCurrentDefaultTemplate();
-    });
+    this.templateService.deleteTemplate(template).subscribe(
+      result => {
+        const folderName: string = this.templateBuilderService.findFolderName(result.folder, this.allFolders);
+        this.templateBuilderService.templatesTabSubscribe(folderName);
+        this.templateService.clearDefaultTemplate();
+        this.templateService.changeCurrentDefaultTemplate();
+        this.notificationsService.success(
+          'Template',
+          'Deleted'
+        );
+      },
+      error => {
+        this.loading = false;
+        this.notificationsService.success(
+          'Template delete',
+          'Error: ' + error
+        );
+      },
+      () => {
+        this.loading = false;
+      });
   }
 
   copyBaseBlock(block: ListBaseBlockModel) {

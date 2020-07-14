@@ -196,7 +196,7 @@ export class TemplateBuilderService {
         groupedTemplates.map((group: Array<TemplateModel>) => {
           const listItemModels: ListItemModel[] = [];
           const folderId = group[0].folder;
-          const folderName = folders_tmp.find(f => f.id === folderId).name;
+          const folderName = (folderId !== null) ? folders_tmp.find(f => f.id === folderId).name : 'default';
           const expand = folderExpand === folderName;
           group.map((itemObject: ListTemplateModel) => {
             listItemModels.push(itemObject);
