@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { BaseBlockModel } from '../model/base_block.model';
 import { BlockType } from '../enum/block_type';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { ListItemModel } from '../model/list_item.model';
+import { BackendService } from '../../../../@core/services/backend.service';
 
 @Injectable()
 export class BaseBlockService {
@@ -12,11 +14,11 @@ export class BaseBlockService {
     html: ''
   };
 
-  private _blockBuilderSource: BehaviorSubject<BaseBlockModel>;
-  private _currentBlockBuilderObject: Observable<BaseBlockModel>;
+  private readonly _blockBuilderSource: BehaviorSubject<BaseBlockModel>;
+  private readonly _currentBlockBuilderObject: Observable<BaseBlockModel>;
   private _isBlockBuilder: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
-  constructor() {
+  constructor(private dataService: BackendService) {
     this._blockBuilderSource = new BehaviorSubject(BaseBlockService.defaultBaseBlock);
     this._currentBlockBuilderObject = this._blockBuilderSource.asObservable();
   }
@@ -31,10 +33,6 @@ export class BaseBlockService {
 
   get currentBlockBuilderObject(): Observable<BaseBlockModel> {
     return this._currentBlockBuilderObject;
-  }
-
-  set currentBlockBuilderObject(value: Observable<BaseBlockModel>) {
-    this._currentBlockBuilderObject = value;
   }
 
   get isBlockBuilder(): BehaviorSubject<boolean> {
@@ -56,4 +54,17 @@ export class BaseBlockService {
   setDefaultBlockBuilder() {
     this.blockBuilderSource.next(BaseBlockService.defaultBaseBlock);
   }
+
+  updateBaseBlock(data: ListItemModel): Observable<any> {
+    return this.dataService.updateTemplateBuilderBaseBlock(data);
+  }
+
+  createBaseBlock(data: ListItemModel): Observable<any> {
+    return this.dataService.createTemplateBuilderBaseBlock(data);
+  }
+
+  deleteBaseBlock(data: ListItemModel): Observable<any> {
+    return this.dataService.deleteTemplateBuilderBaseBlock(data);
+  }
+
 }

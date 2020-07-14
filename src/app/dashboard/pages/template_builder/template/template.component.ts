@@ -118,7 +118,7 @@ export class TemplateComponent implements OnInit {
         BlockType[this.selectedBlockType],
         this.blockContent
       );
-      this.templateBuilderService.updateBaseBlock(data).subscribe((result: ListBaseBlockModel) => {
+      this.baseBlockService.updateBaseBlock(data).subscribe((result: ListBaseBlockModel) => {
         this.templateBuilderService.blocksSubscribe(ListType.BlockBuilder, BlockType[this.selectedBlockType]);
         this.loading = false;
       });
@@ -134,7 +134,7 @@ export class TemplateComponent implements OnInit {
       this.blockContent
     );
 
-    this.templateBuilderService.createBaseBlock(data).subscribe((result: ListBaseBlockModel) => {
+    this.baseBlockService.createBaseBlock(data).subscribe((result: ListBaseBlockModel) => {
       this.templateBuilderService.blocksSubscribe(ListType.BlockBuilder, BlockType[this.selectedBlockType]);
       this.loading = false;
     });
@@ -143,7 +143,7 @@ export class TemplateComponent implements OnInit {
 
   deleteBaseBlock() {
     this.loading = true;
-    this.templateBuilderService.deleteBaseBlock(this.baseBlockObject).subscribe(result => {
+    this.baseBlockService.deleteBaseBlock(this.baseBlockObject).subscribe(result => {
       this.templateBuilderService.changeCurrentDefaultBlockBuilder();
       this.templateBuilderService.blocksSubscribe(ListType.BlockBuilder, BlockType[this.selectedBlockType]);
       this.loading = false;

@@ -135,18 +135,6 @@ export class TemplateBuilderService {
     return this.dataService.getTemplateBuilderBaseBlocks();
   }
 
-  updateBaseBlock(data: ListItemModel): Observable<any> {
-    return this.dataService.updateTemplateBuilderBaseBlock(data);
-  }
-
-  createBaseBlock(data: ListItemModel): Observable<any> {
-    return this.dataService.createTemplateBuilderBaseBlock(data);
-  }
-
-  deleteBaseBlock(data: ListItemModel): Observable<any> {
-    return this.dataService.deleteTemplateBuilderBaseBlock(data);
-  }
-
   createTemplate(data: TemplateModel): Observable<any> {
     return this.dataService.createTemplateBuilderTemplate(data);
   }
