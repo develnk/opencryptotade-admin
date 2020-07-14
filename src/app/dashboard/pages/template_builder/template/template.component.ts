@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { BlockType } from '../enum/block_type';
-import { TemplateBuilderService } from '../template_builder.service';
+import { TemplateBuilderService } from '../services/template_builder.service';
 import { BaseBlockModel } from '../model/base_block.model';
 import { ListBaseBlockModel } from '../model/list_base_block.model';
 import { ListItemModel } from '../model/list_item.model';

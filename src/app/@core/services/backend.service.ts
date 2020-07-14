@@ -49,6 +49,16 @@ export class BackendService {
     return this.http.put(ep.base_url + ep.template_builder, JSON.stringify(value));
   }
 
+  deleteTemplateBuilderTemplate(templateId: string) {
+    const options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      }),
+      body: {id: templateId}
+    };
+    return this.http.delete(ep.base_url + ep.template_builder, options);
+  }
+
   addTemplateBuilderBaseBlock(value) {
     return this.http.post(ep.base_url + ep.template_builder_base_block, JSON.stringify(value));
   }

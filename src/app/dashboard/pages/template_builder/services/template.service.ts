@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { TemplateModel } from '../model/template.model';
+import { BackendService } from '../../../../@core/services/backend.service';
+import { ListTemplateModel } from '../model/list_template.model';
 
 @Injectable()
 export class TemplateService {
@@ -20,7 +22,7 @@ export class TemplateService {
   private _isNewTemplateBuilder: BehaviorSubject<boolean> = new BehaviorSubject(true);
   private _templateIsEmpty: BehaviorSubject<boolean> = new BehaviorSubject(true);
 
-  constructor() {
+  constructor(private dataService: BackendService) {
     this._templatesSource = new BehaviorSubject<TemplateModel>(TemplateService.defaultTemplate);
     this._currentTemplateObject = this._templatesSource.asObservable();
   }
@@ -77,5 +79,10 @@ export class TemplateService {
   getCurrentTemplate(): TemplateModel {
     return this._templatesSource.getValue();
   }
+
+  deleteTemplate(template: ListTemplateModel): Observable<any> {
+    return this.dataService.deleteTemplateBuilderTemplate(template.id);
+  }
+
 
 }

@@ -16,7 +16,7 @@ import {
 } from '@nebular/theme';
 import { TemplateBuilderRoutingModule } from './template_builder-routing.module';
 import { TemplateBuilderComponent } from './template_builder.component';
-import { TemplateBuilderService } from './template_builder.service';
+import { TemplateBuilderService } from './services/template_builder.service';
 import { ListObjectsComponent } from './list_objects/list_objects.component';
 import { TemplateComponent } from './template/template.component';
 import { ListObjectsService } from './services/list_objects.service';

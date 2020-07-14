@@ -3,7 +3,7 @@ import { FormControl } from '@angular/forms';
 import { ListType } from '../enum/list_type';
 import { ListFolderModel } from '../model/list_folder.model';
 import { ListObjectsModel } from '../model/list_objects.model';
-import { TemplateBuilderService } from '../template_builder.service';
+import { TemplateBuilderService } from '../services/template_builder.service';
 import { BackendService } from '../../../../@core/services/backend.service';
 import { FolderModel } from '../model/folder.model';
 import { ListBaseBlockModel } from '../model/list_base_block.model';
@@ -13,6 +13,7 @@ import { ListTemplateModel } from '../model/list_template.model';
 import { ListObjectsService } from '../services/list_objects.service';
 import { BlockBuilderService } from '../services/block_builder.service';
 import { TemplateService } from '../services/template.service';
+import { FolderService } from '../services/folder.service';
 
 @Component({
   selector: 'app-list-objects',
@@ -30,6 +31,7 @@ export class ListObjectsComponent implements OnInit {
   accordionDisabled = false;
   loading = false;
   folders: ListFolderModel[];
+  allFolders: FolderModel[] = [];
   folderInput: FormControl;
   showAddFolder: boolean;
   showEditFolder: boolean;
@@ -40,6 +42,7 @@ export class ListObjectsComponent implements OnInit {
               private dataService: BackendService,
               private listObjectsService: ListObjectsService,
               private baseBlockService: BlockBuilderService,
+              private folderService: FolderService,
               private templateService: TemplateService) {}
 
   ngOnInit(): void {
@@ -51,6 +54,10 @@ export class ListObjectsComponent implements OnInit {
     this.listObjectsService.currentListObject.subscribe( currentListObject => {
       this.listObjects = currentListObject;
       this.listObjectsChanges();
+    });
+
+    this.folderService.folders.subscribe((folders: FolderModel[]) => {
+      this.allFolders = folders;
     });
   }
 
@@ -185,6 +192,15 @@ export class ListObjectsComponent implements OnInit {
 
   editTemplate(template: ListTemplateModel) {
     this.templateService.changeCurrentTemplate(template);
+  }
+
+  deleteTemplate(template: ListTemplateModel) {
+    this.loading = true;
+    this.templateService.deleteTemplate(template).subscribe(result => {
+      this.loading = false;
+      const folderName: string = this.templateBuilderService.findFolderName(result.folder, this.allFolders);
+      this.templateBuilderService.templatesTabSubscribe(folderName);
+    });
   }
 
   copyBaseBlock(block: ListBaseBlockModel) {

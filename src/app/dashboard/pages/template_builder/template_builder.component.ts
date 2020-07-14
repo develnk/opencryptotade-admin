@@ -1,5 +1,5 @@
 import { Component, OnInit, AfterContentInit } from '@angular/core';
-import { TemplateBuilderService } from './template_builder.service';
+import { TemplateBuilderService } from './services/template_builder.service';
 import { MenuModel } from './model/menu.model';
 import { ListType } from './enum/list_type';
 

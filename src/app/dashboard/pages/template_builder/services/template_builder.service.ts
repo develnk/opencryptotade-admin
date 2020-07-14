@@ -1,20 +1,20 @@
 import { Injectable } from '@angular/core';
-import { BackendService } from '../../../@core/services/backend.service';
+import { BackendService } from '../../../../@core/services/backend.service';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { ListObjectsModel } from './model/list_objects.model';
-import { ListType } from './enum/list_type';
-import { ListItemModel } from './model/list_item.model';
-import { ListBaseBlockModel } from './model/list_base_block.model';
-import { HelpService } from '../../../@core/utils/help.service';
-import { FolderModel } from './model/folder.model';
-import { ListFolderModel } from './model/list_folder.model';
-import { TemplateModel } from './model/template.model';
-import { ListTemplateModel } from './model/list_template.model';
-import { BaseBlockLinkModel } from './model/base_block_link.model';
-import { ListObjectsService } from './services/list_objects.service';
-import { FolderService } from './services/folder.service';
-import { BlockBuilderService } from './services/block_builder.service';
-import { TemplateService } from './services/template.service';
+import { ListObjectsModel } from '../model/list_objects.model';
+import { ListType } from '../enum/list_type';
+import { ListItemModel } from '../model/list_item.model';
+import { ListBaseBlockModel } from '../model/list_base_block.model';
+import { HelpService } from '../../../../@core/utils/help.service';
+import { FolderModel } from '../model/folder.model';
+import { ListFolderModel } from '../model/list_folder.model';
+import { TemplateModel } from '../model/template.model';
+import { ListTemplateModel } from '../model/list_template.model';
+import { BaseBlockLinkModel } from '../model/base_block_link.model';
+import { ListObjectsService } from './list_objects.service';
+import { FolderService } from './folder.service';
+import { BlockBuilderService } from './block_builder.service';
+import { TemplateService } from './template.service';
 
 @Injectable()
 export class TemplateBuilderService {
