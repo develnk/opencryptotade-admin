@@ -21,7 +21,7 @@ import { ListObjectsComponent } from './list_objects/list_objects.component';
 import { TemplateComponent } from './template/template.component';
 import { ListObjectsService } from './services/list_objects.service';
 import { FolderService } from './services/folder.service';
-import { BaseBlockService } from './services/base_block.service';
+import { BlockBuilderService } from './services/block_builder.service';
 import { TemplateService } from './services/template.service';
 
 const COMPONENTS = [
@@ -54,7 +54,7 @@ const SERVICES = [
   TemplateBuilderService,
   ListObjectsService,
   FolderService,
-  BaseBlockService,
+  BlockBuilderService,
   TemplateService,
 ];
 

@@ -13,7 +13,7 @@ import { TemplateEditBlockModel } from '../model/template_edit_block.model';
 import { BaseBlockLinkModel } from '../model/base_block_link.model';
 import { TemplateBuilderComponent } from '../template_builder.component';
 import { FolderService } from '../services/folder.service';
-import { BaseBlockService } from '../services/base_block.service';
+import { BlockBuilderService } from '../services/block_builder.service';
 import { TemplateService } from '../services/template.service';
 
 @Component({
@@ -42,7 +42,7 @@ export class TemplateComponent implements OnInit {
 
   constructor(private templateBuilderService: TemplateBuilderService,
               private folderService: FolderService,
-              private baseBlockService: BaseBlockService,
+              private baseBlockService: BlockBuilderService,
               private templateService: TemplateService,
               private mainTemplateBuilderComponent: TemplateBuilderComponent) {
     templateBuilderService.initial.subscribe((value: boolean) => {

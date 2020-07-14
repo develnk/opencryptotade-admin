@@ -6,7 +6,7 @@ import { ListItemModel } from '../model/list_item.model';
 import { BackendService } from '../../../../@core/services/backend.service';
 
 @Injectable()
-export class BaseBlockService {
+export class BlockBuilderService {
 
   public static readonly defaultBaseBlock: BaseBlockModel = {
     id: '',
@@ -19,7 +19,7 @@ export class BaseBlockService {
   private _isBlockBuilder: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
   constructor(private dataService: BackendService) {
-    this._blockBuilderSource = new BehaviorSubject(BaseBlockService.defaultBaseBlock);
+    this._blockBuilderSource = new BehaviorSubject(BlockBuilderService.defaultBaseBlock);
     this._currentBlockBuilderObject = this._blockBuilderSource.asObservable();
   }
 
@@ -52,7 +52,7 @@ export class BaseBlockService {
   }
 
   setDefaultBlockBuilder() {
-    this.blockBuilderSource.next(BaseBlockService.defaultBaseBlock);
+    this.blockBuilderSource.next(BlockBuilderService.defaultBaseBlock);
   }
 
   updateBaseBlock(data: ListItemModel): Observable<any> {

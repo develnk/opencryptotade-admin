@@ -13,7 +13,7 @@ import { ListTemplateModel } from './model/list_template.model';
 import { BaseBlockLinkModel } from './model/base_block_link.model';
 import { ListObjectsService } from './services/list_objects.service';
 import { FolderService } from './services/folder.service';
-import { BaseBlockService } from './services/base_block.service';
+import { BlockBuilderService } from './services/block_builder.service';
 import { TemplateService } from './services/template.service';
 
 @Injectable()
@@ -24,7 +24,7 @@ export class TemplateBuilderService {
   constructor(private dataService: BackendService,
               private listObjectsService: ListObjectsService,
               private folderService: FolderService,
-              private baseBlockService: BaseBlockService,
+              private baseBlockService: BlockBuilderService,
               private templateService: TemplateService) {}
 
   changeInitial(value: boolean) {

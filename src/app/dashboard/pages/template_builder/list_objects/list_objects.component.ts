@@ -11,7 +11,7 @@ import { BaseBlockModel } from '../model/base_block.model';
 import { BlockType } from '../enum/block_type';
 import { ListTemplateModel } from '../model/list_template.model';
 import { ListObjectsService } from '../services/list_objects.service';
-import { BaseBlockService } from '../services/base_block.service';
+import { BlockBuilderService } from '../services/block_builder.service';
 import { TemplateService } from '../services/template.service';
 
 @Component({
@@ -39,7 +39,7 @@ export class ListObjectsComponent implements OnInit {
   constructor(private templateBuilderService: TemplateBuilderService,
               private dataService: BackendService,
               private listObjectsService: ListObjectsService,
-              private baseBlockService: BaseBlockService,
+              private baseBlockService: BlockBuilderService,
               private templateService: TemplateService) {}
 
   ngOnInit(): void {
