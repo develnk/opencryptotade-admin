@@ -14,7 +14,9 @@ import { ListObjectsService } from '../services/list_objects.service';
 import { BlockBuilderService } from '../services/block_builder.service';
 import { TemplateService } from '../services/template.service';
 import { FolderService } from '../services/folder.service';
-import { NotificationsService } from 'angular2-notifications';
+import { NotificationService } from '../../../../@core/services/notification.service';
+import { NotificationType } from 'angular2-notifications';
+
 
 @Component({
   selector: 'app-list-objects',
@@ -45,7 +47,7 @@ export class ListObjectsComponent implements OnInit {
               private baseBlockService: BlockBuilderService,
               private folderService: FolderService,
               private templateService: TemplateService,
-              private notificationsService: NotificationsService) {}
+              private notificationService: NotificationService) {}
 
   ngOnInit(): void {
     this.folderInput = new FormControl('');
@@ -126,18 +128,12 @@ export class ListObjectsComponent implements OnInit {
       if (response === 'true') {
         const index = this.folders.indexOf(folder);
         this.folders.splice(index, 1);
-        this.notificationsService.success(
-          'Folder',
-          'Folder deleted'
-        );
+        this.notificationService.showNotification(NotificationType.Success, 'Folder', 'Deleted');
       }
       },
       error => {
         this.loading = false;
-        this.notificationsService.error(
-          'Folder delete',
-          'Error: ' + error
-        );
+        this.notificationService.showNotification(NotificationType.Error, 'Folder delete', 'Error: ' + error);
       },
       () => {
         this.loading = false;
@@ -160,17 +156,11 @@ export class ListObjectsComponent implements OnInit {
         this.currentFolderEdit = new ListFolderModel(response.id, response.name);
         this.folders.push(this.currentFolderEdit);
         this.folderInput.setValue('');
-        this.notificationsService.success(
-          'Folder',
-          'New folder created'
-        );
+        this.notificationService.showNotification(NotificationType.Success, 'Folder', 'New folder created');
       },
       error => {
         this.loading = false;
-        this.notificationsService.error(
-          'Folder create',
-          'Error: ' + error
-        );
+        this.notificationService.showNotification(NotificationType.Error, 'Folder create', 'Error: ' + error);
       },
       () => {
         this.loading = false;
@@ -183,18 +173,12 @@ export class ListObjectsComponent implements OnInit {
     folderToUpdate.name = this.folderInput.value;
     this.dataService.updateFolder(folderToUpdate).subscribe(
       (response: FolderModel) => {
-          this.currentFolderEdit.name = response.name;
-          this.notificationsService.success(
-            'Folder',
-            'Folder updated'
-          );
+        this.currentFolderEdit.name = response.name;
+        this.notificationService.showNotification(NotificationType.Success, 'Folder', 'Folder updated');
       },
       error => {
         this.loading = false;
-        this.notificationsService.error(
-          'Folder updated',
-          'Error: ' + error
-        );
+        this.notificationService.showNotification(NotificationType.Error, 'Folder update', 'Error: ' + error);
       },
       () => {
         this.loading = false;
@@ -245,17 +229,11 @@ export class ListObjectsComponent implements OnInit {
         this.templateBuilderService.templatesTabSubscribe(folderName);
         this.templateService.clearDefaultTemplate();
         this.templateService.changeCurrentDefaultTemplate();
-        this.notificationsService.success(
-          'Template',
-          'Deleted'
-        );
+        this.notificationService.showNotification(NotificationType.Success, 'Template', 'Deleted');
       },
       error => {
         this.loading = false;
-        this.notificationsService.success(
-          'Template delete',
-          'Error: ' + error
-        );
+        this.notificationService.showNotification(NotificationType.Error, 'Template delete', 'Error: ' + error);
       },
       () => {
         this.loading = false;

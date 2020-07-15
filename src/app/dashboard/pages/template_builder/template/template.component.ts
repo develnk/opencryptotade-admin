@@ -15,7 +15,8 @@ import { TemplateBuilderComponent } from '../template_builder.component';
 import { FolderService } from '../services/folder.service';
 import { BlockBuilderService } from '../services/block_builder.service';
 import { TemplateService } from '../services/template.service';
-import { NotificationsService } from 'angular2-notifications';
+import { NotificationService } from '../../../../@core/services/notification.service';
+import { NotificationType } from 'angular2-notifications';
 
 @Component({
   selector: 'app-template',
@@ -46,7 +47,7 @@ export class TemplateComponent implements OnInit {
               private baseBlockService: BlockBuilderService,
               private templateService: TemplateService,
               private mainTemplateBuilderComponent: TemplateBuilderComponent,
-              private notificationsService: NotificationsService) {
+              private notificationService: NotificationService) {
     templateBuilderService.initial.subscribe((value: boolean) => {
       this.isInitial = value;
     });
@@ -123,17 +124,11 @@ export class TemplateComponent implements OnInit {
       this.baseBlockService.updateBaseBlock(data).subscribe(
         (result: ListBaseBlockModel) => {
           this.templateBuilderService.blocksSubscribe(ListType.BlockBuilder, BlockType[this.selectedBlockType]);
-          this.notificationsService.success(
-            'Base block',
-            'Updated'
-          );
+          this.notificationService.showNotification(NotificationType.Success, 'Base block', 'Updated');
         },
         error => {
           this.loading = false;
-          this.notificationsService.error(
-            'Base block update',
-            'Error: ' + error
-          );
+          this.notificationService.showNotification(NotificationType.Error, 'Base block update', 'Error: ' + error);
         },
         () => {
           this.loading = false;
@@ -153,17 +148,11 @@ export class TemplateComponent implements OnInit {
     this.baseBlockService.createBaseBlock(data).subscribe(
       (result: ListBaseBlockModel) => {
         this.templateBuilderService.blocksSubscribe(ListType.BlockBuilder, BlockType[this.selectedBlockType]);
-        this.notificationsService.success(
-          'Base block',
-          'Created'
-        );
+        this.notificationService.showNotification(NotificationType.Success, 'Base block', 'Created');
       },
       error => {
         this.loading = false;
-        this.notificationsService.error(
-          'Base block create',
-          'Error: ' + error
-        );
+        this.notificationService.showNotification(NotificationType.Error, 'Base block create',  'Error: ' + error);
       },
       () => {
         this.loading = false;
@@ -177,17 +166,11 @@ export class TemplateComponent implements OnInit {
       result => {
         this.templateBuilderService.changeCurrentDefaultBlockBuilder();
         this.templateBuilderService.blocksSubscribe(ListType.BlockBuilder, BlockType[this.selectedBlockType]);
-        this.notificationsService.success(
-          'Base block',
-          'Deleted'
-        );
+        this.notificationService.showNotification(NotificationType.Success, 'Base block',  'Deleted');
       },
       error => {
         this.loading = false;
-        this.notificationsService.error(
-          'Base block delete',
-          'Error: ' + error
-        );
+        this.notificationService.showNotification(NotificationType.Error, 'Base block delete',  'Error: ' + error);
       },
       () => {
         this.loading = false;
@@ -238,17 +221,11 @@ export class TemplateComponent implements OnInit {
     this.loading = true;
     this.templateBuilderService.updateTemplate(this.template).subscribe(
       (result: TemplateModel) => {
-        this.notificationsService.success(
-          'Template',
-          'Updated'
-        );
+        this.notificationService.showNotification(NotificationType.Success, 'Template',  'Updated');
       },
       error => {
         this.loading = false;
-        this.notificationsService.error(
-          'Template update',
-          'Error: ' + error
-        );
+        this.notificationService.showNotification(NotificationType.Error, 'Template update',  'Error: ' + error);
       },
       () => {
         this.loading = false;
@@ -262,17 +239,11 @@ export class TemplateComponent implements OnInit {
         const folderName: string = this.templateBuilderService.findFolderName(result.folder, this.allFolders);
         this.templateBuilderService.templatesTabSubscribe(folderName);
         this.mainTemplateBuilderComponent.selectedItemMenu = this.mainTemplateBuilderComponent.menuList[0];
-        this.notificationsService.success(
-          'Template',
-          'Created'
-        );
+        this.notificationService.showNotification(NotificationType.Success, 'Template',  'Created');
       },
       error => {
         this.loading = false;
-        this.notificationsService.error(
-          'Template create',
-          'Error: ' + error
-        );
+        this.notificationService.showNotification(NotificationType.Error, 'Template create',  'Error: ' + error);
       },
       () => {
         this.loading = false;
