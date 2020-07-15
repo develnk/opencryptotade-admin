@@ -1,12 +1,9 @@
 <nb-card [nbSpinner]="loading" nbSpinnerStatus="warning" nbSpinnerSize="large" nbSpinnerMessage="">
   <nb-card-body>
     <div class="list-objects" *ngIf="isFolder">
-      <div class="folder">
-        Default
-      </div>
       <div class="folder" *ngFor="let folder of folders">
         {{ folder.name }}
-        <div class="folder-select">
+        <div class="folder-select" *ngIf="folder.name !== 'Default'">
           <div class="folder-remove">
             <div class="folder-remove-button" (click)="removeFolder(folder)">Remove</div>
           </div>
