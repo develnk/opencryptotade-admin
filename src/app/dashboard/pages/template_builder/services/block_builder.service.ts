@@ -4,6 +4,7 @@ import { BlockType } from '../enum/block_type';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { ListItemModel } from '../model/list_item.model';
 import { BackendService } from '../../../../@core/services/backend.service';
+import { ListBaseBlockModel } from '../model/list_base_block.model';
 
 @Injectable()
 export class BlockBuilderService {
@@ -65,6 +66,31 @@ export class BlockBuilderService {
 
   deleteBaseBlock(data: ListItemModel): Observable<any> {
     return this.dataService.deleteTemplateBuilderBaseBlock(data);
+  }
+
+  getBlockModel(block: ListBaseBlockModel): BaseBlockModel {
+    const blockModel: BaseBlockModel = new BaseBlockModel();
+    blockModel.id = block.id;
+    switch (block.type) {
+      case 'HEADER':
+        blockModel.type = BlockType.HEADER;
+        break;
+
+      case 'BODY':
+        blockModel.type = BlockType.BODY;
+        break;
+
+      case 'FOOTER':
+        blockModel.type = BlockType.FOOTER;
+        break;
+
+      default:
+        blockModel.type = BlockType.BODY;
+        break;
+    }
+    blockModel.html = block.html;
+
+    return blockModel;
   }
 
 }

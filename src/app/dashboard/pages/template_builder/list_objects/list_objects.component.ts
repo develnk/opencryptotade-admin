@@ -44,7 +44,7 @@ export class ListObjectsComponent implements OnInit {
   constructor(private templateBuilderService: TemplateBuilderService,
               private dataService: BackendService,
               private listObjectsService: ListObjectsService,
-              private baseBlockService: BlockBuilderService,
+              private blockBuilderService: BlockBuilderService,
               private folderService: FolderService,
               private templateService: TemplateService,
               private notificationService: NotificationService) {}
@@ -194,27 +194,8 @@ export class ListObjectsComponent implements OnInit {
   }
 
   editBaseBlock(block: ListBaseBlockModel) {
-    const blockModel: BaseBlockModel = new BaseBlockModel();
-    blockModel.id = block.id;
-    switch (block.type) {
-      case 'HEADER':
-        blockModel.type = BlockType.HEADER;
-        break;
-
-      case 'BODY':
-        blockModel.type = BlockType.BODY;
-        break;
-
-      case 'FOOTER':
-        blockModel.type = BlockType.FOOTER;
-        break;
-
-      default:
-        blockModel.type = BlockType.BODY;
-        break;
-    }
-    blockModel.html = block.html;
-    this.baseBlockService.changeCurrentBlockBuilderObject(blockModel);
+    const blockModel: BaseBlockModel = this.blockBuilderService.getBlockModel(block);
+    this.blockBuilderService.changeCurrentBlockBuilderObject(blockModel);
   }
 
   editTemplate(template: ListTemplateModel) {
@@ -250,7 +231,9 @@ export class ListObjectsComponent implements OnInit {
       this.templateBuilderService.addBlockToNewTemplate(block);
     }
     else if (this.listObjects.type === ListType.BlockBuilder) {
-
+      block.id = '';
+      const blockModel: BaseBlockModel = this.blockBuilderService.getBlockModel(block);
+      this.blockBuilderService.changeCurrentBlockBuilderObject(blockModel);
     }
 
     // Todo change this behaviour.
