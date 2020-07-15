@@ -3,6 +3,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { TemplateModel } from '../model/template.model';
 import { BackendService } from '../../../../@core/services/backend.service';
 import { ListTemplateModel } from '../model/list_template.model';
+import {BaseBlockLinkModel} from '../model/base_block_link.model';
 
 @Injectable()
 export class TemplateService {
@@ -83,6 +84,5 @@ export class TemplateService {
   deleteTemplate(template: ListTemplateModel): Observable<any> {
     return this.dataService.deleteTemplateBuilderTemplate(template.id);
   }
-
 
 }

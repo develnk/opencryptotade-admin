@@ -22,7 +22,7 @@
       <div class="row" *ngIf="isTemplateBuilder">
         <div class="col-sm-4 col-md-4">
           <label>Template Folder:</label>
-          <nb-select [(selected)]="template.folder" fullWidth (selectedChange)="updateTemplateFolder($event)">
+          <nb-select [(selected)]="template.folder" fullWidth (selectedChange)="updateFolder($event)">
             <nb-option [value]="folder.id" *ngFor="let folder of allFolders">{{ folder.name }}</nb-option>
           </nb-select>
         </div>
@@ -32,7 +32,7 @@
         </div>
         <div class="col-sm-4 col-md-4">
           <label>Send Template When:</label>
-          <nb-select fullWidth [(selected)]="template.trigger" (selectedChange)="updateTemplateTrigger($event)">
+          <nb-select fullWidth [(selected)]="template.trigger" (selectedChange)="updateTrigger($event)">
             <nb-option [value]="trigger.id" *ngFor="let trigger of allTriggers">{{ trigger.name }}</nb-option>
           </nb-select>
         </div>
@@ -67,13 +67,13 @@
               <div class="block-template" [innerHTML]="block.html"></div>
               <div id="edit-button" class="block-code-button visibility-block">
                 <div class="module-code-button prevent-selection">
-                  <div class="code-button" *ngIf="!isTemplateBlockEdit(block.id)" (click)="editTemplateBlock(block.id)"></div>
-                  <div class="save-code-button" *ngIf="isTemplateBlockEdit(block.id)" (click)="applyTemplateBlock(block.id)"></div>
+                  <div class="code-button" *ngIf="!isTemplateBlockEdit(block.id)" (click)="editTemplateBlock(block)"></div>
+                  <div class="save-code-button" *ngIf="isTemplateBlockEdit(block.id)" (click)="applyTemplateBlock(block)"></div>
                 </div>
               </div>
               <div id="delete-button" class="block-delete-button visibility-block">
                 <div class="module-delete-button prevent-selection">
-                  <div class="delete-button"></div>
+                  <div class="delete-button" (click)="deleteTemplateBlock(block)"></div>
                 </div>
               </div>
               <div id="dragdrop-button" class="block-dragdrop-button visibility-block">
@@ -98,7 +98,7 @@
       <button nbButton status="success" class="pull-right" (click)="createBaseBlock()" *ngIf="newBlockBuilder"><nb-icon icon="download-outline"></nb-icon>Create</button>
     </div>
     <div class="buttons-row align-items-center justify-content-end" *ngIf="isTemplateBuilder && !isInitial">
-      <button nbButton status="danger" class="pull-left"><nb-icon icon="copy-outline"></nb-icon>Copy and create new template</button>
+      <button nbButton status="danger" class="pull-left" (click)="copyNewTemplate()"><nb-icon icon="copy-outline"></nb-icon>Copy and create new template</button>
       <button nbButton status="success" class="pull-right" (click)="updateTemplate()" *ngIf="!newTemplateBuilder"><nb-icon icon="edit-outline"></nb-icon>Update</button>
       <button nbButton status="success" class="pull-right" (click)="createTemplate()" *ngIf="newTemplateBuilder"><nb-icon icon="download-outline"></nb-icon>Create</button>
     </div>

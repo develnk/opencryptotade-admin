@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
+import { Subscription } from 'rxjs/internal/Subscription';
 import { BlockType } from '../enum/block_type';
 import { TemplateBuilderService } from '../services/template_builder.service';
 import { BaseBlockModel } from '../model/base_block.model';
@@ -23,7 +24,7 @@ import { NotificationType } from 'angular2-notifications';
   templateUrl: './template.component.html',
   styleUrls: ['./template.component.scss']
 })
-export class TemplateComponent implements OnInit {
+export class TemplateComponent implements OnInit, OnDestroy {
 
   isInitial = true;
   isBlockBuilder = false;
@@ -41,44 +42,52 @@ export class TemplateComponent implements OnInit {
   template: TemplateModel;
   allFolders: FolderModel[] = [];
   allTriggers: TriggerModel[] = [];
+  subscriptions: Subscription[] = [];
 
   constructor(private templateBuilderService: TemplateBuilderService,
               private folderService: FolderService,
               private baseBlockService: BlockBuilderService,
               private templateService: TemplateService,
               private mainTemplateBuilderComponent: TemplateBuilderComponent,
-              private notificationService: NotificationService) {
-    templateBuilderService.initial.subscribe((value: boolean) => {
-      this.isInitial = value;
-    });
-
-    templateService.isTemplateBuilder.subscribe((value: boolean) => {
-      this.isTemplateBuilder = value;
-    });
-
-    baseBlockService.isBlockBuilder.subscribe((value: boolean) => {
-      this.isBlockBuilder = value;
-    });
-
-    templateService.templateIsEmpty.subscribe((value: boolean) => {
-      this.templateIsEmpty = value;
-    });
-
-    folderService.isFolderBuilder.subscribe((value: boolean) => {
-      this.isFolderBuilder = value;
-    });
-  }
+              private notificationService: NotificationService) {}
 
   ngOnInit(): void {
-    this.baseBlockService.currentBlockBuilderObject.subscribe((currentBlockBuilder: BaseBlockModel) => {
+    const subscription1$: Subscription = this.templateBuilderService.initial.subscribe((value: boolean) => {
+      this.isInitial = value;
+    });
+    this.subscriptions.push(subscription1$);
+
+    const subscription2$: Subscription = this.templateService.isTemplateBuilder.subscribe((value: boolean) => {
+      this.isTemplateBuilder = value;
+    });
+    this.subscriptions.push(subscription2$);
+
+    const subscription3$: Subscription = this.baseBlockService.isBlockBuilder.subscribe((value: boolean) => {
+      this.isBlockBuilder = value;
+    });
+    this.subscriptions.push(subscription3$);
+
+    const subscription4$: Subscription = this.templateService.templateIsEmpty.subscribe((value: boolean) => {
+      this.templateIsEmpty = value;
+    });
+    this.subscriptions.push(subscription4$);
+
+    const subscription5$: Subscription = this.folderService.isFolderBuilder.subscribe((value: boolean) => {
+      this.isFolderBuilder = value;
+    });
+    this.subscriptions.push(subscription5$);
+
+    const subscription6$: Subscription = this.baseBlockService.currentBlockBuilderObject.subscribe(
+      (currentBlockBuilder: BaseBlockModel) => {
         this.newBlockBuilder = currentBlockBuilder.id === '';
         this.blockBuilderIsEmpty = currentBlockBuilder.html === '';
         this.baseBlockObject = currentBlockBuilder;
         this.blockContent = currentBlockBuilder.html;
         this.selectedBlockType = currentBlockBuilder.type.toString();
       });
+    this.subscriptions.push(subscription6$);
 
-    this.templateService.currentTemplateObject.subscribe((template: TemplateModel) => {
+    const subscription7$: Subscription = this.templateService.currentTemplateObject.subscribe((template: TemplateModel) => {
       this.newTemplateBuilder = template.id === '';
       if (template.id !== '') {
         this.templateBuilderService.changeInitial(false);
@@ -91,14 +100,21 @@ export class TemplateComponent implements OnInit {
 
       this.template = template;
     });
+    this.subscriptions.push(subscription7$);
 
-    this.templateBuilderService.getAllTriggers().subscribe((triggers: TriggerModel[]) => {
+    const subscription8$: Subscription = this.templateBuilderService.getAllTriggers().subscribe((triggers: TriggerModel[]) => {
       this.allTriggers = triggers;
     });
+    this.subscriptions.push(subscription8$);
 
-    this.folderService.folders.subscribe((folders: FolderModel[]) => {
+    const subscription9$: Subscription = this.folderService.folders.subscribe((folders: FolderModel[]) => {
       this.allFolders = folders;
     });
+    this.subscriptions.push(subscription9$);
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.forEach((subscription) => subscription.unsubscribe());
   }
 
   changeBlockType(value) {
@@ -177,28 +193,33 @@ export class TemplateComponent implements OnInit {
       });
   }
 
-  updateTemplateTrigger(value) {
+  updateTrigger(value) {
     this.template.trigger = value;
   }
 
-  updateTemplateFolder(value) {
+  updateFolder(value) {
     this.template.folder = value;
   }
 
-  editTemplateBlock(blockId: string) {
-    const foundBlockStatus =  this.findBlockEditingElement(blockId);
+  editTemplateBlock(block: BaseBlockLinkModel) {
+    const foundBlockStatus =  this.findBlockEditingElement(block.id);
     if (foundBlockStatus === undefined) {
-      this.blockEditing.push(new TemplateEditBlockModel(blockId, true));
+      this.blockEditing.push(new TemplateEditBlockModel(block.id, true));
     }
     else {
       foundBlockStatus.status = true;
     }
   }
 
-  applyTemplateBlock(blockId: string) {
-    this.findBlockEditingElement(blockId).status = false;
-    const block = this.template.baseBlockLinks.find( b => b.id === blockId);
-    block.editFlag = !block.editFlag ? true : block.editFlag;
+  deleteTemplateBlock(block: BaseBlockLinkModel) {
+    const foundBlockIndex: number = this.template.baseBlockLinks.findIndex(b => b.id === block.id);
+    this.template.baseBlockLinks.splice(foundBlockIndex, 1);
+  }
+
+  applyTemplateBlock(block: BaseBlockLinkModel) {
+    this.findBlockEditingElement(block.id).status = false;
+    const foundBlock = this.template.baseBlockLinks.find( b => b.id === block.id);
+    foundBlock.editFlag = !foundBlock.editFlag ? true : foundBlock.editFlag;
   }
 
   isTemplateBlockEdit(blockId: string) {
@@ -248,6 +269,12 @@ export class TemplateComponent implements OnInit {
       () => {
         this.loading = false;
       });
+  }
+
+  copyNewTemplate() {
+    this.template.id = '';
+    this.templateService.changeIsNewTemplateBuilder(false);
+    this.templateService.changeCurrentTemplate(this.template);
   }
 
 }
