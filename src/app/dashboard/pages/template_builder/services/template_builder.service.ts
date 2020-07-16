@@ -119,10 +119,6 @@ export class TemplateBuilderService {
     this.templateService.changeIsTemplateBuilder(false);
   }
 
-  getAllFolders(): Observable<any> {
-    return this.dataService.getAllFolders();
-  }
-
   getAllTriggers(): Observable<any> {
     return this.dataService.getAllEmailTriggers();
   }
@@ -162,7 +158,7 @@ export class TemplateBuilderService {
   }
 
   foldersTabSubscribe() {
-    this.getAllFolders().subscribe((folders: FolderModel[]) => {
+    this.folderService.getAllFolders().subscribe((folders: FolderModel[]) => {
       this.folderService.changeListFolders(folders);
       const listItems: ListItemModel[] = [];
       folders.map((folder: FolderModel) => {
@@ -176,16 +172,9 @@ export class TemplateBuilderService {
     });
   }
 
-  foldersSubscribe() {
-    this.getAllFolders().subscribe((folders: FolderModel[]) => {
-      this.folderService.changeListFolders(folders);
-    });
-  }
-
   templatesTabSubscribe(folderExpand?: string) {
     this.getAllTemplates().subscribe((templates: TemplateModel[]) => {
-      this.getAllFolders().subscribe((folders: FolderModel[]) => {
-        this.folderService.changeListFolders(folders);
+      this.folderService.getAllFolders().subscribe((folders: FolderModel[]) => {
         const temp: ListObjectsModel = new ListObjectsModel();
         const folders_tmp: ListFolderModel[] = [];
         folders.map(value => {

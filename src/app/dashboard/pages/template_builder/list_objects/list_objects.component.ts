@@ -151,8 +151,9 @@ export class ListObjectsComponent implements OnInit {
   addFolder() {
     this.loading = true;
     const folderName = this.folderInput.value;
-    this.dataService.createFolder(folderName).subscribe(
+    this.folderService.createFolder(folderName).subscribe(
       (response: FolderModel) => {
+        this.folderService.updateListFolders();
         this.currentFolderEdit = new ListFolderModel(response.id, response.name);
         this.folders.push(this.currentFolderEdit);
         this.folderInput.setValue('');
@@ -181,6 +182,7 @@ export class ListObjectsComponent implements OnInit {
         this.notificationService.showNotification(NotificationType.Error, 'Folder update', 'Error: ' + error);
       },
       () => {
+        this.folderService.updateListFolders();
         this.loading = false;
       });
   }
